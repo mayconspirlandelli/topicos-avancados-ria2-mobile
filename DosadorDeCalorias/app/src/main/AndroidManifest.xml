@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.com.fatsecret_api_json_rest.dosadordecalorias"
-    android:installLocation="preferExternal">
+    package="br.ufg.inf.dosador"
+    android:installLocation="preferExternal" >
 
     <!-- Permissão para acesso a Rede -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name="br.ufg.inf.dosador.app.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity2"
+            android:name="br.ufg.inf.dosador.temp.MainActivity2"
             android:label="@string/title_activity_main_activity2" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.CadastroActivity"
+            android:label="@string/title_activity_cadastro" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.ResumoDiarioActivity"
+            android:label="@string/title_activity_resumo_diario" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.RelatorioActivity"
+            android:label="@string/title_activity_relatorio" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.ConsumoDiarioActivity"
+            android:label="@string/title_activity_consumo_diario" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.PesquisaActivity"
+            android:label="@string/title_activity_pesquia" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.DetalhesPesquisaActivity"
+            android:label="@string/title_activity_detalhes_pesquisa" >
+        </activity>
+        <activity
+            android:name="br.ufg.inf.dosador.app.DetalhesAlimentoActivity"
+            android:label="@string/title_activity_detalhes_alimento" >
         </activity>
     </application>
 

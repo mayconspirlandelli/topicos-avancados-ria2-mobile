@@ -2,9 +2,10 @@
 //http://term.ie/oauth/example/client.php
 //https://github.com/ethan-james/cookbox/tree/master/src/com/vitaminc4/cookbox
 
-package br.com.fatsecret_api_json_rest.dosadordecalorias;
+package br.ufg.inf.dosador.app;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,26 +20,19 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
-import br.ufg.inf.dosador.app.DosadorTask;
+import br.ufg.inf.dosador.R;
+import br.ufg.inf.dosador.temp.FatSecret;
+import br.ufg.inf.dosador.temp.FoodListAdapter;
+import br.ufg.inf.dosador.temp.Root;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -116,20 +110,24 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             q = searchText.getText().toString();
-            //searchFood(q);
-
-            pesquisarAlimento(q);
-
-
+            // searchFood(q);
+            // pesquisarAlimento(q);
             txtFoodId.setText(foodId);
             txtFoodName.setText(foodName);
 
+            abrirTelaPesquisa();
         }
     };
 
     public void pesquisarAlimento(String q) {
         DosadorTask dt = new DosadorTask(this);
-        dt.execute(br.ufg.inf.dosador.api.FatSecret.METHOD_FOODS_SEARCH, "arroz");
+        //dt.execute(br.ufg.inf.dosador.api.FatSecret.METHOD_FOODS_SEARCH, "arroz");
+        dt.execute(br.ufg.inf.dosador.api.FatSecret.METHOD_FOOD_GET, "35755");
+    }
+
+    private void abrirTelaPesquisa(){
+        Intent intent = new Intent(MainActivity.this, PesquisaActivity.class);
+        startActivity(intent);
     }
 
 

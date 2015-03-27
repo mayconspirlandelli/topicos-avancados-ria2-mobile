@@ -3,7 +3,8 @@
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
+/build/
+/gradle/
 dd
 
 # built application files
@@ -90,6 +91,5 @@ project.properties
 *.ipr
 *.iws
 
-##Gradle-based build
-.gradle
-build/
+#Igorar os arquivos de chaves da Api Fatsecret
+keys.xml
