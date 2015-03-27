@@ -14,4 +14,18 @@
     <string name="title_activity_detalhes_pesquisa">DetalhesPesquisaActivity</string>
     <string name="title_activity_detalhes_alimento">DetalhesAlimentoActivity</string>
 
+
+
+
+    <string name="label_quantidade">Quantidade</string>
+    <string name="label_info_nutricional">Informação Nutricional</string>
+    <string name="label_calorias">Calorias:</string>
+    <string name="label_descricao">Descrição</string>
+    <string name="label_gorduras">Gorduras:</string>
+    <string name="label_carboidratos">Carb.:</string>
+    <string name="label_proteinas">Proteínas:</string>
+
+
+
+
 </resources>

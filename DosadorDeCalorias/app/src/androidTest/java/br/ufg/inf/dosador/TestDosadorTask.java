@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.net.URL;
 
-import br.ufg.inf.dosador.app.DosadorTask;
+import br.ufg.inf.dosador.app.ListaAlimentoTask;
 import br.ufg.inf.dosador.api.FatSecret;
 
 /**
@@ -16,7 +16,7 @@ public class TestDosadorTask extends AndroidTestCase {
     static final String PESQUISA_ID = "35755";
 
     public void testPesquisarAlimentoPorID() {
-        DosadorTask dt = new DosadorTask(getContext());
+        ListaAlimentoTask dt = new ListaAlimentoTask(getContext());
         dt.execute(FatSecret.METHOD_FOODS_SEARCH, PESQUISA_EXPRESSAO);
     }
 

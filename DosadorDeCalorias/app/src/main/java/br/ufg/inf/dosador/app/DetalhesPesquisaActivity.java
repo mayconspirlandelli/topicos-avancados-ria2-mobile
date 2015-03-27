@@ -6,8 +6,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.ufg.inf.dosador.R;
+import br.ufg.inf.dosador.api.FatSecret;
+import br.ufg.inf.dosador.api.Json;
+import br.ufg.inf.dosador.task.AlimentoTask;
 
 public class DetalhesPesquisaActivity extends ActionBarActivity {
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        inicializaObjetosDeTela();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,4 +46,17 @@ public class DetalhesPesquisaActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void inicializaObjetosDeTela(){
+        Bundle valoresEntreActivity = getIntent().getExtras();
+        int valor = valoresEntreActivity.getInt(Json.FOOD_ID);
+
+
+        AlimentoTask task = new AlimentoTask(this);
+        //task.execute(FatSecret.METHOD_FOOD_GET, "35755");
+        task.execute(FatSecret.METHOD_FOOD_GET, String.valueOf(valor));
+
+
+    }
+
 }

@@ -120,9 +120,9 @@ public class MainActivity extends ActionBarActivity {
     };
 
     public void pesquisarAlimento(String q) {
-        DosadorTask dt = new DosadorTask(this);
+       // ListaAlimentoTask dt = new ListaAlimentoTask(this);
         //dt.execute(br.ufg.inf.dosador.api.FatSecret.METHOD_FOODS_SEARCH, "arroz");
-        dt.execute(br.ufg.inf.dosador.api.FatSecret.METHOD_FOOD_GET, "35755");
+       // dt.execute(br.ufg.inf.dosador.api.FatSecret.METHOD_FOOD_GET, "35755");
     }
 
     private void abrirTelaPesquisa(){

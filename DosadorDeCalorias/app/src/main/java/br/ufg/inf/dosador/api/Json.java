@@ -17,42 +17,42 @@ public class Json {
 
     private final static String LOG_CAT = Json.class.getSimpleName();
 
-    private final static String FOODS = "foods";
-    private final static String FOOD = "food";
-    private final static String SERVINGS = "servings";
-    private final static String SERVING = "serving";
+    public final static String FOODS = "foods";
+    public final static String FOOD = "food";
+    public final static String SERVINGS = "servings";
+    public final static String SERVING = "serving";
 
-    private final static String FOOD_ID = "food_id";
-    private final static String FOOD_NAME = "food_name";
-    private final static String FOOD_TYPE = "food_type";
-    private final static String BRAND_NAME = "brand_name";
-    private final static String FOOD_URL = "food_url";
-    private final static String FOOD_DESCRIPTION = "food_description";
+    public final static String FOOD_ID = "food_id";
+    public final static String FOOD_NAME = "food_name";
+    public final static String FOOD_TYPE = "food_type";
+    public final static String BRAND_NAME = "brand_name";
+    public final static String FOOD_URL = "food_url";
+    public final static String FOOD_DESCRIPTION = "food_description";
 
-    private final static String SERVING_ID = "serving_id";
-    private final static String SERVING_DESCRIPTION = "serving_description";
-    private final static String SERVING_URL = "serving_url";
-    private final static String METRIC_SERVING_AMOUNT = "metric_serving_amount";
-    private final static String METRIC_SERVING_UNIT = "metric_serving_unit";
-    private final static String NUMBER_OF_UNITS = "number_of_units";
-    private final static String MEASUREMENT_DESCRIPTION = "measurement_description";
-    private final static String CALORIES = "calories";
-    private final static String CARBOHYDRATE = "carbohydrate";
-    private final static String PROTEIN = "protein";
-    private final static String FAT = "fat";
-    private final static String SATURATED_FAT = "saturated_fat";
-    private final static String POLYUNSATURATED_FAT = "polyunsaturated_fat";
-    private final static String MONOUNSATURATED_FAT = "monounsaturated_fat";
-    private final static String TRANS_FAT = "trans_fat";
-    private final static String CHOLESTEROL = "cholesterol";
-    private final static String SODIUM = "sodium";
-    private final static String POTASSIUM = "potassium";
-    private final static String FIBER = "fiber";
-    private final static String SUGAR = "sugar";
-    private final static String VITAMIN_A = "vitamin_a";
-    private final static String VITAMIN_C = "vitamin_c";
-    private final static String CALCIUM = "calcium";
-    private final static String IRON = "iron";
+    public final static String SERVING_ID = "serving_id";
+    public final static String SERVING_DESCRIPTION = "serving_description";
+    public final static String SERVING_URL = "serving_url";
+    public final static String METRIC_SERVING_AMOUNT = "metric_serving_amount";
+    public final static String METRIC_SERVING_UNIT = "metric_serving_unit";
+    public final static String NUMBER_OF_UNITS = "number_of_units";
+    public final static String MEASUREMENT_DESCRIPTION = "measurement_description";
+    public final static String CALORIES = "calories";
+    public final static String CARBOHYDRATE = "carbohydrate";
+    public final static String PROTEIN = "protein";
+    public final static String FAT = "fat";
+    public final static String SATURATED_FAT = "saturated_fat";
+    public final static String POLYUNSATURATED_FAT = "polyunsaturated_fat";
+    public final static String MONOUNSATURATED_FAT = "monounsaturated_fat";
+    public final static String TRANS_FAT = "trans_fat";
+    public final static String CHOLESTEROL = "cholesterol";
+    public final static String SODIUM = "sodium";
+    public final static String POTASSIUM = "potassium";
+    public final static String FIBER = "fiber";
+    public final static String SUGAR = "sugar";
+    public final static String VITAMIN_A = "vitamin_a";
+    public final static String VITAMIN_C = "vitamin_c";
+    public final static String CALCIUM = "calcium";
+    public final static String IRON = "iron";
 
 
     public ArrayList<Alimento> obterListaAlimentoFromJson(String foodJsonStr) throws JSONException {
