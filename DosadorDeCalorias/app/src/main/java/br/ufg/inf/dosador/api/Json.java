@@ -54,6 +54,10 @@ public class Json {
     public final static String CALCIUM = "calcium";
     public final static String IRON = "iron";
 
+    public final static String UNIDADE_QUILO_CALORIAS = "kcal";
+    public final static String UNIDADE_GRAMAS = "g";
+    public final static String UNIDADE_MILIGRAMAS = "mg";
+
 
     public ArrayList<Alimento> obterListaAlimentoFromJson(String foodJsonStr) throws JSONException {
 
@@ -104,17 +108,99 @@ public class Json {
             if (servingArray.length() <= 0) {
                 return null;
             }
+
             JSONObject serving = servingArray.getJSONObject(0);
-            alimento.setCalories(serving.getDouble(CALORIES));
-            alimento.setFat(serving.getDouble(FAT));
-            alimento.setCarbohydrate(serving.getDouble(CARBOHYDRATE));
-            alimento.setProtein(serving.getDouble(PROTEIN));
 
-//calories - cals
-//fat - gord
-//carbohydrate - carbs
-//protein - prot
-
+            if (serving.has(CALORIES) && !serving.isNull(CALORIES)) {
+                alimento.setCalories(serving.getDouble(CALORIES));
+            } else {
+                alimento.setCalories(Double.valueOf(0));
+            }
+            if (serving.has(FAT) && !serving.isNull(FAT)) {
+                alimento.setFat(serving.getDouble(FAT));
+            } else {
+                alimento.setFat(Double.valueOf(0));
+            }
+            if (serving.has(CARBOHYDRATE) && !serving.isNull(CARBOHYDRATE)) {
+                alimento.setCarbohydrate(serving.getDouble(CARBOHYDRATE));
+            } else {
+                alimento.setCarbohydrate(Double.valueOf(0));
+            }
+            if (serving.has(PROTEIN) && !serving.isNull(PROTEIN)) {
+                alimento.setProtein(serving.getDouble(PROTEIN));
+            } else {
+                alimento.setProtein(Double.valueOf(0));
+            }
+            if (serving.has(SERVING_DESCRIPTION) && !serving.isNull(SERVING_DESCRIPTION)) {
+                alimento.setServing_description(serving.getString(SERVING_DESCRIPTION));
+            } else {
+                alimento.setServing_description("");
+            }
+            if (serving.has(SATURATED_FAT) && !serving.isNull(SATURATED_FAT)) {
+                alimento.setSaturated_fat(serving.getDouble(SATURATED_FAT));
+            } else {
+                alimento.setSaturated_fat(Double.valueOf(0));
+            }
+            if (serving.has(MONOUNSATURATED_FAT) && !serving.isNull(MONOUNSATURATED_FAT)) {
+                alimento.setMonounsaturated_fat(serving.getDouble(MONOUNSATURATED_FAT));
+            } else {
+                alimento.setMonounsaturated_fat(Double.valueOf(0));
+            }
+            if (serving.has(POLYUNSATURATED_FAT) && !serving.isNull(POLYUNSATURATED_FAT)) {
+                alimento.setPolyunsaturated_fat(serving.getDouble(POLYUNSATURATED_FAT));
+            } else {
+                alimento.setPolyunsaturated_fat(Double.valueOf(0));
+            }
+            if (serving.has(TRANS_FAT) && !serving.isNull(TRANS_FAT)) {
+                alimento.setTrans_fat(serving.getDouble(TRANS_FAT));
+            } else {
+                alimento.setTrans_fat(Double.valueOf(0));
+            }
+            if (serving.has(CHOLESTEROL) && !serving.isNull(CHOLESTEROL)) {
+                alimento.setCholesterol(serving.getDouble(CHOLESTEROL));
+            } else {
+                alimento.setCholesterol(Double.valueOf(0));
+            }
+            if (serving.has(SODIUM) && !serving.isNull(SODIUM)) {
+                alimento.setSodium(serving.getDouble(SODIUM));
+            } else {
+                alimento.setSodium(Double.valueOf(0));
+            }
+            if (serving.has(FIBER) && !serving.isNull(FIBER)) {
+                alimento.setFiber(serving.getDouble(FIBER));
+            } else {
+                alimento.setFiber(Double.valueOf(0));
+            }
+            if (serving.has(POTASSIUM) && !serving.isNull(POTASSIUM)) {
+                alimento.setPotassium(serving.getDouble(POTASSIUM));
+            } else {
+                alimento.setPotassium(Double.valueOf(0));
+            }
+            if (serving.has(SUGAR) && !serving.isNull(SUGAR)) {
+                alimento.setSugar(serving.getDouble(SUGAR));
+            } else {
+                alimento.setSugar(Double.valueOf(0));
+            }
+            if (serving.has(VITAMIN_A) && !serving.isNull(VITAMIN_A)) {
+                alimento.setVitamin_a(serving.getDouble(VITAMIN_A));
+            } else {
+                alimento.setVitamin_a(Double.valueOf(0));
+            }
+            if (serving.has(VITAMIN_C) && !serving.isNull(VITAMIN_C)) {
+                alimento.setVitamin_c(serving.getDouble(VITAMIN_C));
+            } else {
+                alimento.setVitamin_c(Double.valueOf(0));
+            }
+            if (serving.has(CALCIUM) && !serving.isNull(CALCIUM)) {
+                alimento.setCalcium(serving.getDouble(CALCIUM));
+            } else {
+                alimento.setCalcium(Double.valueOf(0));
+            }
+            if (serving.has(IRON) && !serving.isNull(IRON)) {
+                alimento.setIron(serving.getDouble(IRON));
+            } else {
+                alimento.setIron(Double.valueOf(0));
+            }
 
             Log.d(LOG_CAT, "LIsta: " + "sxfvdsafsa");
 

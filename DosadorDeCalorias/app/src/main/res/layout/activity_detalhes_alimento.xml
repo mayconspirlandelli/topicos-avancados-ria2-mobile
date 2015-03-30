@@ -1,12 +1,264 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="br.ufg.inf.dosador.app.DetalhesAlimentoActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/grid_esquerda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/label_info_nutricional"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_info_nutricional" />
+
+            <TextView
+                android:id="@+id/grid_line_calorias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_info_nutricional"
+                android:text="@string/grid_line_calorias" />
+
+            <TextView
+                android:id="@+id/grid_line_carboidratos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_calorias"
+                android:text="@string/grid_line_carboidratos" />
+
+            <TextView
+                android:id="@+id/grid_line_proteinas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_carboidratos"
+                android:text="@string/grid_line_proteinas" />
+
+            <TextView
+                android:id="@+id/grid_line_gorduras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_proteinas"
+                android:text="@string/grid_line_gorduras" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_saturada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gorduras"
+                android:text="@string/grid_line_gordura_saturada" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_monoinsaturada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_saturada"
+                android:text="@string/grid_line_gordura_monoinsaturada" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_poliinsaturada"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_monoinsaturada"
+                android:text="@string/grid_line_gordura_poliinsaturada" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_trans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_poliinsaturada"
+                android:text="@string/grid_line_gordura_trans" />
+
+            <TextView
+                android:id="@+id/grid_line_colesterol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_trans"
+                android:text="@string/grid_line_colesterol" />
+
+            <TextView
+                android:id="@+id/grid_line_sodio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_colesterol"
+                android:text="@string/grid_line_sodio" />
+
+            <TextView
+                android:id="@+id/grid_line_fibras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_sodio"
+                android:text="@string/grid_line_fibras" />
+
+            <TextView
+                android:id="@+id/grid_line_potassio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_fibras"
+                android:text="@string/grid_line_potassio" />
+
+            <TextView
+                android:id="@+id/grid_line_acucar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_potassio"
+                android:text="@string/grid_line_acucar" />
+
+            <TextView
+                android:id="@+id/grid_line_vitamina_a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_acucar"
+                android:text="@string/grid_line_vitamina_a" />
+
+            <TextView
+                android:id="@+id/grid_line_vitamina_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_vitamina_a"
+                android:text="@string/grid_line_vitamina_c" />
+
+            <TextView
+                android:id="@+id/grid_line_calcio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_vitamina_c"
+                android:text="@string/grid_line_calcio" />
+
+            <TextView
+                android:id="@+id/grid_line_ferro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_calcio"
+                android:text="@string/grid_line_ferro" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/grid_direita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/grid_esquerda">
+
+            <TextView
+                android:id="@+id/grid_line_porcao_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/grid_line_calorias_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_porcao_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_carboidratos_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_calorias_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_proteinas_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_carboidratos_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_gorduras_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_proteinas_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_saturada_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gorduras_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_monoinsaturada_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_saturada_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_poliinsaturada_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_monoinsaturada_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_gordura_trans_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_poliinsaturada_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_colesterol_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_gordura_trans_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_sodio_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_colesterol_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_fibras_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_sodio_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_potassio_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_fibras_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_acucar_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_potassio_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_vitamina_a_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_acucar_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_vitamina_c_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_vitamina_a_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_calcio_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_vitamina_c_valor" />
+
+            <TextView
+                android:id="@+id/grid_line_ferro_valor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/grid_line_calcio_valor" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

@@ -84,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void initialize() {
         searchText = (EditText) findViewById(R.id.etSearch);
-        searchButton = (Button) findViewById(R.id.bSearch);
+        searchButton = (Button) findViewById(R.id.btn_pesquisar);
         txtResultado = (TextView) findViewById(R.id.txtResultado);
         txtFoodId = (TextView) findViewById(R.id.food_id);
         txtFoodName = (TextView) findViewById(R.id.food_name);

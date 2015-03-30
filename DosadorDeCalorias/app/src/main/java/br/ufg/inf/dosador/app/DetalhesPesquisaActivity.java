@@ -1,20 +1,42 @@
 package br.ufg.inf.dosador.app;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import br.ufg.inf.dosador.R;
-import br.ufg.inf.dosador.api.FatSecret;
 import br.ufg.inf.dosador.api.Json;
-import br.ufg.inf.dosador.task.AlimentoTask;
 
 public class DetalhesPesquisaActivity extends ActionBarActivity {
 
+    private EditText editDescricao;
+    private TextView txtCalorias;
+    private TextView txtGorduras;
+    private TextView txtCarboidratos;
+    private TextView txtProteinas;
+    private EditText editPorcao;
+    private Button btnMaisDetalhes;
+
+
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         inicializaObjetosDeTela();
     }
 
@@ -47,16 +69,49 @@ public class DetalhesPesquisaActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void inicializaObjetosDeTela(){
+    private void inicializaObjetosDeTela() {
+
+        editDescricao = (EditText) findViewById(R.id.edit_descricao);
+        txtCalorias = (TextView) findViewById(R.id.txt_calorias_valor);
+        txtGorduras = (TextView) findViewById(R.id.txt_gorduras_valor);
+        txtCarboidratos = (TextView) findViewById(R.id.txt_carboidratos_valor);
+        txtProteinas = (TextView) findViewById(R.id.txt_proteinas_valor);
+        editPorcao = (EditText) findViewById(R.id.edit_porcao);
+        btnMaisDetalhes = (Button) findViewById(R.id.btn_mais_detalhes);
+        btnMaisDetalhes.setOnClickListener(btnMaisDetalhesOnClickListener);
+
         Bundle valoresEntreActivity = getIntent().getExtras();
-        int valor = valoresEntreActivity.getInt(Json.FOOD_ID);
+        int id = valoresEntreActivity.getInt(Json.FOOD_ID);
+        String nome = valoresEntreActivity.getString(Json.FOOD_NAME);
+        String porcao = valoresEntreActivity.getString(Json.SERVING_DESCRIPTION);
+        Double calorias = valoresEntreActivity.getDouble(Json.CALORIES);
+        Double gorduras = valoresEntreActivity.getDouble(Json.FAT);
+        Double carbs = valoresEntreActivity.getDouble(Json.CARBOHYDRATE);
+        Double proteinas = valoresEntreActivity.getDouble(Json.PROTEIN);
 
-
-        AlimentoTask task = new AlimentoTask(this);
-        //task.execute(FatSecret.METHOD_FOOD_GET, "35755");
-        task.execute(FatSecret.METHOD_FOOD_GET, String.valueOf(valor));
-
+        editDescricao.setText(nome);
+        txtCalorias.setText(calorias.toString());
+        txtGorduras.setText(gorduras.toString());
+        txtCarboidratos.setText(carbs.toString());
+        txtProteinas.setText(proteinas.toString());
+        editPorcao.setText(porcao);
 
     }
 
+    final private View.OnClickListener btnMaisDetalhesOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mostrarMaisDetalhes();
+        }
+    };
+
+
+    private void mostrarMaisDetalhes() {
+        Bundle valoresEntreActivity = getIntent().getExtras();
+        int id = valoresEntreActivity.getInt(Json.FOOD_ID);
+
+        Intent intent = new Intent(DetalhesPesquisaActivity.this, DetalhesAlimentoActivity.class);
+        intent.putExtra(Json.FOOD_ID, id);
+        startActivity(intent);
+    }
 }

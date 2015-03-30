@@ -16,11 +16,11 @@
         <activity
             android:name="br.ufg.inf.dosador.app.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name="br.ufg.inf.dosador.temp.MainActivity2"
@@ -49,6 +49,11 @@
         <activity
             android:name="br.ufg.inf.dosador.app.PesquisaActivity"
             android:label="@string/title_activity_pesquia" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="br.ufg.inf.dosador.app.DetalhesPesquisaActivity"

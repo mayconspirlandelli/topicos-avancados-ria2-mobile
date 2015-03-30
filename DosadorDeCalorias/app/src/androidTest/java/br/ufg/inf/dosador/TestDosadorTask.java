@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.net.URL;
 
-import br.ufg.inf.dosador.app.ListaAlimentoTask;
+import br.ufg.inf.dosador.api.Json;
+import br.ufg.inf.dosador.entidades.Alimento;
+import br.ufg.inf.dosador.task.ListaAlimentoTask;
 import br.ufg.inf.dosador.api.FatSecret;
 
 /**
@@ -15,10 +17,10 @@ public class TestDosadorTask extends AndroidTestCase {
     static final String PESQUISA_EXPRESSAO = "arroz";
     static final String PESQUISA_ID = "35755";
 
-    public void testPesquisarAlimentoPorID() {
-        ListaAlimentoTask dt = new ListaAlimentoTask(getContext());
-        dt.execute(FatSecret.METHOD_FOODS_SEARCH, PESQUISA_EXPRESSAO);
-    }
+//    public void testPesquisarAlimentoPorID() {
+//        ListaAlimentoTask dt = new ListaAlimentoTask(getContext());
+//        dt.execute(FatSecret.METHOD_FOODS_SEARCH, PESQUISA_EXPRESSAO);
+//    }
 
     public void testVelocidadeJSON() {
 
@@ -33,9 +35,5 @@ public class TestDosadorTask extends AndroidTestCase {
         URL url = FatSecret.pesquisarAlimentoPorID(PESQUISA_ID);
         Log.d("TESTE", "Tempo: " +  (System.currentTimeMillis() - tempoInicial)+ " URL: " + url.toString());
 
-
-
-
     }
-
 }

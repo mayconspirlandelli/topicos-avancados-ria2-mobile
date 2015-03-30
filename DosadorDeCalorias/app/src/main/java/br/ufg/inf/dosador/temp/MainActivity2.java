@@ -18,8 +18,6 @@ import android.widget.Button;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,14 +32,11 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import br.ufg.inf.dosador.R;
-import fatsecret.platform.FatSecretAPI;
-import fatsecret.platform.FatSecretAuth;
 
 public class MainActivity2 extends ActionBarActivity {
 
@@ -115,7 +110,7 @@ public class MainActivity2 extends ActionBarActivity {
 
     public void initialize() {
         searchText=(EditText)findViewById(R.id.etSearch);
-        searchButton=(Button)findViewById(R.id.bSearch);
+        searchButton=(Button)findViewById(R.id.btn_pesquisar);
 
         client=new DefaultHttpClient();
         //long timestamp=(System.currentTimeMillis() / 1000);

@@ -14,18 +14,34 @@
     <string name="title_activity_detalhes_pesquisa">DetalhesPesquisaActivity</string>
     <string name="title_activity_detalhes_alimento">DetalhesAlimentoActivity</string>
 
-
-
-
     <string name="label_quantidade">Quantidade</string>
+    <string name="label_porcao">Porção</string>
     <string name="label_info_nutricional">Informação Nutricional</string>
     <string name="label_calorias">Calorias:</string>
     <string name="label_descricao">Descrição</string>
     <string name="label_gorduras">Gorduras:</string>
     <string name="label_carboidratos">Carb.:</string>
     <string name="label_proteinas">Proteínas:</string>
+    <string name="edit_quantidade_default">1</string>
+    <string name="lable_btn_mais_detalhes">Mais</string>
 
 
-
+    <string name="grid_line_calorias">Calorias</string>
+    <string name="grid_line_carboidratos">Carboidratos</string>
+    <string name="grid_line_proteinas">Proteínas</string>
+    <string name="grid_line_gorduras">Gorduras</string>
+    <string name="grid_line_gordura_saturada">Gordura Saturada</string>
+    <string name="grid_line_gordura_monoinsaturada">Gordura Monoinsaturada</string>
+    <string name="grid_line_gordura_poliinsaturada">Gordura Poliinsaturada</string>
+    <string name="grid_line_gordura_trans">Gordura Trans</string>
+    <string name="grid_line_colesterol">Colesterol</string>
+    <string name="grid_line_sodio">Sódio</string>
+    <string name="grid_line_fibras">Fibras</string>
+    <string name="grid_line_potassio">Potássio</string>
+    <string name="grid_line_acucar">Açúcar</string>
+    <string name="grid_line_vitamina_a">Vitamina A</string>
+    <string name="grid_line_vitamina_c">Vitamina C</string>
+    <string name="grid_line_calcio">Cálcio</string>
+    <string name="grid_line_ferro">Ferro</string>
 
 </resources>
