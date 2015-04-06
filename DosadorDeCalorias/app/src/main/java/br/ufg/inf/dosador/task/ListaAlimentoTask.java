@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
 import br.ufg.inf.dosador.api.FatSecret;
 import br.ufg.inf.dosador.api.Json;
+import br.ufg.inf.dosador.app.PesquisaActivity;
 import br.ufg.inf.dosador.entidades.Alimento;
 
 /**
@@ -32,8 +33,8 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
     private final Context mContext;
 
     public ListaAlimentoTask(Context context, AlimentoListAdapter adapter) {
-        mContext = context;
-        adapterListAlimento = adapter;
+        this.mContext = context;
+        this.adapterListAlimento = adapter;
     }
 
     @Override
@@ -59,9 +60,6 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
             if (params[0].contains(FatSecret.METHOD_FOODS_SEARCH)) {
                 url = FatSecret.pesquisarAlimentoPorExpressao(params[1]);
             }
-//            else if (params[0].contains(FatSecret.METHOD_FOOD_GET)) {
-//                url = FatSecret.pesquisarAlimentoPorID(params[1]);
-//            }
 
             if (url == null) {
                 return null;
@@ -98,9 +96,7 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
             if (params[0].contains(FatSecret.METHOD_FOODS_SEARCH)) {
                 listaDeAlimentos = json.obterListaAlimentoFromJson(foodJsonStr);
             }
-//            else if (params[0].contains(FatSecret.METHOD_FOOD_GET)) {
-//                listaDeAlimentos.add(json.obterAlimentoFromJson(foodJsonStr));
-//            }
+
             listaDeAlimentos = json.obterListaAlimentoFromJson(foodJsonStr);
 
             return listaDeAlimentos;

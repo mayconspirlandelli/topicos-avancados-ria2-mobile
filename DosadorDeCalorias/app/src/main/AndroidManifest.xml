@@ -63,6 +63,9 @@
             android:name="br.ufg.inf.dosador.app.DetalhesAlimentoActivity"
             android:label="@string/title_activity_detalhes_alimento" >
         </activity>
+        <provider
+            android:authorities="br.ufg.inf.dosador.app"
+            android:name=".data.DosadorProvider" />
     </application>
 
 </manifest>

@@ -135,6 +135,4 @@
         android:layout_below="@id/txt_info_nutricional"
         android:padding="16dp"
         android:text="@string/lable_btn_mais_detalhes" />
-
-
 </RelativeLayout>

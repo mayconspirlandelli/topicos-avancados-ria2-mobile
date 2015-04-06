@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,19 +19,22 @@ import br.ufg.inf.dosador.entidades.Alimento;
 public class AlimentoListAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
+    private Context mContext;
     private ArrayList<Alimento> listaAlimentos = new ArrayList<Alimento>();
 
-    public AlimentoListAdapter(Context context){
+    public TextView txtFoodName;
+    public TextView txtFoodDescription;
+    public CheckBox chckFoodSelectioin;
+
+    public AlimentoListAdapter(Context context) {
+        this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
     }
 
-    public AlimentoListAdapter(Context context, ArrayList<Alimento> lista){
-        this.listaAlimentos = lista;
-        this.mInflater = LayoutInflater.from(context);
-    }
 
     /**
      * Obtem a quantidade de alimentos da lista.
+     *
      * @return
      */
     @Override
@@ -40,6 +44,7 @@ public class AlimentoListAdapter extends BaseAdapter {
 
     /**
      * Obtem o alimento de acordo com a posição dele na listview.
+     *
      * @param position
      * @return
      */
@@ -57,20 +62,23 @@ public class AlimentoListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Alimento itemAlimento = listaAlimentos.get(position);
 
-        //convertView = mInflater.inflate(R.layout.list_item_alimento, null);
         View view = mInflater.inflate(R.layout.list_item_alimento, parent, false);
 
-        //((TextView) convertView.findViewById(R.id.tvItemSublocal)).setText(itemSublocal.getDescricao());
-        ((TextView) view.findViewById(R.id.list_item_food_name)).setText(itemAlimento.getFood_name());
+        txtFoodName = (TextView) view.findViewById(R.id.list_item_food_name);
+        txtFoodDescription = (TextView) view.findViewById(R.id.list_item_food_description);
 
-        ((TextView) view.findViewById(R.id.list_item_food_description)).setText(itemAlimento.getFood_description());
 
+        txtFoodName.setText(itemAlimento.getFood_name());
+        txtFoodDescription.setText(itemAlimento.getFood_description());
+
+        //TODO: exibir apenas nome, porção e calorias (kcal).
 
         return view;
     }
 
     public void setListaAlimentos(ArrayList<Alimento> itemList) {
         this.listaAlimentos = itemList;
+        notifyDataSetChanged();
     }
 
 

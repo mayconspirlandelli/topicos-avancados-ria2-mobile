@@ -7,10 +7,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
@@ -21,6 +26,7 @@ import br.ufg.inf.dosador.task.ListaAlimentoTask;
 
 public class PesquisaActivity extends ActionBarActivity {
 
+    // private CheckBox checbox;
     private EditText editPesquisa;
     private ImageButton btnPesquisar;
     private ListView listView;
@@ -40,7 +46,6 @@ public class PesquisaActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_pesquia, menu);
         return true;
     }
@@ -57,10 +62,12 @@ public class PesquisaActivity extends ActionBarActivity {
 
     private void inicializaObjetosDeTela() {
 
+        //checbox = (CheckBox) findViewById(R.id.checkbox);
         editPesquisa = (EditText) findViewById(R.id.edit_pesquisa);
         btnPesquisar = (ImageButton) findViewById(R.id.btn_pesquisar);
         btnPesquisar.setOnClickListener(btnPesquisarOnClickListener);
 
+        //Define ListView
         listView = (ListView) findViewById(R.id.listaAlimentos);
         listView.setFastScrollEnabled(true); //Habilita o scroll.
         listView.setOnItemClickListener(clickListaItemAlimento);
@@ -81,8 +88,6 @@ public class PesquisaActivity extends ActionBarActivity {
     private void pesquisarAlimento(String expressao) {
         ListaAlimentoTask task = new ListaAlimentoTask(this, adapterListAlimento);
         task.execute(FatSecret.METHOD_FOODS_SEARCH, expressao);
-        //task.execute(FatSecret.METHOD_FOODS_SEARCH, "arroz");
-        //task.execute(FatSecret.METHOD_FOOD_GET, "35755");
     }
 
     final private ListView.OnItemClickListener clickListaItemAlimento = new ListView.OnItemClickListener() {
@@ -93,14 +98,13 @@ public class PesquisaActivity extends ActionBarActivity {
         }
     };
 
+
     private void abrirTelaDetalhesPesquisaActivity(Alimento ali) {
-
         Alimento alimento = obterDadosFromDescription(ali);
-
         Intent intent = new Intent(PesquisaActivity.this, DetalhesPesquisaActivity.class);
         intent.putExtra(Json.FOOD_ID, alimento.getFood_id());
-        intent.putExtra(Json.FOOD_NAME,alimento.getFood_name());
-        intent.putExtra(Json.SERVING_DESCRIPTION,alimento.getServing_description());
+        intent.putExtra(Json.FOOD_NAME, alimento.getFood_name());
+        intent.putExtra(Json.SERVING_DESCRIPTION, alimento.getServing_description());
         intent.putExtra(Json.CALORIES, alimento.getCalories());
         intent.putExtra(Json.FAT, alimento.getFat());
         intent.putExtra(Json.CARBOHYDRATE, alimento.getCarbohydrate());
@@ -111,14 +115,14 @@ public class PesquisaActivity extends ActionBarActivity {
     public Alimento obterDadosFromDescription(Alimento alimento) {
         String description = alimento.getFood_description();
         //Exemplo "Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g"
-        if(!description.isEmpty()) {
+        if (!description.isEmpty()) {
             String[] temp = description.split("-");
             String[] temp2 = temp[1].split("\\|");
 
-            String calories =  temp2[0].replaceAll("[^0-9.]","");
-            String fat = temp2[1].replaceAll("[^0-9.]","");
-            String carbs = temp2[2].replaceAll("[^0-9.]","");
-            String protein = temp2[3].replaceAll("[^0-9.]","");
+            String calories = temp2[0].replaceAll("[^0-9.]", "");
+            String fat = temp2[1].replaceAll("[^0-9.]", "");
+            String carbs = temp2[2].replaceAll("[^0-9.]", "");
+            String protein = temp2[3].replaceAll("[^0-9.]", "");
 
             alimento.setServing_description(temp[0]);
             alimento.setCalories(Double.parseDouble(calories));
