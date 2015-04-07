@@ -24,6 +24,8 @@
     <string name="label_proteinas">Proteínas:</string>
     <string name="edit_quantidade_default">1</string>
     <string name="lable_btn_mais_detalhes">Mais</string>
+    <string name="lable_btn_salvar">Salvar</string>
+    <string name="lable_btn_consumo_diario">Cons.Dia.</string>
 
 
     <string name="grid_line_calorias">Calorias</string>

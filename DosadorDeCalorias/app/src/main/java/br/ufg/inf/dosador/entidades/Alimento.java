@@ -38,6 +38,15 @@ public class Alimento {
     private Double vitamin_c;
     private Double calcium;
     private Double iron;
+    private int quantidade;
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
 
     public String getFood_description() {
         return food_description;

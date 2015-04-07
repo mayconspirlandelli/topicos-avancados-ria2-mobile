@@ -2,9 +2,13 @@ package br.ufg.inf.dosador.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
+
+import br.ufg.inf.dosador.entidades.Alimento;
+import br.ufg.inf.dosador.entidades.Consumo;
 
 
 /**
@@ -26,13 +30,26 @@ public class DosadorContract {
         return time.setJulianDay(julianDay);
     }
 
+    public static ContentValues createContentValuesConsumo(Consumo consumo) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, consumo.getNomeAlimento());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_QTD, consumo.getQuantidade());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, consumo.getCalorias());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, consumo.getGorduras());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO, consumo.getCarboidratos());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PROTEINA, consumo.getProteinas());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO, consumo.getTipoRefeicao());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_DATA, consumo.getData().toString());
+        return contentValues;
+    }
+
 
     /**
      * Tabela: CONSUMO, registra todos os consumos diários da pessoa.
      */
     public static final class ConsumoEntry implements BaseColumns {
 
-        //TODO: O aplicativo deve armazenar o ID, nome, quantidade, calorias, gordura, carboidratos e proteínas do alimento, tipo de refeição e data.
+        // O aplicativo deve armazenar o ID, nome, quantidade, calorias, gordura, carboidratos e proteínas do alimento, tipo de refeição e data.
 
         //content://br.ufg.inf.dosador.app/consumo
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CONSUMO).build();
@@ -59,20 +76,11 @@ public class DosadorContract {
         }
 
         //content://br.ufg.inf.dosador.app/consumo/1419033600
-//        public static Uri buildConsumoPorData(long data) {
-//            return CONTENT_URI.buildUpon().appendPath(String.valueOf(data)).build();
-//        }
         public static Uri buildConsumoPorData(String data) {
             return CONTENT_URI.buildUpon().appendPath(data).build();
         }
 
         //content://br.ufg.inf.dosador.app/consumo/1419033600/1519033600
-//        public static Uri buildConsumoPorPeriodo(long dataInicial, long dataFinal) {
-//            return CONTENT_URI.buildUpon().
-//                    appendPath(Long.toString(normalizeDate(dataInicial))).
-//                    appendPath(Long.toString(normalizeDate(dataFinal))).
-//                    build();
-//        }
         public static Uri buildConsumoPorPeriodo(String dataInicial, String dataFinal) {
             return CONTENT_URI.buildUpon().
                     appendPath(dataInicial).
@@ -80,7 +88,7 @@ public class DosadorContract {
                     build();
         }
 
-        //content://br.ufg.inf.dosador.app/consumo/mes=jan
+        //content://br.ufg.inf.dosador.app/consumo/mes=01
         public static Uri buildConsumoPorMes(String mes) {
             return CONTENT_URI.buildUpon().
                     appendQueryParameter("mes", mes).

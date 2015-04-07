@@ -21,7 +21,10 @@ import br.ufg.inf.dosador.utils.PollingCheck;
 public class TestUtilities extends AndroidTestCase {
 
     //static final long TEST_DATE = 1419033600L;  // December 20th, 2014
-    static final String TEST_DATE = "2015-01-01";  // December 20th, 2014
+    static final String TEST_DATE = "2015-01-01";
+    static final String TEST_DATE_FINAL = "2015-02-02";
+    static final String TEST_DATE_MES = "01";
+
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Empty cursor returned. " + error, valueCursor.moveToFirst());
@@ -44,7 +47,7 @@ public class TestUtilities extends AndroidTestCase {
 
     static ContentValues createContentValuesConsumo() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, "arroz");
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, "feijao");
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_QTD, 1);
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, 200);
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, 2.3);

@@ -8,35 +8,50 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by Maycon on 02/04/2015.
  */
 public class DosadorProvider extends ContentProvider {
 
+    private static final String LOG_CAT = DosadorProvider.class.getSimpleName();
+
+
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private DosadorDbHelper mOpenHelper;
 
     static final int CONSUMO = 100;
-    //static final int TODOS_CONSUMOS = 101;
     static final int CONSUMO_DIARIO = 101;
     static final int CONSUMO_PERIODO = 102;
     static final int CONSUMO_MENSAL = 103;
     static final int USUARIO = 200;
 
-    private static final SQLiteQueryBuilder sConsumoQueryBuilder = new SQLiteQueryBuilder();
+    private static SQLiteQueryBuilder sConsumoQueryBuilder = new SQLiteQueryBuilder();
+
+    static {
+        sConsumoQueryBuilder.setTables(DosadorContract.ConsumoEntry.TABLE_NAME);
+    }
 
     //Pesquisar consumo por data ou diário.
+    //select * from consumo where strftime('%Y-%m-%d', data) = '2015-01-01';
+//    private static final String sConsumoPorData =
+//            "strftime('%Y-%m-%d', " +
+//            DosadorContract.ConsumoEntry.TABLE_NAME + "." +
+//                    DosadorContract.ConsumoEntry.COLUMN_DATA + ")" + " = ? ";
+    //OU
     private static final String sConsumoPorData =
             DosadorContract.ConsumoEntry.TABLE_NAME + "." +
                     DosadorContract.ConsumoEntry.COLUMN_DATA + " = ? ";
 
     //Pesquisar consumo por periodo específico.
+    //select * from consumo where strftime('%Y-%m-%d', data) between '2015-01-01' and '2015-02-02';
     private static final String sConsumoPorPeriodo =
             DosadorContract.ConsumoEntry.TABLE_NAME + "." +
                     DosadorContract.ConsumoEntry.COLUMN_DATA + " BETWEEN ? AND ? ";
 
-    //TODO: implementar sConsumoPorMes : Pesquisar consumo por mes.
+    //Pesquisar consumo por mes.
+    //select * from consumo where strftime('%m', data) = '01';
     private static final String sConsumoPorMes =
             DosadorContract.ConsumoEntry.TABLE_NAME + "." +
                     "strftime('%m', " + DosadorContract.ConsumoEntry.COLUMN_DATA + " ) " + " = ? ";
@@ -83,7 +98,6 @@ public class DosadorProvider extends ContentProvider {
         );
     }
 
-    //TODO: implementar : Pesquisar consumo por mes.
     private Cursor getConsumoMensal(Uri uri, String[] projection, String sortOrder) {
         String mes = DosadorContract.ConsumoEntry.getMesFromUri(uri);
 
@@ -113,15 +127,6 @@ public class DosadorProvider extends ContentProvider {
         return matcher;
     }
 
-    private void normalizeDate(ContentValues values) {
-        // normalize the date value
-        if (values.containsKey(DosadorContract.ConsumoEntry.COLUMN_DATA)) {
-            long dateValue = values.getAsLong(DosadorContract.ConsumoEntry.COLUMN_DATA);
-            values.put(DosadorContract.ConsumoEntry.COLUMN_DATA, DosadorContract.normalizeDate(dateValue));
-        }
-    }
-
-
     @Override
     public boolean onCreate() {
         mOpenHelper = new DosadorDbHelper(getContext());
@@ -142,10 +147,6 @@ public class DosadorProvider extends ContentProvider {
                         sortOrder);
                 break;
             }
-//            case TODOS_CONSUMOS: {
-//                retCursor = getTodosConsumos(uri, projection, sortOrder);
-//                break;
-//            }
             case CONSUMO_DIARIO: {
                 retCursor = getConsumoPorData(uri, projection, sortOrder);
                 break;
@@ -171,8 +172,6 @@ public class DosadorProvider extends ContentProvider {
         switch (match) {
             case CONSUMO:
                 return DosadorContract.ConsumoEntry.CONTENT_TYPE;
-//            case TODOS_CONSUMOS:
-//                return DosadorContract.ConsumoEntry.CONTENT_TYPE;
             case CONSUMO_DIARIO:
                 return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
             case CONSUMO_PERIODO:
@@ -191,7 +190,6 @@ public class DosadorProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case CONSUMO: {
-                normalizeDate(values);
                 long id = db.insert(DosadorContract.ConsumoEntry.TABLE_NAME, null, values);
                 if (id > 0)
                     returnUri = DosadorContract.ConsumoEntry.buildConsumoUri(id);
@@ -236,7 +234,6 @@ public class DosadorProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case CONSUMO: {
-                normalizeDate(values);
                 rowsUpdated = db.update(DosadorContract.ConsumoEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             }

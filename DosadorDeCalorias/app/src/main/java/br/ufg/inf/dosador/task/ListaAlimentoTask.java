@@ -1,6 +1,8 @@
 package br.ufg.inf.dosador.task;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -65,6 +67,14 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
                 return null;
             }
             //TODO: verficar se há conexao com a internet.
+//            public boolean isOnline() {
+//                ConnectivityManager cm =
+//                        (ConnectivityManager) contextActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+//                NetworkInfo netInfo = cm.getActiveNetworkInfo();
+//                return netInfo != null && netInfo.isConnectedOrConnecting();
+//            }
+
+
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");

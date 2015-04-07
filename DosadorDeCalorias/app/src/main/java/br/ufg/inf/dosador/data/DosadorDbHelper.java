@@ -27,7 +27,7 @@ public class DosadorDbHelper extends SQLiteOpenHelper {
 
        final String SQL_CREATE_CONSUMO_TABLE = "CREATE TABLE " + ConsumoEntry.TABLE_NAME + " ( " +
                ConsumoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-               ConsumoEntry.COLUMN_NOME + " TEXT UNIQUE NOT NULL, " +
+               ConsumoEntry.COLUMN_NOME + " TEXT NOT NULL, " +
                ConsumoEntry.COLUMN_QTD + " INTEGER NOT NULL, " +
                ConsumoEntry.COLUMN_CALORIAS + " REAL NOT NULL, " +
         ConsumoEntry.COLUMN_GORDURA + " REAL NOT NULL, " +
