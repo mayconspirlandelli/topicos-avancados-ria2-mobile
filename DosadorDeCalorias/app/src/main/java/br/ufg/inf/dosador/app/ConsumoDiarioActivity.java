@@ -71,7 +71,7 @@ public class ConsumoDiarioActivity extends ActionBarActivity {
         txtProteinas = (TextView) findViewById(R.id.txt_proteinas_valor);
         editQuantidade = (EditText) findViewById(R.id.edit_quantidade);
 
-        exibirDados();
+       exibirDados();
 
     }
     private void exibirDados(){

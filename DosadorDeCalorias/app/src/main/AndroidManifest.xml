@@ -14,58 +14,90 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="br.ufg.inf.dosador.app.MainActivity"
+            android:name=".app.MainActivity"
             android:label="@string/app_name" >
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.temp.MainActivity2"
-            android:label="@string/title_activity_main_activity2" >
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.app.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.app.CadastroActivity"
-            android:label="@string/title_activity_cadastro" >
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.app.ResumoDiarioActivity"
-            android:label="@string/title_activity_resumo_diario" >
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.app.RelatorioActivity"
-            android:label="@string/title_activity_relatorio" >
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.app.ConsumoDiarioActivity"
-            android:label="@string/title_activity_consumo_diario" >
-        </activity>
-        <activity
-            android:name="br.ufg.inf.dosador.app.PesquisaActivity"
-            android:label="@string/title_activity_pesquia" >
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
         <activity
-            android:name="br.ufg.inf.dosador.app.DetalhesPesquisaActivity"
+            android:name=".temp.MainActivity2"
+            android:label="@string/title_activity_main_activity2" >
+        </activity>
+        <activity
+            android:name=".app.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".app.CadastroActivity"
+            android:label="@string/title_activity_cadastro" >
+        </activity>
+        <activity
+            android:name=".app.ResumoDiarioActivity"
+            android:label="@string/title_activity_resumo_diario" >
+        </activity>
+        <activity
+            android:name=".app.RelatorioActivity"
+            android:label="@string/title_activity_relatorio" >
+        </activity>
+        <activity
+            android:name=".app.ConsumoDiarioActivity"
+            android:label="@string/title_activity_consumo_diario" >
+        </activity>
+        <activity
+            android:name=".app.PesquisaActivity"
+            android:label="@string/title_activity_pesquia"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <!-- <meta-data -->
+            <!-- android:name="android.app.default_searchable" -->
+            <!-- android:value="br.ufg.inf.dosador.app.SearchResultsActivity" /> -->
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <!--TODO: somente para teste-->
+        <!-- Search results activity -->
+        <!-- <activity android:name="br.ufg.inf.dosador.app.SearchResultsActivity" -->
+        <!-- android:launchMode="singleTop" -->
+        <!-- android:parentActivityName="br.ufg.inf.dosador.app.PesquisaActivity" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.SEARCH" /> -->
+        <!-- </intent-filter> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.app.searchable" -->
+        <!-- android:resource="@xml/searchable" /> -->
+        <!-- </activity> -->
+        <activity
+            android:name=".app.DetalhesPesquisaActivity"
             android:label="@string/title_activity_detalhes_pesquisa" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".app.PesquisaActivity"/>
         </activity>
         <activity
-            android:name="br.ufg.inf.dosador.app.DetalhesAlimentoActivity"
+            android:name=".app.DetalhesAlimentoActivity"
             android:label="@string/title_activity_detalhes_alimento" >
         </activity>
+
         <provider
-            android:authorities="br.ufg.inf.dosador.app"
-            android:name=".data.DosadorProvider" />
+            android:name=".data.DosadorProvider"
+            android:authorities="br.ufg.inf.dosador.app" />
+
+        <activity
+            android:name=".app.MainActivity3"
+            android:label="@string/title_activity_main_activity3" >
+        </activity>
     </application>
 
 </manifest>

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
 import br.ufg.inf.dosador.api.FatSecret;
 import br.ufg.inf.dosador.api.Json;
+import br.ufg.inf.dosador.app.IDosadorUpdater;
 import br.ufg.inf.dosador.app.PesquisaActivity;
 import br.ufg.inf.dosador.entidades.Alimento;
 
@@ -33,10 +34,18 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
     final static private String LOG_CAT = ListaAlimentoTask.class.getSimpleName();
     private final AlimentoListAdapter adapterListAlimento;
     private final Context mContext;
+    private IDosadorUpdater dosadorUpdater;
 
-    public ListaAlimentoTask(Context context, AlimentoListAdapter adapter) {
+    public ListaAlimentoTask(Context context, AlimentoListAdapter adapter, IDosadorUpdater dosadorUpdater) {
         this.mContext = context;
         this.adapterListAlimento = adapter;
+        this.dosadorUpdater = dosadorUpdater;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        this.dosadorUpdater.showProgress();
     }
 
     @Override
@@ -143,6 +152,7 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
     @Override
     protected void onPostExecute(ArrayList<Alimento> alimentos) {
         super.onPostExecute(alimentos);
+        this.dosadorUpdater.hideProgress();
         adapterListAlimento.setListaAlimentos(alimentos);
         adapterListAlimento.notifyDataSetChanged();
     }
