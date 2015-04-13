@@ -57,7 +57,9 @@ public class Json {
     public final static String UNIDADE_QUILO_CALORIAS = "kcal";
     public final static String UNIDADE_GRAMAS = "g";
     public final static String UNIDADE_MILIGRAMAS = "mg";
+    public final static String UNIDADE_PORCENTAGEM = "%";
 
+    //TODO: fazer o tratamento de erro de acordo com Erros Codes da API FatSecret platform.fatsecret.com/api/Default.aspx?screen=rapiec
 
     public ArrayList<Alimento> obterListaAlimentoFromJson(String foodJsonStr) throws JSONException {
 

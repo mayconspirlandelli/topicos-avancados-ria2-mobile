@@ -1,18 +1,8 @@
 package br.ufg.inf.dosador.app;
 
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,10 +10,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import br.ufg.inf.dosador.R;
-import br.ufg.inf.dosador.Util;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
 import br.ufg.inf.dosador.api.FatSecret;
-import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.entidades.Alimento;
 import br.ufg.inf.dosador.task.ListaAlimentoTask;
 
@@ -93,7 +81,7 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         // When tablets rotate, the currently selected list item needs to be saved.
         // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
         // so check for that before storing.
-        if(mPosition != ListView.INVALID_POSITION) {
+        if (mPosition != ListView.INVALID_POSITION) {
             outState.putInt(SELECTED_KEY, mPosition);
         }
         super.onSaveInstanceState(outState);
@@ -105,11 +93,12 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         ProgressBar progress = (ProgressBar) getActivity().findViewById(R.id.progress);
         progress.setVisibility(View.INVISIBLE);
     }
-     @Override
+
+    @Override
     public void showProgress() {
-         listView.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.INVISIBLE);
         ProgressBar progress = (ProgressBar) getActivity().findViewById(R.id.progress);
-         progress.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.VISIBLE);
     }
 
     public void pesquisarAlimento(String expressao) {
@@ -117,33 +106,14 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         task.execute(FatSecret.METHOD_FOODS_SEARCH, expressao);
     }
 
-
     final private ListView.OnItemClickListener clickListaItemAlimento = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //Alimento alimento = (Alimento) adapterListAlimento.getItem(position);
             Alimento alimento = (Alimento) parent.getItemAtPosition(position); //Seguindo exemplo do Sunshine https://github.com/udacity/Sunshine-Version-2/blob/sunshine_master/app/src/main/java/com/example/android/sunshine/app/ForecastFragment.java
-
             if (alimento != null) {
                 ((Callback) getActivity()).onItemSelected(alimento);
             }
             mPosition = position;
-            //abrirTelaDetalhesPesquisaActivity(alimento);
         }
     };
-
-//
-//    private void abrirTelaDetalhesPesquisaActivity(Alimento ali) {
-//        Alimento alimento = Util.obterDadosFromDescription(ali);
-//        Intent intent = new Intent(getActivity(), DetalhesPesquisaActivity.class);
-//        intent.putExtra(Json.FOOD_ID, alimento.getFood_id());
-//        intent.putExtra(Json.FOOD_NAME, alimento.getFood_name());
-//        intent.putExtra(Json.SERVING_DESCRIPTION, alimento.getServing_description());
-//        intent.putExtra(Json.CALORIES, alimento.getCalories());
-//        intent.putExtra(Json.FAT, alimento.getFat());
-//        intent.putExtra(Json.CARBOHYDRATE, alimento.getCarbohydrate());
-//        intent.putExtra(Json.PROTEIN, alimento.getProtein());
-//        startActivity(intent);
-//    }
-
 }

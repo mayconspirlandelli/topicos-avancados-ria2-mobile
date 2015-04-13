@@ -20,6 +20,7 @@
     <string name="label_quantidade">Quantidade</string>
     <string name="label_porcao">Porção</string>
     <string name="label_info_nutricional">Informação Nutricional</string>
+    <string name="label_info_nutri">Info. Nutricional</string>
     <string name="label_calorias">Calorias:</string>
     <string name="label_descricao">Descrição</string>
     <string name="label_gorduras">Gorduras:</string>
@@ -34,8 +35,11 @@
     <string name="grid_line_proteinas">Proteínas</string>
     <string name="grid_line_gorduras">Gorduras</string>
     <string name="grid_line_gordura_saturada">Gordura Saturada</string>
+    <string name="grid_line_gord_sat">Gord. Saturada</string>
     <string name="grid_line_gordura_monoinsaturada">Gordura Monoinsaturada</string>
+    <string name="grid_line_gord_mono">Gord. Mono.</string>
     <string name="grid_line_gordura_poliinsaturada">Gordura Poliinsaturada</string>
+    <string name="grid_line_gord_poli">Gord. Poli.</string>
     <string name="grid_line_gordura_trans">Gordura Trans</string>
     <string name="grid_line_colesterol">Colesterol</string>
     <string name="grid_line_sodio">Sódio</string>

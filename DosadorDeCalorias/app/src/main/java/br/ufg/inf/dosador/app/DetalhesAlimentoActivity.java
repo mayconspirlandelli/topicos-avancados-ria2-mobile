@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -21,9 +24,10 @@ import br.ufg.inf.dosador.api.FatSecret;
 import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.entidades.Alimento;
 
-public class DetalhesAlimentoActivity extends ActionBarActivity {
+public class DetalhesAlimentoActivity extends ActionBarActivity implements IDosadorUpdater {
 
-
+    private RelativeLayout rlEsquerdo;
+    private RelativeLayout rlDireito;
     private TextView txtPorcao;
     private TextView txtCalorias;
     private TextView txtGorduras;
@@ -80,6 +84,10 @@ public class DetalhesAlimentoActivity extends ActionBarActivity {
     }
 
     private void inicializaObjetosDeTela() {
+
+        rlEsquerdo = (RelativeLayout) findViewById(R.id.grid_esquerda);
+        rlDireito = (RelativeLayout) findViewById(R.id.grid_direita);
+
         txtPorcao = (TextView) findViewById(R.id.grid_line_porcao_valor);
         txtCalorias = (TextView) findViewById(R.id.grid_line_calorias_valor);
         txtGorduras = (TextView) findViewById(R.id.grid_line_gorduras_valor);
@@ -99,13 +107,28 @@ public class DetalhesAlimentoActivity extends ActionBarActivity {
         txtCalcio = (TextView) findViewById(R.id.grid_line_calcio_valor);
         txtFerro = (TextView) findViewById(R.id.grid_line_ferro_valor);
 
-
         Bundle valoresEntreActivity = getIntent().getExtras();
         int id = valoresEntreActivity.getInt(Json.FOOD_ID);
 
-        AlimentoTask task = new AlimentoTask(this);
+        AlimentoTask task = new AlimentoTask(this, this);
         task.execute(FatSecret.METHOD_FOOD_GET, String.valueOf(id));
 
+    }
+
+    @Override
+    public void hideProgress() {
+        rlEsquerdo.setVisibility(View.VISIBLE);
+        rlDireito.setVisibility(View.VISIBLE);
+        ProgressBar progress = (ProgressBar) this.findViewById(R.id.progress);
+        progress.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showProgress() {
+        rlEsquerdo.setVisibility(View.INVISIBLE);
+        rlDireito.setVisibility(View.INVISIBLE);
+        ProgressBar progress = (ProgressBar) this.findViewById(R.id.progress);
+        progress.setVisibility(View.VISIBLE);
     }
 
 
@@ -119,9 +142,17 @@ public class DetalhesAlimentoActivity extends ActionBarActivity {
         //TODO: verficar se há conexao com a internet.
         final private String LOG_CAT = AlimentoTask.class.getSimpleName();
         private final Context mContext;
+        private IDosadorUpdater dosadorUpdater;
 
-        public AlimentoTask(Context context) {
-            mContext = context;
+        public AlimentoTask(Context context, IDosadorUpdater dosador) {
+            this.mContext = context;
+            this.dosadorUpdater = dosador;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            this.dosadorUpdater.showProgress();
         }
 
         @Override
@@ -211,10 +242,12 @@ public class DetalhesAlimentoActivity extends ActionBarActivity {
             return alimento;
         }
 
+        //TODO: criar um layout land e outro large para exibir os detalhes do alimento.
+
         @Override
         protected void onPostExecute(Alimento alimento) {
             super.onPostExecute(alimento);
-
+            this.dosadorUpdater.hideProgress();
             if (alimento != null) {
                 txtPorcao.setText(alimento.getServing_description());
                 txtCalorias.setText(alimento.getCalories().toString() + Json.UNIDADE_QUILO_CALORIAS);
@@ -230,10 +263,10 @@ public class DetalhesAlimentoActivity extends ActionBarActivity {
                 txtFibras.setText(alimento.getFiber().toString() + Json.UNIDADE_GRAMAS);
                 txtPotassio.setText(alimento.getPotassium().toString() + Json.UNIDADE_MILIGRAMAS);
                 txtAcucar.setText(alimento.getSugar().toString() + Json.UNIDADE_GRAMAS);
-                txtVitaminaA.setText(alimento.getVitamin_a().toString());
-                txtVitaminaC.setText(alimento.getVitamin_c().toString());
-                txtCalcio.setText(alimento.getCalcium().toString());
-                txtFerro.setText(alimento.getIron().toString());
+                txtVitaminaA.setText(alimento.getVitamin_a().toString() + Json.UNIDADE_PORCENTAGEM);
+                txtVitaminaC.setText(alimento.getVitamin_c().toString() + Json.UNIDADE_PORCENTAGEM);
+                txtCalcio.setText(alimento.getCalcium().toString() + Json.UNIDADE_PORCENTAGEM);
+                txtFerro.setText(alimento.getIron().toString() + Json.UNIDADE_PORCENTAGEM);
             }
         }
     }

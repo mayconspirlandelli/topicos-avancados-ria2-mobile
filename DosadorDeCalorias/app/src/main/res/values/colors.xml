@@ -3,8 +3,6 @@
     <color name="dosador_blue">#ff1ca8f4</color>
     <color name="dosador_dark_blue">#0288D1</color>
     <color name="color_preloader_center">#ffffffff</color>
-    <color name="color_preloader_end">#ffcddcff</color>
-    <color name="color_preloader_start">#ff839afb</color>
-
-
+    <color name="color_preloader_start">#ffcddcff</color>
+    <color name="color_preloader_end">#ff839afb</color>
 </resources>

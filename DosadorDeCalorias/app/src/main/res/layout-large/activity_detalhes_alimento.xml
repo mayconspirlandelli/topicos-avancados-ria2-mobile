@@ -32,7 +32,7 @@
                 android:id="@+id/label_info_nutricional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_info_nutri" />
+                android:text="@string/label_info_nutricional" />
 
             <TextView
                 android:id="@+id/grid_line_calorias"
@@ -67,21 +67,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grid_line_gorduras"
-                android:text="@string/grid_line_gord_sat" />
+                android:text="@string/grid_line_gordura_saturada" />
 
             <TextView
                 android:id="@+id/grid_line_gordura_monoinsaturada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grid_line_gordura_saturada"
-                android:text="@string/grid_line_gord_mono" />
+                android:text="@string/grid_line_gordura_monoinsaturada" />
 
             <TextView
                 android:id="@+id/grid_line_gordura_poliinsaturada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/grid_line_gordura_monoinsaturada"
-                android:text="@string/grid_line_gord_poli" />
+                android:text="@string/grid_line_gordura_poliinsaturada" />
 
             <TextView
                 android:id="@+id/grid_line_gordura_trans"
@@ -159,7 +159,8 @@
             android:id="@+id/grid_direita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" >
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/grid_esquerda">
 
             <TextView
                 android:id="@+id/grid_line_porcao_valor"
