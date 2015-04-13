@@ -1,9 +1,11 @@
 package br.ufg.inf.dosador.entidades;
 
+import java.io.Serializable;
+
 /**
  * Created by Maycon on 26/03/2015.
  */
-public class Alimento {
+public class Alimento implements Serializable {
 
     private int food_id;
     private String food_name;

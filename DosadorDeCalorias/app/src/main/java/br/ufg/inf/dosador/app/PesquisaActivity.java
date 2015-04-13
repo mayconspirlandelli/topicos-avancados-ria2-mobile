@@ -9,23 +9,15 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
 
 import br.ufg.inf.dosador.R;
-import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
-import br.ufg.inf.dosador.api.FatSecret;
-import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.entidades.Alimento;
-import br.ufg.inf.dosador.task.ListaAlimentoTask;
 
 public class PesquisaActivity extends ActionBarActivity implements PesquisaFragment.Callback {
 
     private final String LOG_TAG = PesquisaActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
+    private static final String FRAGMENT_TAG = "TAG";
 
     private boolean mTwoPane;
     //
@@ -42,20 +34,29 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
 
         handleIntent(getIntent());
 
-        if (findViewById(R.id.weather_detail_container) != null) {
+        if (findViewById(R.id.detalhes_pesquisa) != null) {
             mTwoPane = true;
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new DetalhesPesquisaFragment(), DETAILFRAGMENT_TAG)
+                        .replace(R.id.detalhes_pesquisa, new DetalhesPesquisaFragment(), DETAILFRAGMENT_TAG)
                         .commit();
+//
+//                getSupportFragmentManager().beginTransaction()
+//                        .replace(R.id.pesquisa_fragment, new PesquisaFragment(), FRAGMENT_TAG)
+//                        .commit();
             }
         } else {
             mTwoPane = false;
             getSupportActionBar().setElevation(0f);
         }
-        PesquisaFragment pesquisaFragment = ((PesquisaFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_forecast));
-        // forecastFragment.setUseTodayLayout(!mTwoPane);
+
+        //PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_pesquisa);
+        PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.pesquisa_fragment_container);
+
+        //testar
+        //PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_pesquisa);
+        //PesquisaFragment pesquisaFragment = ((PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_pesquisa));
+
 
     }
 
@@ -66,9 +67,9 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
 //    }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
 //        PesquisaFragment pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
 //        if (pf != null) {
 //            ///ff.onLocationChanged();
@@ -78,24 +79,29 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
 //        if (null != dpf) {
 //            //df.onLocationChanged(location);
 //        }
-
-    }
+//
+//    }
 
     @Override
-    public void onItemSelected() {
+    public void onItemSelected(Alimento alimento) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
-            Bundle args = new Bundle();
+            Bundle parametros = new Bundle();
+            parametros.putSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO, alimento);
+
             DetalhesPesquisaFragment fragment = new DetalhesPesquisaFragment();
-            fragment.setArguments(args);
+            fragment.setArguments(parametros);
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
+                    .replace(R.id.detalhes_pesquisa, fragment, DetalhesPesquisaFragment.TAG_DETALHE)
                     .commit();
         } else {
+
+            //TODO: teste das duas alinhas abaixo:
             Intent intent = new Intent(this, DetalhesPesquisaActivity.class);
+            intent.putExtra(DetalhesPesquisaFragment.EXTRA_ALIMENTO, alimento);
             startActivity(intent);
         }
     }
@@ -145,7 +151,21 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            PesquisaFragment pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
+
+            PesquisaFragment pf;
+            if (mTwoPane) {
+                //table.
+                pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.pesquisa_fragment_container);
+            } else {
+                //celular.
+                pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.activity_pesquisa);
+            }
+
+
+            //anterior - funciona para celular
+            //PesquisaFragment pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_pesquisa);
+            //em teste - funciona para table
+            //PesquisaFragment pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.pesquisa_fragment);
             pf.pesquisarAlimento(query);
         }
     }

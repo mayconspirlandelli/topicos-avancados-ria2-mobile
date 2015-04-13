@@ -3,6 +3,7 @@ package br.ufg.inf.dosador.app;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import br.ufg.inf.dosador.R;
+import br.ufg.inf.dosador.Util;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
 import br.ufg.inf.dosador.api.FatSecret;
 import br.ufg.inf.dosador.api.Json;
@@ -32,8 +34,8 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
 
     private ListView listView;
     public AlimentoListAdapter adapterListAlimento;
-
-
+    private int mPosition = ListView.INVALID_POSITION;
+    private static final String SELECTED_KEY = "selected_position";
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -44,10 +46,10 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
-        public void onItemSelected();
+        public void onItemSelected(Alimento alimento);
     }
 
-
+    //Por default, toda classe Fragment deve ter um construtor sem parametros.
     public PesquisaFragment() {
     }
 
@@ -72,15 +74,30 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         listView = (ListView) rootView.findViewById(R.id.listaAlimentos);
 
         listView.setFastScrollEnabled(true); //Habilita o scroll.
-        listView.setOnItemClickListener(clickListaItemAlimento);
         //Cria o Adapter.
         adapterListAlimento = new AlimentoListAdapter(getActivity());
         //Define o Adapater.
         listView.setAdapter(adapterListAlimento);
 
+        listView.setOnItemClickListener(clickListaItemAlimento);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
+
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // When tablets rotate, the currently selected list item needs to be saved.
+        // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
+        // so check for that before storing.
+        if(mPosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void hideProgress() {
@@ -104,43 +121,29 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
     final private ListView.OnItemClickListener clickListaItemAlimento = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Alimento alimento = (Alimento) adapterListAlimento.getItem(position);
-            abrirTelaDetalhesPesquisaActivity(alimento);
+            //Alimento alimento = (Alimento) adapterListAlimento.getItem(position);
+            Alimento alimento = (Alimento) parent.getItemAtPosition(position); //Seguindo exemplo do Sunshine https://github.com/udacity/Sunshine-Version-2/blob/sunshine_master/app/src/main/java/com/example/android/sunshine/app/ForecastFragment.java
+
+            if (alimento != null) {
+                ((Callback) getActivity()).onItemSelected(alimento);
+            }
+            mPosition = position;
+            //abrirTelaDetalhesPesquisaActivity(alimento);
         }
     };
 
+//
+//    private void abrirTelaDetalhesPesquisaActivity(Alimento ali) {
+//        Alimento alimento = Util.obterDadosFromDescription(ali);
+//        Intent intent = new Intent(getActivity(), DetalhesPesquisaActivity.class);
+//        intent.putExtra(Json.FOOD_ID, alimento.getFood_id());
+//        intent.putExtra(Json.FOOD_NAME, alimento.getFood_name());
+//        intent.putExtra(Json.SERVING_DESCRIPTION, alimento.getServing_description());
+//        intent.putExtra(Json.CALORIES, alimento.getCalories());
+//        intent.putExtra(Json.FAT, alimento.getFat());
+//        intent.putExtra(Json.CARBOHYDRATE, alimento.getCarbohydrate());
+//        intent.putExtra(Json.PROTEIN, alimento.getProtein());
+//        startActivity(intent);
+//    }
 
-    private void abrirTelaDetalhesPesquisaActivity(Alimento ali) {
-        Alimento alimento = obterDadosFromDescription(ali);
-        Intent intent = new Intent(getActivity(), DetalhesPesquisaActivity.class);
-        intent.putExtra(Json.FOOD_ID, alimento.getFood_id());
-        intent.putExtra(Json.FOOD_NAME, alimento.getFood_name());
-        intent.putExtra(Json.SERVING_DESCRIPTION, alimento.getServing_description());
-        intent.putExtra(Json.CALORIES, alimento.getCalories());
-        intent.putExtra(Json.FAT, alimento.getFat());
-        intent.putExtra(Json.CARBOHYDRATE, alimento.getCarbohydrate());
-        intent.putExtra(Json.PROTEIN, alimento.getProtein());
-        startActivity(intent);
-    }
-
-    public Alimento obterDadosFromDescription(Alimento alimento) {
-        String description = alimento.getFood_description();
-        //Exemplo "Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g"
-        if (!description.isEmpty()) {
-            String[] temp = description.split("-");
-            String[] temp2 = temp[1].split("\\|");
-
-            String calories = temp2[0].replaceAll("[^0-9.]", "");
-            String fat = temp2[1].replaceAll("[^0-9.]", "");
-            String carbs = temp2[2].replaceAll("[^0-9.]", "");
-            String protein = temp2[3].replaceAll("[^0-9.]", "");
-
-            alimento.setServing_description(temp[0]);
-            alimento.setCalories(Double.parseDouble(calories));
-            alimento.setFat(Double.parseDouble(fat));
-            alimento.setCarbohydrate(Double.parseDouble(carbs));
-            alimento.setProtein(Double.parseDouble(protein));
-        }
-        return alimento;
-    }
 }

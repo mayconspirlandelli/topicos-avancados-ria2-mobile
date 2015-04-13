@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
 
     <fragment
+        android:id="@+id/pesquisa_fragment_container"
+        android:name="br.ufg.inf.dosador.app.PesquisaFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:name="br.ufg.inf.dosador.app.PesquisaFragment"
-        android:id="@+id/pesquisa_fragment"
         android:layout_weight="1"/>
 
-    <fragment
+    <FrameLayout
+        android:id="@+id/detalhes_pesquisa"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:name="br.ufg.inf.dosador.app.DetalhesPesquisaFragment"
-        android:id="@+id/detalhes_fragment"
+        android:layout_height="fill_parent"
         android:layout_weight="2"/>
-
-
-
 
 </LinearLayout>

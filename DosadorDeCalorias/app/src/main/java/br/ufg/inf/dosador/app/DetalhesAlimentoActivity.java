@@ -215,24 +215,26 @@ public class DetalhesAlimentoActivity extends ActionBarActivity {
         protected void onPostExecute(Alimento alimento) {
             super.onPostExecute(alimento);
 
-            txtPorcao.setText(alimento.getServing_description());
-            txtCalorias.setText(alimento.getCalories().toString() + Json.UNIDADE_QUILO_CALORIAS);
-            txtGorduras.setText(alimento.getFat().toString() + Json.UNIDADE_GRAMAS);
-            txtCarboidratos.setText(alimento.getCarbohydrate().toString() + Json.UNIDADE_GRAMAS);
-            txtProteinas.setText(alimento.getProtein().toString() + Json.UNIDADE_GRAMAS);
-            txtGorduraSatura.setText(alimento.getSaturated_fat().toString() + Json.UNIDADE_GRAMAS);
-            txtGorduraMonoinsaturada.setText(alimento.getMonounsaturated_fat().toString() + Json.UNIDADE_GRAMAS);
-            txtGorduraPoliinsaturada.setText(alimento.getPolyunsaturated_fat().toString() + Json.UNIDADE_GRAMAS);
-            txtGorduraTrans.setText(alimento.getTrans_fat().toString() + Json.UNIDADE_GRAMAS);
-            txtColesterol.setText(alimento.getCholesterol().toString() + Json.UNIDADE_MILIGRAMAS);
-            txtSodio.setText(alimento.getSodium().toString() + Json.UNIDADE_MILIGRAMAS);
-            txtFibras.setText(alimento.getFiber().toString() + Json.UNIDADE_GRAMAS);
-            txtPotassio.setText(alimento.getPotassium().toString() + Json.UNIDADE_MILIGRAMAS);
-            txtAcucar.setText(alimento.getSugar().toString() + Json.UNIDADE_GRAMAS);
-            txtVitaminaA.setText(alimento.getVitamin_a().toString());
-            txtVitaminaC.setText(alimento.getVitamin_c().toString());
-            txtCalcio.setText(alimento.getCalcium().toString());
-            txtFerro.setText(alimento.getIron().toString());
+            if (alimento != null) {
+                txtPorcao.setText(alimento.getServing_description());
+                txtCalorias.setText(alimento.getCalories().toString() + Json.UNIDADE_QUILO_CALORIAS);
+                txtGorduras.setText(alimento.getFat().toString() + Json.UNIDADE_GRAMAS);
+                txtCarboidratos.setText(alimento.getCarbohydrate().toString() + Json.UNIDADE_GRAMAS);
+                txtProteinas.setText(alimento.getProtein().toString() + Json.UNIDADE_GRAMAS);
+                txtGorduraSatura.setText(alimento.getSaturated_fat().toString() + Json.UNIDADE_GRAMAS);
+                txtGorduraMonoinsaturada.setText(alimento.getMonounsaturated_fat().toString() + Json.UNIDADE_GRAMAS);
+                txtGorduraPoliinsaturada.setText(alimento.getPolyunsaturated_fat().toString() + Json.UNIDADE_GRAMAS);
+                txtGorduraTrans.setText(alimento.getTrans_fat().toString() + Json.UNIDADE_GRAMAS);
+                txtColesterol.setText(alimento.getCholesterol().toString() + Json.UNIDADE_MILIGRAMAS);
+                txtSodio.setText(alimento.getSodium().toString() + Json.UNIDADE_MILIGRAMAS);
+                txtFibras.setText(alimento.getFiber().toString() + Json.UNIDADE_GRAMAS);
+                txtPotassio.setText(alimento.getPotassium().toString() + Json.UNIDADE_MILIGRAMAS);
+                txtAcucar.setText(alimento.getSugar().toString() + Json.UNIDADE_GRAMAS);
+                txtVitaminaA.setText(alimento.getVitamin_a().toString());
+                txtVitaminaC.setText(alimento.getVitamin_c().toString());
+                txtCalcio.setText(alimento.getCalcium().toString());
+                txtFerro.setText(alimento.getIron().toString());
+            }
         }
     }
 

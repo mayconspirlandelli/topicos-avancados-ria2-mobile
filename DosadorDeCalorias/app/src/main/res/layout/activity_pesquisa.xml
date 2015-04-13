@@ -1,11 +1,10 @@
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_forecast"
+    android:id="@+id/activity_pesquisa"
     android:name="br.ufg.inf.dosador.app.PesquisaFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.ufg.inf.dosador.app.PesquisaFragment"
-    />
+    tools:context="br.ufg.inf.dosador.app.PesquisaFragment" />
 
 
 <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->

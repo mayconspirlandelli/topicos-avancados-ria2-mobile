@@ -1,11 +1,12 @@
 package br.ufg.inf.dosador.entidades;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Maycon on 07/04/2015.
  */
-public class Consumo {
+public class Consumo  {
 
     private String nomeAlimento;
     private int quantidade;
