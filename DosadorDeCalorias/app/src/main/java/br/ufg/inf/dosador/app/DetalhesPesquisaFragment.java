@@ -29,6 +29,7 @@ import br.ufg.inf.dosador.dao.ConsumoDAO;
 import br.ufg.inf.dosador.data.DosadorContract;
 import br.ufg.inf.dosador.entidades.Alimento;
 import br.ufg.inf.dosador.entidades.Consumo;
+import br.ufg.inf.dosador.entidades.TipoRefeicao;
 
 /**
  * Created by Maycon on 09/04/2015.
@@ -47,9 +48,6 @@ public class DetalhesPesquisaFragment extends Fragment {
     private EditText editPorcao;
     private EditText editQuantidade;
     private Button btnMaisDetalhes;
-    //TODO: somente para teste os dois botoes: salvar e consumodiario.
-    private Button btnSalvar;
-    private Button btnConsumoDiario;
 
     private Alimento mAlimento;
     private ConsumoDAO consumoDAO;
@@ -83,12 +81,6 @@ public class DetalhesPesquisaFragment extends Fragment {
             editQuantidade = (EditText) rootView.findViewById(R.id.edit_quantidade);
             btnMaisDetalhes = (Button) rootView.findViewById(R.id.btn_mais_detalhes);
             btnMaisDetalhes.setOnClickListener(btnMaisDetalhesOnClickListener);
-
-            //TODO: botão salvar e consumo é somente para teste.
-            btnSalvar = (Button) rootView.findViewById(R.id.btn_salvar);
-            btnSalvar.setOnClickListener(btnSalvarOnClickListener);
-            btnConsumoDiario = (Button) rootView.findViewById(R.id.btn_consumo_diario);
-            btnConsumoDiario.setOnClickListener(btnConsumoDiarionClickListener);
 
             preencheComponentesDeTela(mAlimento);
 
@@ -142,27 +134,6 @@ public class DetalhesPesquisaFragment extends Fragment {
         startActivity(intent);
     }
 
-
-    //TODO: somente para teste.
-    final private View.OnClickListener btnSalvarOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-        }
-    };
-
-    //TODO: somente para teste.
-    final private View.OnClickListener btnConsumoDiarionClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mostrarConsumoDiario();
-        }
-    };
-
-    private void mostrarConsumoDiario() {
-        Intent intent = new Intent(getActivity(), ConsumoDiarioActivity.class);
-        startActivity(intent);
-    }
-
     private void salvarConsumo(){
         String data = Util.obterDataAtual();
         Consumo consumo = new Consumo();
@@ -177,6 +148,7 @@ public class DetalhesPesquisaFragment extends Fragment {
             consumo.setQuantidade(Integer.valueOf(editQuantidade.getText().toString()));
             consumo.setData(data);
             consumo.setTipoRefeicao("lanche");
+            //consumo.setTipoRefeicao(TipoRefeicao.LANCHE.name());
             //TODO: faltou colocar tipo de refeição.
             //TODO: usar enum para representar o tipo de refeição.
             //TODO: usar enum para representar os 12 meses do ano.
@@ -184,29 +156,33 @@ public class DetalhesPesquisaFragment extends Fragment {
             consumoDAO.salvar(consumo);
             Log.d(LOG_CAT, "Dados salvo com sucesso!");
 
-        } else {
-            //TODO: emiti Alerta ao usuario.
-            Toast.makeText(getActivity(),"Não foi possível salvar!", Toast.LENGTH_LONG);
+            fecharActivity();
         }
     }
 
     private boolean validarDados(){
-        if (editDescricao.getText().toString().isEmpty()) {
+        if (editDescricao.getText().toString().isEmpty() || editDescricao.getText().toString().equals("") ) {
+            Util.campoObrigatorio(getActivity(), "Informe a descrição!");
             return false;
         }
-        if (txtCalorias.getText().toString().isEmpty()) {
+        if (txtCalorias.getText().toString().isEmpty() || txtCalorias.getText().toString().equals("")) {
+            Util.exibeAlerta(getActivity());
             return false;
         }
-        if (txtGorduras.getText().toString().isEmpty()) {
+        if (txtGorduras.getText().toString().isEmpty() || txtGorduras.getText().toString().equals("")) {
+            Util.exibeAlerta(getActivity());
             return false;
         }
-        if (txtCarboidratos.getText().toString().isEmpty()) {
+        if (txtCarboidratos.getText().toString().isEmpty() || txtCarboidratos.getText().toString().equals("")) {
+            Util.exibeAlerta(getActivity());
             return false;
         }
-        if (txtProteinas.getText().toString().isEmpty()) {
+        if (txtProteinas.getText().toString().isEmpty() || txtProteinas.getText().toString().equals("")) {
+            Util.exibeAlerta(getActivity());
             return false;
         }
-        if (editQuantidade.getText().toString().isEmpty()) {
+        if (editQuantidade.getText().toString().isEmpty() || editQuantidade.getText().toString().equals("")) {
+            Util.campoObrigatorio(getActivity(), "Informe a quantidade!");
             return false;
         }
         return true;
@@ -221,7 +197,6 @@ public class DetalhesPesquisaFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         //salvar os dados.
                         salvarConsumo();
-                        fecharActivity();
                     }
                 })
                 .setNegativeButton(getString(R.string.dialog_opcao_nao), new DialogInterface.OnClickListener() {

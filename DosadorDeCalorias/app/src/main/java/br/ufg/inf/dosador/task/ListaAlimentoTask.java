@@ -75,15 +75,6 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
             if (url == null) {
                 return null;
             }
-            //TODO: verficar se há conexao com a internet.
-//            public boolean isOnline() {
-//                ConnectivityManager cm =
-//                        (ConnectivityManager) contextActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-//                NetworkInfo netInfo = cm.getActiveNetworkInfo();
-//                return netInfo != null && netInfo.isConnectedOrConnecting();
-//            }
-
-
 
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -122,15 +113,7 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
 
         } catch (IOException e) {
             Log.e(LOG_CAT, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attemping
-            // to parse it.
-            //return null;
         }
-//        catch (JSONException e) {
-//            Log.e(LOG_CAT, e.getMessage(), e);
-//            e.printStackTrace();
-//        }
-
         catch (Exception e) {
             Log.e(LOG_CAT, e.getMessage(), e);
             e.printStackTrace();

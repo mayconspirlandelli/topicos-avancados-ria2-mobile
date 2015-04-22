@@ -14,6 +14,7 @@
     <string name="title_activity_detalhes_pesquisa">DetalhesPesquisaActivity</string>
     <string name="title_activity_detalhes_alimento">DetalhesAlimentoActivity</string>
     <string name="title_activity_main_activity3">MainActivity3</string>
+    <string name="title_activity_ususuario">Usuario</string>
 
 
     <string name="label_quantidade">Quantidade</string>
@@ -28,6 +29,7 @@
     <string name="edit_quantidade_default">1</string>
     <string name="lable_btn_mais_detalhes">Mais</string>
     <string name="lable_btn_salvar">Salvar</string>
+    <string name="lable_btn_excluir">Excluir</string>
     <string name="lable_btn_consumo_diario">Cons.Dia.</string>
     <string name="grid_line_calorias">Calorias</string>
     <string name="grid_line_carboidratos">Carboidratos</string>
@@ -63,6 +65,12 @@
     <string name="dialog_opcao_nao">Não</string>
     <string name="dialog_titulo">Confirmação</string>
     <string name="dialog_mensagem">Deseja salvar na sua dieta?</string>
+
+    <!--Dialog Alert Internet -->
+    <string name="dialog_opcao_cancelar">Cancelar</string>
+    <string name="dialog_opcao_tente">Tente Novamente</string>
+    <string name="dialog_titulo_internet">Atenção</string>
+    <string name="dialog_mensagem_internet">Verifique sua conexão com a Internet e tente novamente.</string>
 
     <!--Action Bar-->
     <string name="actionbar_pesquisa">Pesquisar Alimento</string>

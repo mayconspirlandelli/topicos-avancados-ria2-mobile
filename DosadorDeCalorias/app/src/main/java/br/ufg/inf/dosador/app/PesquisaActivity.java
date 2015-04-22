@@ -1,6 +1,10 @@
 package br.ufg.inf.dosador.app;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.SearchManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
@@ -12,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.ufg.inf.dosador.R;
+import br.ufg.inf.dosador.Util;
 import br.ufg.inf.dosador.entidades.Alimento;
 
 public class PesquisaActivity extends ActionBarActivity implements PesquisaFragment.Callback {
@@ -21,6 +26,42 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
     private static final String FRAGMENT_TAG = "TAG";
 
     private boolean mTwoPane;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        verificaInternet();
+    }
+
+    private void verificaInternet(){
+        if(!Util.verificaConexaoDeRede(this)){
+            exibirAlertaInternet(this);
+        }
+    }
+
+    private void fecharActivity(){
+        this.finish();
+    }
+
+    private void exibirAlertaInternet(final Context context){
+        Dialog dialog = new AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.dialog_titulo_internet))
+                .setMessage(context.getString(R.string.dialog_mensagem_internet))
+                .setPositiveButton(context.getString(R.string.dialog_opcao_cancelar), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        fecharActivity();
+                    }
+                })
+                .setNegativeButton(getString(R.string.dialog_opcao_tente), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        verificaInternet();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

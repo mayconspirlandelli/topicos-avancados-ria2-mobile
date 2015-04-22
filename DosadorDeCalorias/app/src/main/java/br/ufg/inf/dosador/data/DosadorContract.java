@@ -9,6 +9,7 @@ import android.text.format.Time;
 
 import br.ufg.inf.dosador.entidades.Alimento;
 import br.ufg.inf.dosador.entidades.Consumo;
+import br.ufg.inf.dosador.entidades.Usuario;
 
 
 /**
@@ -29,20 +30,17 @@ public class DosadorContract {
         int julianDay = Time.getJulianDay(date, time.gmtoff);
         return time.setJulianDay(julianDay);
     }
-//
-//    public static ContentValues createContentValuesConsumo(Consumo consumo) {
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, consumo.getNomeAlimento());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_QTD, consumo.getQuantidade());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, consumo.getCalorias());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, consumo.getGorduras());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO, consumo.getCarboidratos());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PROTEINA, consumo.getProteinas());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO, consumo.getTipoRefeicao());
-//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_DATA, consumo.getData().toString());
-//        return contentValues;
-//    }
 
+
+    public static ContentValues createContentValuesUsuario(Usuario usuario) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_NOME, usuario.getNome());
+        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_SEXO, usuario.getSexo());
+        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_IDADE, usuario.getIdade());
+        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_ALTURA, usuario.getAltura());
+        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_PESO, usuario.getPeso());
+        return contentValues;
+    }
 
     /**
      * Tabela: CONSUMO, registra todos os consumos diários da pessoa.
@@ -114,6 +112,38 @@ public class DosadorContract {
                 return dateString;
             } else
                 return null;
+        }
+
+    }
+
+    /**
+     * Renilson 17/04/15
+     * Tabela: USUARIO, registra os dados da pessoa.
+     */
+    public static final class UsuarioEntry implements BaseColumns {
+
+        // O aplicativo deve armazenar o ID, nome, idade, sexo, peso e altura.
+
+        //content://br.ufg.inf.dosador.app/usuario
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_USUARIO).build();
+
+        //vnd.android.cursor.dir/br.ufg.inf.dosador.app/usuario
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_USUARIO;
+
+        //vnd.android.cursor.item/br.ufg.inf.dosador.app/usuario
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_USUARIO;
+
+        public static final String TABLE_NAME = "usuario";
+        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_NOME = "nome";
+        public static final String COLUMN_SEXO = "sexo";
+        public static final String COLUMN_IDADE = "idade";
+        public static final String COLUMN_PESO = "peso";
+        public static final String COLUMN_ALTURA = "altura";
+
+        //content://br.ufg.inf.dosador.app/usuario/22
+        public static Uri buildUsuarioUri(Long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
     }

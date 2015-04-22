@@ -13,23 +13,26 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <!--<activity-->
+            <!--android:name=".temp.MainActivity"-->
+            <!--android:label="@string/app_name">-->
+            <!--&lt;!&ndash;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+            <!--&ndash;&gt;-->
+        <!--</activity>        -->
         <activity
-            android:name=".app.MainActivity"
-            android:label="@string/app_name">
-            <!--
+            android:name=".app.LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
-        <activity
-            android:name=".temp.MainActivity2"
-            android:label="@string/title_activity_main_activity2"></activity>
-        <activity
-            android:name=".app.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
         <activity
             android:name=".app.CadastroActivity"
             android:label="@string/title_activity_cadastro"></activity>
@@ -38,24 +41,32 @@
             android:label="@string/title_activity_resumo_diario"></activity>
         <activity
             android:name=".app.RelatorioActivity"
-            android:label="@string/title_activity_relatorio"></activity>
+            android:label="@string/title_activity_relatorio">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".app.ResumoDiarioActivity" />
+            </activity>
         <activity
             android:name=".app.ConsumoDiarioActivity"
-            android:label="@string/title_activity_consumo_diario"></activity>
+            android:label="@string/title_activity_consumo_diario">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".app.ResumoDiarioActivity" />
+            </activity>
         <activity
             android:name=".app.PesquisaActivity"
             android:label="@string/title_activity_pesquia"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".app.MainActivity3" />
+                android:value=".app.ConsumoDiarioActivity" />
         </activity>
         <activity
             android:name=".app.DetalhesPesquisaActivity"
@@ -72,14 +83,9 @@
                 android:value=".app.DetalhesPesquisaActivity" />
         </activity>
         <activity
-            android:name=".app.MainActivity3"
-            android:label="@string/title_activity_main_activity3">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".app.UsuarioActivity"
+            android:label="@string/title_activity_ususuario">
         </activity>
-
         <provider
             android:name=".data.DosadorProvider"
             android:authorities="br.ufg.inf.dosador.app" />

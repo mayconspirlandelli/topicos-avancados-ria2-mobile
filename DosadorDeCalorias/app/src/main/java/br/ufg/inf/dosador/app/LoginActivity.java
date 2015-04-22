@@ -1,18 +1,37 @@
 package br.ufg.inf.dosador.app;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import br.ufg.inf.dosador.R;
+import br.ufg.inf.dosador.data.DosadorContract;
 
 public class LoginActivity extends ActionBarActivity {
+
+    Button buttonEntrar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        buttonEntrar = (Button) findViewById(R.id.buttonEntrar);
+
+        buttonEntrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verificarPrimeiroAcesso();
+            }
+        });
+
+        this.setTitle("Dosador de Calorias");
+
     }
 
 
@@ -36,5 +55,26 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void verificarPrimeiroAcesso(){
+
+        Cursor cursor = this.getContentResolver().query(
+                DosadorContract.UsuarioEntry.CONTENT_URI,
+                null,   // leaving "columns" null just returns all the columns.
+                null,   // cols for "where" clause
+                null,   // Values for the "where" clause
+                null    // sort order
+        );
+        if (cursor.moveToFirst()) {
+            //Usuário já consta no cadastro, chama a tela de Resumo Diário de calorias.
+            Intent intencao = new Intent(this,ResumoDiarioActivity.class);
+            startActivity(intencao);
+        } else {
+            //Usuário não consta no cadastro, chama tela de cadastro de usuário
+            Intent intencao = new Intent(this, UsuarioActivity.class);
+            startActivity(intencao);
+        }
+
     }
 }

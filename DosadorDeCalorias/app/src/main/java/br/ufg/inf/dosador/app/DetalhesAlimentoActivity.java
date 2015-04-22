@@ -139,7 +139,6 @@ public class DetalhesAlimentoActivity extends ActionBarActivity implements IDosa
      */
     private class AlimentoTask extends AsyncTask<String, Void, Alimento> {
 
-        //TODO: verficar se há conexao com a internet.
         final private String LOG_CAT = AlimentoTask.class.getSimpleName();
         private final Context mContext;
         private IDosadorUpdater dosadorUpdater;

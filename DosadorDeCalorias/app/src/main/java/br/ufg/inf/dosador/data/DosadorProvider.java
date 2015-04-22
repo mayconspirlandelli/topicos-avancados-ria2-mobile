@@ -28,10 +28,16 @@ public class DosadorProvider extends ContentProvider {
     static final int USUARIO = 200;
 
     private static SQLiteQueryBuilder sConsumoQueryBuilder = new SQLiteQueryBuilder();
+    private static SQLiteQueryBuilder sUsuarioQueryBuilder = new SQLiteQueryBuilder();
 
     static {
         sConsumoQueryBuilder.setTables(DosadorContract.ConsumoEntry.TABLE_NAME);
     }
+
+    static {
+        sUsuarioQueryBuilder.setTables(DosadorContract.UsuarioEntry.TABLE_NAME);
+    }
+
 
     //Pesquisar consumo por data ou diário.
     //select * from consumo where strftime('%Y-%m-%d', data) = '2015-01-01';
@@ -135,10 +141,20 @@ public class DosadorProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        Cursor retCursor;
+        Cursor retCursor = null;
         switch (sUriMatcher.match(uri)) {
             case CONSUMO: {
                 retCursor = mOpenHelper.getReadableDatabase().query(DosadorContract.ConsumoEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            }
+            case USUARIO: {
+                retCursor = mOpenHelper.getReadableDatabase().query(DosadorContract.UsuarioEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -170,6 +186,8 @@ public class DosadorProvider extends ContentProvider {
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
+            case USUARIO:
+                return DosadorContract.UsuarioEntry.CONTENT_TYPE;
             case CONSUMO:
                 return DosadorContract.ConsumoEntry.CONTENT_TYPE;
             case CONSUMO_DIARIO:
@@ -197,6 +215,14 @@ public class DosadorProvider extends ContentProvider {
                     throw new SQLException("Falha ao inserir a linha " + uri);
                 break;
             }
+            case USUARIO: {
+                long id = db.insert(DosadorContract.UsuarioEntry.TABLE_NAME, null, values);
+                if (id > 0)
+                    returnUri = DosadorContract.UsuarioEntry.buildUsuarioUri(id);
+                else
+                    throw new SQLException("Falha ao inserir a linha " + uri);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -218,6 +244,10 @@ public class DosadorProvider extends ContentProvider {
                 rowsDeleted = db.delete(DosadorContract.ConsumoEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             }
+            case USUARIO: {
+                rowsDeleted = db.delete(DosadorContract.UsuarioEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -235,6 +265,10 @@ public class DosadorProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)) {
             case CONSUMO: {
                 rowsUpdated = db.update(DosadorContract.ConsumoEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            }
+            case USUARIO: {
+                rowsUpdated = db.update(DosadorContract.UsuarioEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             }
             default:

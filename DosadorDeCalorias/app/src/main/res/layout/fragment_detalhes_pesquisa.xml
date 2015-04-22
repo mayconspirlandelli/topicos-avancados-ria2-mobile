@@ -134,24 +134,4 @@
         android:layout_below="@id/txt_info_nutricional"
         android:padding="16dp"
         android:text="@string/lable_btn_mais_detalhes" />
-
-    <Button
-        android:id="@+id/btn_salvar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/btn_mais_detalhes"
-        android:padding="16dp"
-        android:text="@string/lable_btn_salvar" />
-
-    <Button
-        android:id="@+id/btn_consumo_diario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/btn_salvar"
-        android:padding="16dp"
-        android:text="@string/lable_btn_consumo_diario" />
-
-
 </RelativeLayout>
