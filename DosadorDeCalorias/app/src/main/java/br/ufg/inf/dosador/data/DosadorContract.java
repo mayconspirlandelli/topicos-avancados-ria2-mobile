@@ -29,19 +29,19 @@ public class DosadorContract {
         int julianDay = Time.getJulianDay(date, time.gmtoff);
         return time.setJulianDay(julianDay);
     }
-
-    public static ContentValues createContentValuesConsumo(Consumo consumo) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, consumo.getNomeAlimento());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_QTD, consumo.getQuantidade());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, consumo.getCalorias());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, consumo.getGorduras());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO, consumo.getCarboidratos());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PROTEINA, consumo.getProteinas());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO, consumo.getTipoRefeicao());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_DATA, consumo.getData().toString());
-        return contentValues;
-    }
+//
+//    public static ContentValues createContentValuesConsumo(Consumo consumo) {
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, consumo.getNomeAlimento());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_QTD, consumo.getQuantidade());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, consumo.getCalorias());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, consumo.getGorduras());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO, consumo.getCarboidratos());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PROTEINA, consumo.getProteinas());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO, consumo.getTipoRefeicao());
+//        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_DATA, consumo.getData().toString());
+//        return contentValues;
+//    }
 
 
     /**

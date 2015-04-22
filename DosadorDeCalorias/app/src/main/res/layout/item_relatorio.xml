@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--Item do Nome-->
+    <TextView
+        android:id="@+id/item_nome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fsdfasfd"
+        android:maxLength="16"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!--Item do Data-->
+    <TextView
+        android:id="@+id/item_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fsdfasfd"
+        android:maxLength="16"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!--Item do Colorias -->
+    <TextView
+        android:id="@+id/item_calorias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fgsadfas"
+        android:maxLength="16"
+        android:textSize="14sp" />
+
+</LinearLayout>

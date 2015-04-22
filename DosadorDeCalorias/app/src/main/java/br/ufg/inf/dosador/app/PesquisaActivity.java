@@ -2,6 +2,7 @@ package br.ufg.inf.dosador.app;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -40,7 +41,6 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
             getSupportActionBar().setElevation(0f);
         }
 
-        //PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_pesquisa);
         PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.pesquisa_fragment_container);
     }
 
@@ -83,7 +83,7 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //abrirTelaParetActivity();
+                this.finish(); //Fecha Activity
                 return true;
             case R.id.action_settings:
                 return true;
@@ -97,7 +97,7 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayHomeAsUpEnabled(true); //Botão UP para retornar a activity anterior.
         actionBar.setDisplayShowTitleEnabled(true); //Habilitar a exibição do titulo na action bar.
-        actionBar.setTitle(PesquisaActivity.class.getSimpleName());
+        actionBar.setTitle(getString(R.string.actionbar_pesquisa));
     }
 
 
@@ -118,6 +118,7 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
                 //celular.
                 pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.activity_pesquisa);
             }
+            //TODO: corrigir: quando a tela rotaciona no tablet dá erro de NullPointerException.
             pf.pesquisarAlimento(query);
         }
     }

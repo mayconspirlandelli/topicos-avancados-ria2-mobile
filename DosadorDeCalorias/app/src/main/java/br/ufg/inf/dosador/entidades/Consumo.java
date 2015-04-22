@@ -8,6 +8,7 @@ import java.util.Date;
  */
 public class Consumo  {
 
+    private long id;
     private String nomeAlimento;
     private int quantidade;
     private Double calorias;
@@ -28,6 +29,14 @@ public class Consumo  {
         this.proteinas = proteinas;
         this.tipoRefeicao = tipoRefeicao;
         this.data = data;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNomeAlimento() {

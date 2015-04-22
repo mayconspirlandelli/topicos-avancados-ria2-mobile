@@ -18,7 +18,7 @@ import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.data.DosadorContract;
 import br.ufg.inf.dosador.entidades.Consumo;
 
-//TODO: somente para teste.
+//TODO: somente para teste, Renilson irá implementar essa tela.
 public class ConsumoDiarioActivity extends ActionBarActivity {
 
     private EditText editDescricao;

@@ -10,13 +10,18 @@ import br.ufg.inf.dosador.entidades.Alimento;
  */
 public class Util {
 
-    public String getData() {
+    public static String obterDataAtual() {
         // set the format to sql date time
         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String dateStr = dateFormat.format(date);
         return dateStr;
+    }
+
+    //TODO: implementar essa função.
+    public static String obterMesAtual() {
+        return null;
     }
 
     /**
