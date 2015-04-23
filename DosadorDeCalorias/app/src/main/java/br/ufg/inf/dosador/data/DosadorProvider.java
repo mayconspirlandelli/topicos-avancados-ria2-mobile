@@ -8,7 +8,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.util.Log;
 
 /**
  * Created by Maycon on 02/04/2015.
@@ -25,7 +24,10 @@ public class DosadorProvider extends ContentProvider {
     static final int CONSUMO_DIARIO = 101;
     static final int CONSUMO_PERIODO = 102;
     static final int CONSUMO_MENSAL = 103;
+    static final int CONSUMO_DIARIO_TIPO_REFEICAO = 104;
+
     static final int USUARIO = 200;
+
 
     private static SQLiteQueryBuilder sConsumoQueryBuilder = new SQLiteQueryBuilder();
     private static SQLiteQueryBuilder sUsuarioQueryBuilder = new SQLiteQueryBuilder();
@@ -117,6 +119,21 @@ public class DosadorProvider extends ContentProvider {
         );
     }
 
+
+    private Cursor getConsumoPorDataAndTipoRefeicao(Uri uri, String[] projection, String sortOrder) {
+        String data = DosadorContract.ConsumoEntry.getDataDiariaFromUri(uri);
+        String tipoRefeicao = DosadorContract.ConsumoEntry.getTipoRefeicaoFromUri(uri);
+
+        return sConsumoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                sConsumoPorData,
+                new String[]{data, tipoRefeicao},
+                null,
+                null,
+                sortOrder
+        );
+    }
+
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DosadorContract.CONTENT_AUTHORITY;
@@ -127,6 +144,10 @@ public class DosadorProvider extends ContentProvider {
 
         //TODO: colocar outro URI para o consumo mensal.
         //matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "", CONSUMO_MENSAL);
+
+        //TODO: tem teste, http://developer.android.com/reference/android/content/UriMatcher.html
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*" + CONSUMO_DIARIO + "/#", CONSUMO_DIARIO_TIPO_REFEICAO);
+
 
         matcher.addURI(authority, DosadorContract.PATH_USUARIO, USUARIO);
 
@@ -175,6 +196,11 @@ public class DosadorProvider extends ContentProvider {
                 retCursor = getConsumoMensal(uri, projection, sortOrder);
                 break;
             }
+            case CONSUMO_DIARIO_TIPO_REFEICAO: {
+                retCursor = getConsumoPorDataAndTipoRefeicao(uri, projection, sortOrder);
+                break;
+            }
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -195,6 +221,8 @@ public class DosadorProvider extends ContentProvider {
             case CONSUMO_PERIODO:
                 return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
             case CONSUMO_MENSAL:
+                return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
+            case CONSUMO_DIARIO_TIPO_REFEICAO:
                 return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

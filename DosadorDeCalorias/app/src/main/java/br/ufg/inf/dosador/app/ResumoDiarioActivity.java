@@ -44,6 +44,11 @@ public class ResumoDiarioActivity extends ActionBarActivity {
 
     }
 
+    //TODO: criar grafico em forma de pizza
+    //http://android-er.blogspot.com.br/2014/08/display-google-charts-pie-chart-on.html
+    //https://google-developers.appspot.com/chart/interactive/docs/gallery/piechart
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

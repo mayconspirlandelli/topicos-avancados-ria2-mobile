@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.support.v4.content.CursorLoader;
 
 import br.ufg.inf.dosador.data.DosadorContract;
-import br.ufg.inf.dosador.data.DosadorProvider;
 import br.ufg.inf.dosador.entidades.Consumo;
+import br.ufg.inf.dosador.entidades.TipoRefeicao;
 
 /**
  * Created by Maycon on 16/04/2015.
@@ -84,6 +84,27 @@ public class ConsumoDAO {
     public CursorLoader buscarPorData(Context ctx, String data) {
         return new CursorLoader(ctx,
                 DosadorContract.ConsumoEntry.buildConsumoPorData(data),
+                null,
+                null,
+                null,
+                null);
+    }
+
+    //TODO: somente para teste.
+    public CursorLoader buscarPorDataAndTipoRefeicao(Context ctx, String data, String tipoRefeicao) {
+
+        String tipo = TipoRefeicao.LANCHE.name();
+//
+//        if (tipoRefeicao.equals(TipoRefeicao.CAFE_DA_MANHA.name())) {
+//            tipo = TipoRefeicao.CAFE_DA_MANHA.name();
+//
+//        }
+//        if (tipoRefeicao.equals(TipoRefeicao.ALMOCO.name())) {
+//            tipo = TipoRefeicao.ALMOCO.name();
+//        }
+
+        return new CursorLoader(ctx,
+                DosadorContract.ConsumoEntry.buildConsumoPorDiarioAndTipoRefeicao(data, tipo),
                 null,
                 null,
                 null,

@@ -93,6 +93,14 @@ public class DosadorContract {
                     build();
         }
 
+        //TODO: em teste
+        public static Uri buildConsumoPorDiarioAndTipoRefeicao(String data, String tipoRefeicao) {
+            return CONTENT_URI.buildUpon().
+                    appendPath(data).
+                    appendPath(tipoRefeicao).
+                    build();
+        }
+
         public static String getDataDiariaFromUri(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -113,6 +121,12 @@ public class DosadorContract {
             } else
                 return null;
         }
+
+        //TODO: em teste
+        public static String getTipoRefeicaoFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
+        }
+
 
     }
 

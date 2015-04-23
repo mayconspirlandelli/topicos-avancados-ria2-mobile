@@ -2,111 +2,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="br.ufg.inf.dosador.app.ConsumoDiarioActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Calendário"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textCalendario"
-        android:layout_marginTop="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginTop="16dp"
+        android:text="Calendário"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Café da Manhã"
-        android:id="@+id/textCafe"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/textCalendario"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <ScrollView
+        android:id="@+id/scrviewConsumo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textCalendario">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButtonCafe"
-        android:src="@drawable/add"
-        android:adjustViewBounds="true"
-        android:onClick="pesquisa"
-        android:layout_alignBottom="@+id/textCafe"
-        android:layout_alignLeft="@+id/imageButtonAlmoco"
-        android:layout_alignStart="@+id/imageButtonAlmoco" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/textCalendario">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Almoço"
-        android:id="@+id/textAlmoco"
-        android:layout_below="@+id/textCafe"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/textCafe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Café da Manhã"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButtonAlmoco"
-        android:adjustViewBounds="true"
-        android:src="@drawable/add"
-        android:onClick="pesquisa"
-        android:layout_alignBottom="@+id/textAlmoco"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <ImageButton
+                android:id="@+id/imageButtonCafe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/textCafe"
+                android:layout_alignLeft="@+id/imageButtonAlmoco"
+                android:layout_alignStart="@id/imageButtonAlmoco"
+                android:adjustViewBounds="true"
+                android:onClick="pesquisa"
+                android:src="@drawable/add" />
+
+            <ListView
+                android:id="@+id/lista_cafe_da_manha"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/imageButtonCafe" />
+
+            <TextView
+                android:id="@+id/textAlmoco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/lista_cafe_da_manha"
+                android:layout_marginTop="10dp"
+                android:text="Almoço"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageButton
+                android:id="@+id/imageButtonAlmoco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/textAlmoco"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:adjustViewBounds="true"
+                android:onClick="pesquisa"
+                android:src="@drawable/add" />
+
+            <!--<ListView-->
+                <!--android:id="@+id/lista_almoco"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_below="@id/imageButtonAlmoco" />-->
+
+                <ExpandableListView
+                    android:id="@+id/lista_almoco"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageButtonAlmoco">
+                </ExpandableListView>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Jantar"
-        android:id="@+id/textJantar"
-        android:layout_below="@+id/textAlmoco"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButtonJantar"
-        android:adjustViewBounds="true"
-        android:src="@drawable/add"
-        android:onClick="pesquisa"
-        android:layout_above="@+id/textLanche"
-        android:layout_alignLeft="@+id/imageButtonAlmoco"
-        android:layout_alignStart="@+id/imageButtonAlmoco" />
+            <TextView
+                android:id="@+id/textJantar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/lista_almoco"
+                android:layout_marginTop="10dp"
+                android:text="Jantar"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ImageButton
+                android:id="@+id/imageButtonJantar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/textLanche"
+                android:layout_alignLeft="@id/imageButtonAlmoco"
+                android:layout_alignStart="@id/imageButtonAlmoco"
+                android:adjustViewBounds="true"
+                android:onClick="pesquisa"
+                android:src="@drawable/add" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Lanche"
-        android:id="@+id/textLanche"
-        android:layout_below="@+id/textJantar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/textLanche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textJantar"
+                android:layout_marginTop="10dp"
+                android:text="Lanche"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButtonLanche"
-        android:adjustViewBounds="true"
-        android:src="@drawable/add"
-        android:onClick="pesquisa"
-        android:layout_alignBottom="@+id/textLanche"
-        android:layout_alignLeft="@+id/imageButtonJantar"
-        android:layout_alignStart="@+id/imageButtonJantar" />
+            <ImageButton
+                android:id="@+id/imageButtonLanche"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textLanche"
+                android:layout_alignLeft="@+id/imageButtonJantar"
+                android:layout_alignStart="@+id/imageButtonJantar"
+                android:adjustViewBounds="true"
+                android:onClick="pesquisa"
+                android:src="@drawable/add" />
 
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
