@@ -2,14 +2,13 @@ package br.ufg.inf.dosador.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,16 +19,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.Util;
 import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.dao.ConsumoDAO;
-import br.ufg.inf.dosador.data.DosadorContract;
 import br.ufg.inf.dosador.entidades.Alimento;
 import br.ufg.inf.dosador.entidades.Consumo;
-import br.ufg.inf.dosador.entidades.TipoRefeicao;
 
 /**
  * Created by Maycon on 09/04/2015.
@@ -40,6 +36,8 @@ public class DetalhesPesquisaFragment extends Fragment {
     public static final String TAG_DETALHE = "tagDetalhe";
     public static final String EXTRA_ALIMENTO = "alimento";
 
+    private TextView txtFoodId;
+    private TextView txtConsumoId;
     private EditText editDescricao;
     private TextView txtCalorias;
     private TextView txtGorduras;
@@ -49,7 +47,8 @@ public class DetalhesPesquisaFragment extends Fragment {
     private EditText editQuantidade;
     private Button btnMaisDetalhes;
 
-    private Alimento mAlimento;
+    private TextView txtTipoRefeicao;
+
     private ConsumoDAO consumoDAO;
 
     public DetalhesPesquisaFragment() {
@@ -57,7 +56,7 @@ public class DetalhesPesquisaFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated( Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         consumoDAO = new ConsumoDAO(getActivity());
     }
@@ -67,23 +66,37 @@ public class DetalhesPesquisaFragment extends Fragment {
         Bundle parametros = getArguments();
         View rootView = inflater.inflate(R.layout.fragment_detalhes_pesquisa, container, false);
 
+        txtFoodId = (TextView) rootView.findViewById(R.id.txt_food_id);
+        txtConsumoId = (TextView) rootView.findViewById(R.id.txt_consumo_id);
+        editDescricao = (EditText) rootView.findViewById(R.id.edit_descricao);
+        txtCalorias = (TextView) rootView.findViewById(R.id.txt_calorias_valor);
+        txtGorduras = (TextView) rootView.findViewById(R.id.txt_gorduras_valor);
+        txtCarboidratos = (TextView) rootView.findViewById(R.id.txt_carboidratos_valor);
+        txtProteinas = (TextView) rootView.findViewById(R.id.txt_proteinas_valor);
+        editPorcao = (EditText) rootView.findViewById(R.id.edit_porcao);
+        editQuantidade = (EditText) rootView.findViewById(R.id.edit_quantidade);
+        btnMaisDetalhes = (Button) rootView.findViewById(R.id.btn_mais_detalhes);
+        btnMaisDetalhes.setOnClickListener(btnMaisDetalhesOnClickListener);
+
+        txtTipoRefeicao= (TextView) rootView.findViewById(R.id.txt_tipo_refeicao);
+
+        Alimento alimento = null;
+        Consumo consumo = null;
+
         if (parametros != null) {
-            mAlimento = (Alimento) parametros.getSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO);
-        }
-
-        if (mAlimento != null) {
-            editDescricao = (EditText) rootView.findViewById(R.id.edit_descricao);
-            txtCalorias = (TextView) rootView.findViewById(R.id.txt_calorias_valor);
-            txtGorduras = (TextView) rootView.findViewById(R.id.txt_gorduras_valor);
-            txtCarboidratos = (TextView) rootView.findViewById(R.id.txt_carboidratos_valor);
-            txtProteinas = (TextView) rootView.findViewById(R.id.txt_proteinas_valor);
-            editPorcao = (EditText) rootView.findViewById(R.id.edit_porcao);
-            editQuantidade = (EditText) rootView.findViewById(R.id.edit_quantidade);
-            btnMaisDetalhes = (Button) rootView.findViewById(R.id.btn_mais_detalhes);
-            btnMaisDetalhes.setOnClickListener(btnMaisDetalhesOnClickListener);
-
-            preencheComponentesDeTela(mAlimento);
-
+            if (parametros.getSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO) instanceof Consumo) {
+                //objeto é uma instancia da Classe Consumo.
+                consumo = (Consumo) parametros.getSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO);
+            } else if (parametros.getSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO) instanceof Alimento) {
+                //objeto é uma instancia da Classe Alimento.
+                alimento = (Alimento) parametros.getSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO);
+            }
+            if (alimento != null) {
+                preencheComponentesDeTelaAlimento(alimento);
+            } else if (consumo != null) {
+                preencheComponentesDeTelaConsumo(consumo);
+            }
+            //TODO: se alimentou ou consumo for null, emitir uma mensagem para o usuario.
         }
         return rootView;
     }
@@ -109,15 +122,53 @@ public class DetalhesPesquisaFragment extends Fragment {
         }
     }
 
-    private void preencheComponentesDeTela(Alimento ali){
-        Alimento alimento = Util.obterDadosFromDescription(ali);
-        mAlimento = alimento;
-        editDescricao.setText(alimento.getFood_name());
-        txtCalorias.setText(alimento.getCalories().toString());
-        txtGorduras.setText(alimento.getFat().toString());
-        txtCarboidratos.setText(alimento.getCarbohydrate().toString());
-        txtProteinas.setText(alimento.getProtein().toString());
-        editPorcao.setText(alimento.getServing_description().toString());
+    private void preencheComponentesDeTelaAlimento(Alimento ali) {
+        Alimento alimento = null;
+
+        if (ali != null) {
+            if (ali.getFood_description() != null && !ali.getFood_description().isEmpty()) {
+                alimento = Util.obterDadosFromDescription(ali);
+            } else {
+                alimento = ali;
+            }
+            editDescricao.setText(alimento.getFood_name());
+            txtCalorias.setText(alimento.getCalories().toString());
+            txtGorduras.setText(alimento.getFat().toString());
+            txtCarboidratos.setText(alimento.getCarbohydrate().toString());
+            txtProteinas.setText(alimento.getProtein().toString());
+            editPorcao.setText(alimento.getServing_description().toString());
+            txtFoodId.setText(String.valueOf(alimento.getFood_id()));
+
+            txtTipoRefeicao.setText(obtemTipoRefeifeicaoSharedPref());
+
+            //TODO: setar o tipo de refeição com spinner, vindo do sharedpreferesence
+        }
+        //TODO: se ali for null, emitir uma mensagem para o usuario.
+    }
+
+    private void preencheComponentesDeTelaConsumo(Consumo consumo) {
+        if (consumo != null) {
+            editDescricao.setText(consumo.getFood_name());
+            txtCalorias.setText(consumo.getCalories().toString());
+            txtGorduras.setText(consumo.getFat().toString());
+            txtCarboidratos.setText(consumo.getCarbohydrate().toString());
+            txtProteinas.setText(consumo.getProtein().toString());
+            editQuantidade.setText(String.valueOf(consumo.getQuantidade()));
+            editPorcao.setText(consumo.getServing_description().toString());
+            txtConsumoId.setText(String.valueOf(consumo.getId()));
+
+
+            txtTipoRefeicao.setText(obtemTipoRefeifeicaoSharedPref());
+
+            //TODO: setar o tipo de refeição com spinner, vindo do sharedpreferesence
+        }
+        //TODO: se ali for null, emitir uma mensagem para o usuario.
+    }
+
+    private String obtemTipoRefeifeicaoSharedPref(){
+        Context context = getActivity();
+        SharedPreferences sharedPref = context.getSharedPreferences("teste", Context.MODE_PRIVATE);
+        return sharedPref.getString("teste", null);
     }
 
     final private View.OnClickListener btnMaisDetalhesOnClickListener = new View.OnClickListener() {
@@ -128,27 +179,38 @@ public class DetalhesPesquisaFragment extends Fragment {
     };
 
     private void mostrarMaisDetalhes() {
-        int id = mAlimento.getFood_id();
+        int id = Integer.valueOf(txtFoodId.getText().toString());
         Intent intent = new Intent(getActivity(), DetalhesAlimentoActivity.class);
         intent.putExtra(Json.FOOD_ID, id);
         startActivity(intent);
     }
 
-    private void salvarConsumo(){
-        String data = Util.obterDataAtual();
+    private void salvarConsumo() {
+        String data = Util.obterDataAtualToString();
         Consumo consumo = new Consumo();
 
-        if(validarDados()) {
+        if (validarDados()) {
 
-            consumo.setNomeAlimento(editDescricao.getText().toString());
-            consumo.setCalorias(Double.valueOf(txtCalorias.getText().toString()));
-            consumo.setGorduras(Double.valueOf(txtGorduras.getText().toString()));
-            consumo.setCarboidratos(Double.valueOf(txtCarboidratos.getText().toString()));
-            consumo.setProteinas(Double.valueOf(txtProteinas.getText().toString()));
+            if(txtConsumoId.getText().toString().isEmpty()){
+                consumo.setId(0);
+            } else {
+                consumo.setId(Integer.valueOf(txtConsumoId.getText().toString()));
+            }
+            consumo.setFood_name(editDescricao.getText().toString());
+            consumo.setCalories(Double.valueOf(txtCalorias.getText().toString()));
+            consumo.setFat(Double.valueOf(txtGorduras.getText().toString()));
+            consumo.setCarbohydrate(Double.valueOf(txtCarboidratos.getText().toString()));
+            consumo.setProtein(Double.valueOf(txtProteinas.getText().toString()));
             consumo.setQuantidade(Integer.valueOf(editQuantidade.getText().toString()));
             consumo.setData(data);
-            consumo.setTipoRefeicao("lanche");
+            consumo.setServing_description(editPorcao.getText().toString());
+
+            //consumo.setTipoRefeicao("lanche");
+            //consumo.setTipoRefeicao(TipoRefeicao.ALMOCO.name());
             //consumo.setTipoRefeicao(TipoRefeicao.LANCHE.name());
+
+            consumo.setTipoRefeicao(txtTipoRefeicao.getText().toString());
+
             //TODO: faltou colocar tipo de refeição.
             //TODO: usar enum para representar o tipo de refeição.
             //TODO: usar enum para representar os 12 meses do ano.
@@ -160,8 +222,8 @@ public class DetalhesPesquisaFragment extends Fragment {
         }
     }
 
-    private boolean validarDados(){
-        if (editDescricao.getText().toString().isEmpty() || editDescricao.getText().toString().equals("") ) {
+    private boolean validarDados() {
+        if (editDescricao.getText().toString().isEmpty() || editDescricao.getText().toString().equals("")) {
             Util.campoObrigatorio(getActivity(), "Informe a descrição!");
             return false;
         }
@@ -188,10 +250,10 @@ public class DetalhesPesquisaFragment extends Fragment {
         return true;
     }
 
-    private void exibirAlertaParaSalvar(){
+    private void exibirAlertaParaSalvar() {
         Dialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dialog_titulo))
-                .setMessage(getString(R.string.dialog_mensagem))
+                .setMessage(getString(R.string.dialog_mensagem_salvar_dieta))
                 .setPositiveButton(getString(R.string.dialog_opcao_sim), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -210,7 +272,7 @@ public class DetalhesPesquisaFragment extends Fragment {
                 .show();
     }
 
-    private void fecharActivity(){
+    private void fecharActivity() {
         getActivity().finish();
     }
 

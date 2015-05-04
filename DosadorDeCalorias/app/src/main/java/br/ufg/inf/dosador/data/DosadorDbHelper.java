@@ -15,9 +15,10 @@ import br.ufg.inf.dosador.data.DosadorContract.ConsumoEntry;
  */
 public class DosadorDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 6;
 
     static final String DATABASE_NAME = "dosador.db";
+
 
     public DosadorDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -35,7 +36,8 @@ public class DosadorDbHelper extends SQLiteOpenHelper {
                 ConsumoEntry.COLUMN_CARBOIDRATO + " REAL NOT NULL, " +
                 ConsumoEntry.COLUMN_PROTEINA + " REAL NOT NULL, " +
                 ConsumoEntry.COLUMN_TIPO_REFEICAO + " TEXT NOT NULL, " +
-                ConsumoEntry.COLUMN_DATA + " DATE DEFAULT CURRENT_DATE NOT NULL " + " );";
+                ConsumoEntry.COLUMN_DATA + " DATE DEFAULT CURRENT_DATE NOT NULL, " +
+                ConsumoEntry.COLUMN_PORCAO + " TEXT NOT NULL " + " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_CONSUMO_TABLE);
 
@@ -49,12 +51,19 @@ public class DosadorDbHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(SQL_CREATE_USUARIO_TABLE);
 
+        final String SQL_CREATE_TIPO_REFEICAO_TABLE = "CREATE TABLE " + DosadorContract.TipoRefeicaoEntry.TABLE_NAME + " ( " +
+                DosadorContract.TipoRefeicaoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DosadorContract.TipoRefeicaoEntry.COLUMN_NOME + " TEXT NOT NULL );";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_TIPO_REFEICAO_TABLE);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + ConsumoEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DosadorContract.UsuarioEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DosadorContract.TipoRefeicaoEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

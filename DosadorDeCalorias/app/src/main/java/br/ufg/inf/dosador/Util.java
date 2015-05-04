@@ -1,14 +1,12 @@
 package br.ufg.inf.dosador;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import br.ufg.inf.dosador.entidades.Alimento;
@@ -20,12 +18,13 @@ public class Util {
 
     private static final String LOG_TAG = Util.class.getSimpleName();
 
-    public static String obterDataAtual() {
+    //TODO: Passar o formato da data como parametro.
+    public static String obterDataAtualToString() {
         // set the format to sql date time
         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        String dateStr = dateFormat.format(date);
+        String dateStr = DATE_FORMAT.format(date);
         return dateStr;
     }
 
@@ -33,6 +32,39 @@ public class Util {
     public static String obterMesAtual() {
         return null;
     }
+
+
+
+    public static Calendar obterDataAtual() {
+        Calendar data = Calendar.getInstance();
+        return  data;
+    }
+
+    /**
+     * Método responsável por obter a data do dia anterior ou do dia posterior.
+     * @param calendar
+     * @param anterior, se true decrementa a data, se false incrementa a data.
+     * @return
+     */
+    public static Calendar getDiaAnteriorPosterior(Calendar calendar, boolean anterior) {
+        if (anterior) {
+            calendar.add(Calendar.DATE, -1);
+        } else {
+            calendar.add(Calendar.DATE, +1);
+        }
+        return calendar;
+    }
+
+    /**
+     * Converte a data do tipo Calendar para o tipo String.
+     */
+    public static String conveteDataFromCalendarToString(Calendar calendar, String formato){
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(formato);
+        String dateStr = DATE_FORMAT.format(calendar.getTime());
+        return dateStr;
+    }
+
+
 
     /**
      * Método responsável por obter os dados a partir da campo "Description" do Json retornoado pela API FatSecret.

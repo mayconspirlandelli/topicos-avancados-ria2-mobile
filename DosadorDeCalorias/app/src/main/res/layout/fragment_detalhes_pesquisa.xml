@@ -8,6 +8,18 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
+        android:id="@+id/txt_consumo_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/txt_food_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
+
+    <TextView
         android:id="@+id/txt_quantidade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,10 +65,18 @@
         android:layout_below="@id/txt_descricao" />
 
     <TextView
+        android:id="@+id/txt_tipo_refeicao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_descricao"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_descricao" />
+
+    <TextView
         android:id="@+id/txt_info_nutricional"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_descricao"
+        android:layout_below="@id/txt_tipo_refeicao"
         android:text="@string/label_info_nutricional"
         android:textSize="18sp"
         android:textStyle="bold" />

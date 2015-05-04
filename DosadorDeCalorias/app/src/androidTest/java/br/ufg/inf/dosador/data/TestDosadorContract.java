@@ -26,7 +26,10 @@ public class TestDosadorContract extends AndroidTestCase {
         assertEquals("Erro:", TEST_DATE, uri.getLastPathSegment());
 
         //assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/1419033600");
-        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/2015-01-02");
+        //assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/2015-01-02");
+
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
+        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/null/null/null/2015-01-02");
 
         Log.d(LOG_TAG, uri.toString());
         }
@@ -35,7 +38,9 @@ public class TestDosadorContract extends AndroidTestCase {
         Uri uri = DosadorContract.ConsumoEntry.buildConsumoUri(TEST_ID);
         assertNotNull("Erro: Null Uri returned.", uri);
         assertEquals("Erro:", String.valueOf(TEST_ID), uri.getLastPathSegment());
-        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/22");
+        //assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/22");
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
+        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/null/null/null/null/null/22");
         Log.d(LOG_TAG, uri.toString());
     }
 
@@ -45,6 +50,7 @@ public class TestDosadorContract extends AndroidTestCase {
 
         assertNotNull("Erro: Id null.", data);
         assertEquals("Erro.", TEST_DATE, data);
+        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/null/null/null/2015-01-02");
         Log.d(LOG_TAG, uri.toString());
 
     }
@@ -58,6 +64,7 @@ public class TestDosadorContract extends AndroidTestCase {
         assertNotNull("Erro: Id null.", dataFinal);
         assertEquals("Erro.", TEST_DATE, data);
         assertEquals("Erro.", TEST_DATE_FINAL, dataFinal);
+        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/null/2015-01-02/2015-02-02");
         Log.d(LOG_TAG, uri.toString());
 
     }
@@ -68,6 +75,7 @@ public class TestDosadorContract extends AndroidTestCase {
 
         assertNotNull("Erro: Id null.", mes);
         assertEquals("Erro.", TEST_DATE_MES, mes);
+        assertEquals("Erro:", uri.toString(), "content://br.ufg.inf.dosador.app/consumo/02");
         Log.d(LOG_TAG, uri.toString());
     }
 

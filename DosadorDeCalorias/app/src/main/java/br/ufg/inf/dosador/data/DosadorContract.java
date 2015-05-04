@@ -6,9 +6,8 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
+import android.util.Log;
 
-import br.ufg.inf.dosador.entidades.Alimento;
-import br.ufg.inf.dosador.entidades.Consumo;
 import br.ufg.inf.dosador.entidades.Usuario;
 
 
@@ -17,9 +16,12 @@ import br.ufg.inf.dosador.entidades.Usuario;
  */
 public class DosadorContract {
 
+    private static final String LOG_TAG = DosadorContract.class.getSimpleName();
+
     public static final String CONTENT_AUTHORITY = "br.ufg.inf.dosador.app";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_CONSUMO = "consumo";
+    public static final String PATH_CONSUMO_TIPO_REFEICAO = "refeicao";
     public static final String PATH_USUARIO = "usuario";
 
 
@@ -34,11 +36,21 @@ public class DosadorContract {
 
     public static ContentValues createContentValuesUsuario(Usuario usuario) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_NOME, usuario.getNome());
-        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_SEXO, usuario.getSexo());
-        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_IDADE, usuario.getIdade());
-        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_ALTURA, usuario.getAltura());
-        contentValues.put(DosadorContract.UsuarioEntry.COLUMN_PESO, usuario.getPeso());
+        contentValues.put(UsuarioEntry.COLUMN_NOME, usuario.getNome());
+        contentValues.put(UsuarioEntry.COLUMN_SEXO, usuario.getSexo());
+        contentValues.put(UsuarioEntry.COLUMN_IDADE, usuario.getIdade());
+        contentValues.put(UsuarioEntry.COLUMN_ALTURA, usuario.getAltura());
+        contentValues.put(UsuarioEntry.COLUMN_PESO, usuario.getPeso());
+        return contentValues;
+    }
+
+    /**
+     * Os valores de insert são padrão.
+     * @return
+     */
+    public static ContentValues createContentValuesTipoRefeicao(String tipoRefeicao) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TipoRefeicaoEntry.COLUMN_NOME, tipoRefeicao);
         return contentValues;
     }
 
@@ -67,66 +79,124 @@ public class DosadorContract {
         public static final String COLUMN_PROTEINA = "proteina";
         public static final String COLUMN_TIPO_REFEICAO = "refeicao";
         public static final String COLUMN_DATA = "data";
+        public static final String COLUMN_PORCAO = "porcao";
 
-        //content://br.ufg.inf.dosador.app/consumo/22
+
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
         public static Uri buildConsumoUri(long id) {
-            return ContentUris.withAppendedId(CONTENT_URI, id);
+            Uri uri = CONTENT_URI.buildUpon().
+                    appendPath(null).  //mes
+                    appendPath(null).  //dataInicial
+                    appendPath(null).  //dataFinal
+                    appendPath(null).  //dataDiario
+                    appendPath(null).  //tipoDeRefeicao
+                    appendPath(String.valueOf(id)).
+                    build();
+
+            Log.d(LOG_TAG, "URI: " + uri.toString());
+            return uri;
         }
 
+
         //content://br.ufg.inf.dosador.app/consumo/1419033600
+//        public static Uri buildConsumoPorData(String data) {
+//            return CONTENT_URI.buildUpon().appendPath(data).build();
+//        }
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/2015-01-01
         public static Uri buildConsumoPorData(String data) {
-            return CONTENT_URI.buildUpon().appendPath(data).build();
+            Uri uri = CONTENT_URI.buildUpon().
+                    appendPath(null). //mes
+                    appendPath(null). //dataInicial
+                    appendPath(null). //dataFinal
+                    appendPath(data). //dataAtual
+                    build();
+            Log.d(LOG_TAG, "URI: " + uri.toString());
+            return uri;
         }
 
         //content://br.ufg.inf.dosador.app/consumo/1419033600/1519033600
+//        public static Uri buildConsumoPorPeriodo(String dataInicial, String dataFinal) {
+//            return CONTENT_URI.buildUpon().
+//                    appendPath(dataInicial).
+//                    appendPath(dataFinal).
+//                    build();
+//        }
+        //content://br.ufg.inf.dosador.app/consumo/mes/2015-01-01/2015-02-01
         public static Uri buildConsumoPorPeriodo(String dataInicial, String dataFinal) {
-            return CONTENT_URI.buildUpon().
-                    appendPath(dataInicial).
-                    appendPath(dataFinal).
+            Uri uri = CONTENT_URI.buildUpon().
+                    appendPath(null).           //mes
+                    appendPath(dataInicial).    //dataInicial
+                    appendPath(dataFinal).      //dataFinal
                     build();
+            Log.d(LOG_TAG, "URI: " + uri.toString());
+            return uri;
         }
 
-        //content://br.ufg.inf.dosador.app/consumo/mes=01
+//        //content://br.ufg.inf.dosador.app/consumo/mes=01
+//        public static Uri buildConsumoPorMes(String mes) {
+//            return CONTENT_URI.buildUpon().
+//                    appendQueryParameter("mes", mes).
+//                    build();
+//        }
+
+        //content://br.ufg.inf.dosador.app/consumo/02
         public static Uri buildConsumoPorMes(String mes) {
-            return CONTENT_URI.buildUpon().
-                    appendQueryParameter("mes", mes).
+            Uri uri = CONTENT_URI.buildUpon().
+                    appendPath(mes). //mes
                     build();
+            Log.d(LOG_TAG, "URI: " + uri.toString());
+            return uri;
         }
 
-        //TODO: em teste
-        public static Uri buildConsumoPorDiarioAndTipoRefeicao(String data, String tipoRefeicao) {
-            return CONTENT_URI.buildUpon().
-                    appendPath(data).
-                    appendPath(tipoRefeicao).
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao
+        public static Uri buildConsumoPorDataAndTipoRefeicao(String data, String tipoRefeicao) {
+            Uri uri = CONTENT_URI.buildUpon().
+                    appendPath(null).  //mes
+                    appendPath(null).  //dataInicial
+                    appendPath(null).  //dataFinal
+                    appendPath(data).  //dataDiario
+                    appendPath(tipoRefeicao).  //tipoDeRefeicao
                     build();
+
+            Log.d(LOG_TAG, "URI: " + uri.toString());
+            return uri;
         }
 
+         //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
         public static String getDataDiariaFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
+            //return uri.getPathSegments().get(1);
+            return uri.getPathSegments().get(4);
         }
 
+        //                                         01  /  02      /  03      / 04 / 05    /06
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
         public static String getDataInicialFromUri(Uri uri) {
-            return uri.getPathSegments().get(1);
-        }
-
-        public static String getDataFinalFromUri(Uri uri) {
             return uri.getPathSegments().get(2);
         }
 
-        //TODO: corrigir o parametro date.
-        public static String getMesFromUri(Uri uri) {
-            String dateString = uri.getQueryParameter("mes");
-            if (dateString != null && !dateString.isEmpty()) {
-                return dateString;
-            } else
-                return null;
+        //                                         01  /  02      /  03      / 04 / 05    /06
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
+        public static String getDataFinalFromUri(Uri uri) {
+            return uri.getPathSegments().get(3);
         }
 
-        //TODO: em teste
-        public static String getTipoRefeicaoFromUri(Uri uri) {
+        //                                         01  /  02      /  03      / 04 / 05    /06
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
+        public static String getMesFromUri(Uri uri) {
             return uri.getPathSegments().get(1);
         }
 
+        //                                         01  /  02      /  03      / 04 / 05    /06
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
+        public static String getTipoRefeicaoFromUri(Uri uri) {
+            return uri.getPathSegments().get(5);
+        }
+
+        //                                         01  /  02      /  03      / 04 / 05    /06
+        //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id
+        public static String getIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(6);
+        }
 
     }
 
@@ -162,4 +232,26 @@ public class DosadorContract {
 
     }
 
+    public static final class TipoRefeicaoEntry implements BaseColumns {
+
+        // O aplicativo deve armazenar o ID, tipo de refeicao
+
+        //content://br.ufg.inf.dosador.app/refeicao
+        public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_CONSUMO_TIPO_REFEICAO).build();
+
+        //vnd.android.cursor.dir/br.ufg.inf.dosador.app/refeicao
+        public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CONSUMO_TIPO_REFEICAO;
+
+        //vnd.android.cursor.item/br.ufg.inf.dosador.app/refeicao
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CONSUMO_TIPO_REFEICAO;
+
+        public static final String TABLE_NAME = "refeicao";
+        public static final String COLUMN_NOME = "tipo";
+
+
+        //content://br.ufg.inf.dosador.app/refeicao/22
+        public static Uri buildTipoRefeicaoUri(Long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+    }
 }

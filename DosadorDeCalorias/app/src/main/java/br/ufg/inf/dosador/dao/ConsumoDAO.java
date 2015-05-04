@@ -25,14 +25,15 @@ public class ConsumoDAO {
 
     public static ContentValues createContentValuesConsumo(Consumo consumo) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, consumo.getNomeAlimento());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_NOME, consumo.getFood_name());
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_QTD, consumo.getQuantidade());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, consumo.getCalorias());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, consumo.getGorduras());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO, consumo.getCarboidratos());
-        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PROTEINA, consumo.getProteinas());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CALORIAS, consumo.getCalories());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_GORDURA, consumo.getFat());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO, consumo.getCarbohydrate());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PROTEINA, consumo.getProtein());
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO, consumo.getTipoRefeicao());
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_DATA, consumo.getData().toString());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PORCAO, consumo.getServing_description());
         return contentValues;
     }
 
@@ -47,18 +48,13 @@ public class ConsumoDAO {
     }
 
     private int atualizar(Consumo consumo) {
-        //Uri uri = Uri.withAppendedPath(DosadorContract.ConsumoEntry.CONTENT_URI, String.valueOf())
-        Uri uri = DosadorContract.ConsumoEntry.buildConsumoUri(consumo.getId());
+        Uri uri = DosadorContract.ConsumoEntry.CONTENT_URI;
         int updatedRows = context.getContentResolver()
-                .update(uri, createContentValuesConsumo(consumo), null, null);
+                .update(uri, createContentValuesConsumo(consumo),
+                        DosadorContract.ConsumoEntry._ID + " = ? ",
+                        new String[] {Long.toString(consumo.getId())});
 
         return updatedRows;
-        /**
-         * int count = mContext.getContentResolver().update(
-         ConsumoEntry.CONTENT_URI, updatedValues, ConsumoEntry._ID + "= ?",
-         new String[] { Long.toString(consumoRowId)});
-
-         */
     }
 
     public void salvar(Consumo consumo) {
@@ -70,9 +66,11 @@ public class ConsumoDAO {
     }
 
     public int excluir(Consumo consumo) {
-        Uri uri = DosadorContract.ConsumoEntry.buildConsumoUri(consumo.getId());
+        Uri uri = DosadorContract.ConsumoEntry.CONTENT_URI;
         int deletedRows = context.getContentResolver()
-                .delete(uri, null, null);
+                .delete(uri, DosadorContract.ConsumoEntry._ID + " = ? ",
+                        new String[] {Long.toString(consumo.getId())});
+
         return deletedRows;
     }
 
@@ -90,21 +88,30 @@ public class ConsumoDAO {
                 null);
     }
 
-    //TODO: somente para teste.
     public CursorLoader buscarPorDataAndTipoRefeicao(Context ctx, String data, String tipoRefeicao) {
+        String tipo = "";
 
-        String tipo = TipoRefeicao.LANCHE.name();
-//
-//        if (tipoRefeicao.equals(TipoRefeicao.CAFE_DA_MANHA.name())) {
-//            tipo = TipoRefeicao.CAFE_DA_MANHA.name();
-//
-//        }
-//        if (tipoRefeicao.equals(TipoRefeicao.ALMOCO.name())) {
-//            tipo = TipoRefeicao.ALMOCO.name();
-//        }
+        if (tipoRefeicao.equals(TipoRefeicao.CAFE_DA_MANHA.name())) {
+            tipo = TipoRefeicao.CAFE_DA_MANHA.name();
+        } else if (tipoRefeicao.equals(TipoRefeicao.ALMOCO.name())) {
+            tipo = TipoRefeicao.ALMOCO.name();
+        }  else if (tipoRefeicao.equals(TipoRefeicao.LANCHE.name())) {
+            tipo = TipoRefeicao.LANCHE.name();
+        }  else if (tipoRefeicao.equals(TipoRefeicao.JANTAR.name())) {
+            tipo = TipoRefeicao.JANTAR.name();
+        }
 
         return new CursorLoader(ctx,
-                DosadorContract.ConsumoEntry.buildConsumoPorDiarioAndTipoRefeicao(data, tipo),
+                DosadorContract.ConsumoEntry.buildConsumoPorDataAndTipoRefeicao(data, tipo),
+                null,
+                null,
+                null,
+                null);
+    }
+
+    public CursorLoader buscarTodosTipoRefeicao(Context ctx) {
+        return new CursorLoader(ctx,
+                DosadorContract.TipoRefeicaoEntry.CONTENT_URI,
                 null,
                 null,
                 null,
@@ -131,19 +138,23 @@ public class ConsumoDAO {
 
     public static Consumo obterConsumoFromCursor(Cursor cursor) {
         Consumo consumo = new Consumo();
-        try {
+        //try {
             consumo.setId(cursor.getLong(cursor.getColumnIndex(DosadorContract.ConsumoEntry._ID)));
-            consumo.setNomeAlimento(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_NOME)));
-            consumo.setCalorias(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS)));
-            consumo.setGorduras(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_GORDURA)));
-            consumo.setCarboidratos(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO)));
-            consumo.setProteinas(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PROTEINA)));
             //consumo.setData(new Date(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_DATA))));
             consumo.setQuantidade(cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD)));
             //consumo.setTipoRefeicao();
-        } finally {
-            cursor.close();
-        }
+            consumo.setFood_id(cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry._ID)));
+            consumo.setFood_name(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_NOME)));
+            consumo.setCalories(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS)));
+            consumo.setFat(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_GORDURA)));
+            consumo.setCarbohydrate(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO)));
+            consumo.setProtein(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PROTEINA)));
+            consumo.setServing_description(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PORCAO)));
+
+        //}
+        //finally {
+//            cursor.close();
+//        }
         return consumo;
     }
 }

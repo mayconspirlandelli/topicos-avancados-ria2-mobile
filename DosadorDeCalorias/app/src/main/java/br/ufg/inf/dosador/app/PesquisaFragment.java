@@ -1,9 +1,8 @@
 package br.ufg.inf.dosador.app;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -101,6 +100,7 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Alimento alimento = (Alimento) parent.getItemAtPosition(position); //Seguindo exemplo do Sunshine https://github.com/udacity/Sunshine-Version-2/blob/sunshine_master/app/src/main/java/com/example/android/sunshine/app/ForecastFragment.java
+
             if (alimento != null) {
                 ((Callback) getActivity()).onItemSelected(alimento);
             }

@@ -6,7 +6,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.CursorAdapter;
@@ -33,7 +32,7 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_relatorio);
-        buscarPorData(Util.obterDataAtual());
+        buscarPorData(Util.obterDataAtualToString());
 
         consumoDAO = new ConsumoDAO(this);
 

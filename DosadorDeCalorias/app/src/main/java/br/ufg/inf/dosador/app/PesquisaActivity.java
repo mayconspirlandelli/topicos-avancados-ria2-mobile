@@ -6,11 +6,10 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,7 +34,7 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
 
     private void verificaInternet(){
         if(!Util.verificaConexaoDeRede(this)){
-            exibirAlertaInternet(this);
+            //exibirAlertaInternet(this);
         }
     }
 

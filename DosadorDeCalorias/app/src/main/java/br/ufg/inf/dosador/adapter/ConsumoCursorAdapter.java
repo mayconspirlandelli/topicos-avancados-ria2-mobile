@@ -30,4 +30,5 @@ public class ConsumoCursorAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.list_item_consumo, null);
     }
+
 }

@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by Maycon on 02/04/2015.
@@ -25,12 +26,15 @@ public class DosadorProvider extends ContentProvider {
     static final int CONSUMO_PERIODO = 102;
     static final int CONSUMO_MENSAL = 103;
     static final int CONSUMO_DIARIO_TIPO_REFEICAO = 104;
+    static final int CONSUMO_ID = 105;
 
     static final int USUARIO = 200;
 
+    static final int TIPO_REFEICAO = 300;
 
     private static SQLiteQueryBuilder sConsumoQueryBuilder = new SQLiteQueryBuilder();
     private static SQLiteQueryBuilder sUsuarioQueryBuilder = new SQLiteQueryBuilder();
+    private static SQLiteQueryBuilder sTipoRefeicaoQueryBuilder = new SQLiteQueryBuilder();
 
     static {
         sConsumoQueryBuilder.setTables(DosadorContract.ConsumoEntry.TABLE_NAME);
@@ -38,6 +42,10 @@ public class DosadorProvider extends ContentProvider {
 
     static {
         sUsuarioQueryBuilder.setTables(DosadorContract.UsuarioEntry.TABLE_NAME);
+    }
+
+    static {
+        sTipoRefeicaoQueryBuilder.setTables(DosadorContract.TipoRefeicaoEntry.TABLE_NAME);
     }
 
 
@@ -63,6 +71,17 @@ public class DosadorProvider extends ContentProvider {
     private static final String sConsumoPorMes =
             DosadorContract.ConsumoEntry.TABLE_NAME + "." +
                     "strftime('%m', " + DosadorContract.ConsumoEntry.COLUMN_DATA + " ) " + " = ? ";
+
+
+    private static final String sConsumoPorDataAndTipoRefeicao =
+            DosadorContract.ConsumoEntry.TABLE_NAME + "." +
+                    DosadorContract.ConsumoEntry.COLUMN_DATA + " = ? " + " AND " +
+                    DosadorContract.ConsumoEntry.TABLE_NAME + "." +
+                    DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO + " = ? ";
+
+    private static final String sConsumoPorId =
+            DosadorContract.ConsumoEntry.TABLE_NAME + "." +
+                    DosadorContract.ConsumoEntry._ID + " = ? ";
 
 
     //Pesquisar (DEFAULT) todos os consumos ordenados por data, o primeiro da lista é o ultimo consumo.
@@ -123,10 +142,9 @@ public class DosadorProvider extends ContentProvider {
     private Cursor getConsumoPorDataAndTipoRefeicao(Uri uri, String[] projection, String sortOrder) {
         String data = DosadorContract.ConsumoEntry.getDataDiariaFromUri(uri);
         String tipoRefeicao = DosadorContract.ConsumoEntry.getTipoRefeicaoFromUri(uri);
-
         return sConsumoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
-                sConsumoPorData,
+                sConsumoPorDataAndTipoRefeicao,
                 new String[]{data, tipoRefeicao},
                 null,
                 null,
@@ -134,25 +152,55 @@ public class DosadorProvider extends ContentProvider {
         );
     }
 
+
+    private Cursor getConsumoPorId(Uri uri, String[] projection, String sortOrder) {
+        String id = DosadorContract.ConsumoEntry.getIdFromUri(uri);
+
+        return sConsumoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection,
+                sConsumoPorId,
+                new String[]{id},
+                null,
+                null,
+                sortOrder
+        );
+    }
+
+
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DosadorContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, DosadorContract.PATH_CONSUMO, CONSUMO);
-        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*", CONSUMO_DIARIO);
-        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*/*", CONSUMO_PERIODO);
+        Log.d(LOG_CAT, "Matcher CONSUMO: " + DosadorContract.PATH_CONSUMO + CONSUMO);
 
-        //TODO: colocar outro URI para o consumo mensal.
-        //matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "", CONSUMO_MENSAL);
+        //consumo/mes
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*", CONSUMO_MENSAL);
+        Log.d(LOG_CAT, "Matcher CONSUMO: " + DosadorContract.PATH_CONSUMO + "/*" + CONSUMO_MENSAL);
 
-        //TODO: tem teste, http://developer.android.com/reference/android/content/UriMatcher.html
-        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*" + CONSUMO_DIARIO + "/#", CONSUMO_DIARIO_TIPO_REFEICAO);
+        //consumo/mes/dataInicial/dataFinal
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*/*/*", CONSUMO_PERIODO);
+        Log.d(LOG_CAT, "Matcher CONSUMO: " + DosadorContract.PATH_CONSUMO + "/*/*" + CONSUMO_PERIODO);
 
+        //consumo/mes/dataInicial/dataFinal/dataDiario
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*/*/*/*", CONSUMO_DIARIO);
+        Log.d(LOG_CAT, "Matcher CONSUMO: " + DosadorContract.PATH_CONSUMO + "/*/*" + CONSUMO_DIARIO);
+
+        //consumo/mes/dataInicial/dataFinal/dataDiario/refeicao
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*/*/*/*/*", CONSUMO_DIARIO_TIPO_REFEICAO);
+        Log.d(LOG_CAT, "Matcher CONSUMO: " + DosadorContract.PATH_CONSUMO + "/*/*" + CONSUMO_DIARIO_TIPO_REFEICAO);
+
+        //consumo/mes/dataInicial/dataFinal/dataDiario/refeicao/id
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO + "/*/*/*/*/*/*", CONSUMO_ID);
+        Log.d(LOG_CAT, "Matcher CONSUMO: " + DosadorContract.PATH_CONSUMO + "/*/*" + CONSUMO_ID);
 
         matcher.addURI(authority, DosadorContract.PATH_USUARIO, USUARIO);
 
+        matcher.addURI(authority, DosadorContract.PATH_CONSUMO_TIPO_REFEICAO, TIPO_REFEICAO);
+
         return matcher;
     }
+
 
     @Override
     public boolean onCreate() {
@@ -184,6 +232,16 @@ public class DosadorProvider extends ContentProvider {
                         sortOrder);
                 break;
             }
+            case TIPO_REFEICAO: {
+                retCursor = mOpenHelper.getReadableDatabase().query(DosadorContract.TipoRefeicaoEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+            }
             case CONSUMO_DIARIO: {
                 retCursor = getConsumoPorData(uri, projection, sortOrder);
                 break;
@@ -200,7 +258,10 @@ public class DosadorProvider extends ContentProvider {
                 retCursor = getConsumoPorDataAndTipoRefeicao(uri, projection, sortOrder);
                 break;
             }
-
+            case CONSUMO_ID: {
+                retCursor = getConsumoPorId(uri, projection, sortOrder);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -216,6 +277,8 @@ public class DosadorProvider extends ContentProvider {
                 return DosadorContract.UsuarioEntry.CONTENT_TYPE;
             case CONSUMO:
                 return DosadorContract.ConsumoEntry.CONTENT_TYPE;
+            case TIPO_REFEICAO:
+                return DosadorContract.TipoRefeicaoEntry.CONTENT_TYPE;
             case CONSUMO_DIARIO:
                 return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
             case CONSUMO_PERIODO:
@@ -223,6 +286,8 @@ public class DosadorProvider extends ContentProvider {
             case CONSUMO_MENSAL:
                 return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
             case CONSUMO_DIARIO_TIPO_REFEICAO:
+                return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
+            case CONSUMO_ID:
                 return DosadorContract.ConsumoEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -247,6 +312,14 @@ public class DosadorProvider extends ContentProvider {
                 long id = db.insert(DosadorContract.UsuarioEntry.TABLE_NAME, null, values);
                 if (id > 0)
                     returnUri = DosadorContract.UsuarioEntry.buildUsuarioUri(id);
+                else
+                    throw new SQLException("Falha ao inserir a linha " + uri);
+                break;
+            }
+            case TIPO_REFEICAO: {
+                long id = db.insert(DosadorContract.TipoRefeicaoEntry.TABLE_NAME, null, values);
+                if (id > 0)
+                    returnUri = DosadorContract.TipoRefeicaoEntry.buildTipoRefeicaoUri(id);
                 else
                     throw new SQLException("Falha ao inserir a linha " + uri);
                 break;
@@ -276,6 +349,10 @@ public class DosadorProvider extends ContentProvider {
                 rowsDeleted = db.delete(DosadorContract.UsuarioEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             }
+            case TIPO_REFEICAO: {
+                rowsDeleted = db.delete(DosadorContract.TipoRefeicaoEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -297,6 +374,10 @@ public class DosadorProvider extends ContentProvider {
             }
             case USUARIO: {
                 rowsUpdated = db.update(DosadorContract.UsuarioEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            }
+            case TIPO_REFEICAO: {
+                rowsUpdated = db.update(DosadorContract.TipoRefeicaoEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             }
             default:

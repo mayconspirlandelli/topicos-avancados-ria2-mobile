@@ -64,7 +64,8 @@
     <string name="dialog_opcao_sim">Sim</string>
     <string name="dialog_opcao_nao">Não</string>
     <string name="dialog_titulo">Confirmação</string>
-    <string name="dialog_mensagem">Deseja salvar na sua dieta?</string>
+    <string name="dialog_mensagem_salvar_dieta">Deseja salvar na sua dieta?</string>
+    <string name="dialog_mensagem_excluir_dieta">Deseja excluir da sua dieta?</string>
 
     <!--Dialog Alert Internet -->
     <string name="dialog_opcao_cancelar">Cancelar</string>

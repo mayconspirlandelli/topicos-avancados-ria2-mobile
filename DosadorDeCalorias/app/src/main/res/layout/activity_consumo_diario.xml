@@ -8,135 +8,56 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="br.ufg.inf.dosador.app.ConsumoDiarioActivity">
 
+    <ImageButton
+        android:id="@+id/btn_decrementa_data"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_action_previous_item" />
+
     <TextView
         android:id="@+id/textCalendario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/btn_decrementa_data"
         android:text="Calendário"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <ScrollView
-        android:id="@+id/scrviewConsumo"
+    <ImageButton
+        android:id="@+id/btn_incrementa_data"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_next_item" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/textCalendario"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_alignParentStart="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:text="Calendário"-->
+    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+    <!--android:layout_below="@id/btn_decrementa_data"/>-->
+
+
+    <ExpandableListView
+        android:id="@+id/expand_lista_almoco"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/textCalendario">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/textCalendario">
-
-            <TextView
-                android:id="@+id/textCafe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Café da Manhã"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/imageButtonCafe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/textCafe"
-                android:layout_alignLeft="@+id/imageButtonAlmoco"
-                android:layout_alignStart="@id/imageButtonAlmoco"
-                android:adjustViewBounds="true"
-                android:onClick="pesquisa"
-                android:src="@drawable/add" />
-
-            <ListView
-                android:id="@+id/lista_cafe_da_manha"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/imageButtonCafe" />
-
-            <TextView
-                android:id="@+id/textAlmoco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/lista_cafe_da_manha"
-                android:layout_marginTop="10dp"
-                android:text="Almoço"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/imageButtonAlmoco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/textAlmoco"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:adjustViewBounds="true"
-                android:onClick="pesquisa"
-                android:src="@drawable/add" />
-
-            <!--<ListView-->
-                <!--android:id="@+id/lista_almoco"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_below="@id/imageButtonAlmoco" />-->
-
-                <ExpandableListView
-                    android:id="@+id/lista_almoco"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/imageButtonAlmoco">
-                </ExpandableListView>
+        android:layout_height="fill_parent"
+        android:layout_below="@id/textCalendario"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:divider="#A4C739"
+        android:dividerHeight="0.5dp"
+        android:groupIndicator="@drawable/expander_group"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft">
+        </ExpandableListView>
 
 
-
-            <TextView
-                android:id="@+id/textJantar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/lista_almoco"
-                android:layout_marginTop="10dp"
-                android:text="Jantar"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/imageButtonJantar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/textLanche"
-                android:layout_alignLeft="@id/imageButtonAlmoco"
-                android:layout_alignStart="@id/imageButtonAlmoco"
-                android:adjustViewBounds="true"
-                android:onClick="pesquisa"
-                android:src="@drawable/add" />
-
-
-            <TextView
-                android:id="@+id/textLanche"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/textJantar"
-                android:layout_marginTop="10dp"
-                android:text="Lanche"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <ImageButton
-                android:id="@+id/imageButtonLanche"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/textLanche"
-                android:layout_alignLeft="@+id/imageButtonJantar"
-                android:layout_alignStart="@+id/imageButtonJantar"
-                android:adjustViewBounds="true"
-                android:onClick="pesquisa"
-                android:src="@drawable/add" />
-
-        </RelativeLayout>
-    </ScrollView>
+    <!--</ScrollView>-->
 </RelativeLayout>

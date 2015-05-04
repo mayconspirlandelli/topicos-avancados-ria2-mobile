@@ -6,8 +6,8 @@ package br.ufg.inf.dosador.entidades;
 public enum  TipoRefeicao {
     CAFE_DA_MANHA(1),
     ALMOCO(2),
-    JANTAR(3),
-    LANCHE(4);
+    LANCHE(3),
+    JANTAR(4);
 
     private int valor;
 

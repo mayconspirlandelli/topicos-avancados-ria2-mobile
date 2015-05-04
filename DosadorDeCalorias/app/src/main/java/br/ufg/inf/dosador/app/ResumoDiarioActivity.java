@@ -103,7 +103,9 @@ public class ResumoDiarioActivity extends ActionBarActivity {
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    calorias = calorias + ( cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS) * cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD))) );
+                    //TODO: arrumar valores.
+                    //calorias = calorias + ( cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS) * cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD))) );
+                    calorias = 0.0;
                 } while (cursor.moveToNext());
             }
         } finally {

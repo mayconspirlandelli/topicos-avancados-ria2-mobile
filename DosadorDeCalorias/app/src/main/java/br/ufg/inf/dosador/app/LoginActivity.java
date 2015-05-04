@@ -2,6 +2,7 @@ package br.ufg.inf.dosador.app;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.widget.Button;
 
 import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.data.DosadorContract;
+import br.ufg.inf.dosador.entidades.TipoRefeicao;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -26,6 +28,7 @@ public class LoginActivity extends ActionBarActivity {
         buttonEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                verificarPrimeiraTipoRefeicao();
                 verificarPrimeiroAcesso();
             }
         });
@@ -77,4 +80,30 @@ public class LoginActivity extends ActionBarActivity {
         }
 
     }
+
+    public void verificarPrimeiraTipoRefeicao(){
+        Cursor cursor = this.getContentResolver().query(
+                DosadorContract.TipoRefeicaoEntry.CONTENT_URI,
+                null,   // leaving "columns" null just returns all the columns.
+                null,   // cols for "where" clause
+                null,   // Values for the "where" clause
+                null    // sort order
+        );
+        if (cursor.moveToFirst()) {
+            //Tipo de refeição já foi inserido na base de dados.
+
+        } else {
+            //Tipo de refeição não consta na base de dados.
+            inserirTipoRefeicao();
+        }
+    }
+    private void inserirTipoRefeicao() {
+        Uri uri = this.getContentResolver().insert(DosadorContract.TipoRefeicaoEntry.CONTENT_URI, DosadorContract.createContentValuesTipoRefeicao(TipoRefeicao.CAFE_DA_MANHA.name()));
+        uri = this.getContentResolver().insert(DosadorContract.TipoRefeicaoEntry.CONTENT_URI, DosadorContract.createContentValuesTipoRefeicao(TipoRefeicao.ALMOCO.name()));
+        uri = this.getContentResolver().insert(DosadorContract.TipoRefeicaoEntry.CONTENT_URI, DosadorContract.createContentValuesTipoRefeicao(TipoRefeicao.LANCHE.name()));
+        uri = this.getContentResolver().insert(DosadorContract.TipoRefeicaoEntry.CONTENT_URI, DosadorContract.createContentValuesTipoRefeicao(TipoRefeicao.JANTAR.name()));
+
+    }
+
+
 }
