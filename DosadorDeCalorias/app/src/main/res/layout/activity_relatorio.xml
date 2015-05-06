@@ -1,15 +1,128 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="br.ufg.inf.dosador.app.RelatorioActivity">
+    tools:context="br.ufg.inf.dosador.app.RelatorioActivity"
+    android:transitionGroup="false">
+
+    <RelativeLayout
+        android:id="@+id/rl_mes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_decrementa_mes"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_action_previous_item" />
+
+        <TextView
+            android:id="@+id/txt_mes"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_decrementa_mes"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageButton
+            android:id="@+id/btn_incrementa_mes"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_next_item" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_filtro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/rl_mes">
+
+        <TextView
+            android:id="@+id/txt_label_filtro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_lable_filtro"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+        <!--Data inicial-->
+        <EditText
+            android:id="@+id/editDataInicial"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_label_filtro"
+            android:hint="@string/txt_label_data_inicial"
+            android:background="@drawable/edit_text_style"
+            android:layout_centerVertical="true"
+            android:ellipsize="start"
+            android:padding="5dp"
+            android:ems="10"
+            android:inputType="date" />
+
+        <!--Data final-->
+        <EditText
+            android:id="@+id/editDataFinal"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editDataInicial"
+            android:layout_marginTop="16dp"
+            android:hint="@string/txt_label_data_final"
+            android:background="@drawable/edit_text_style"
+            android:layout_centerVertical="true"
+            android:ellipsize="start"
+            android:padding="5dp"
+            android:ems="10"
+            android:inputType="date" />
+
+        <!--Botão Aplicar Filtro -->
+        <ImageButton
+            android:id="@+id/btn_filtro"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/btn_remover_filtro"
+            android:layout_below="@id/txt_label_filtro"
+            android:hint="Aplicar Filtro"
+            android:src="@drawable/ic_action_accept"/>
+
+        <!--Botão Remover Filtro -->
+        <ImageButton
+            android:id="@+id/btn_remover_filtro"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/txt_label_filtro"
+            android:hint="Aplicar Filtro"
+            android:src="@drawable/ic_action_cancel"/>
+
+        <!--Botão Hoje, copia a data inicial para data final -->
+        <Button
+            android:id="@+id/btn_hoje"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/btn_filtro"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:text="@string/lable_btn_hoje" />
+
+    </RelativeLayout>
 
 
     <ListView
         android:id="@+id/listaRelatorio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btn_pesquisar" />
+        android:layout_below="@id/rl_filtro" />
 </RelativeLayout>

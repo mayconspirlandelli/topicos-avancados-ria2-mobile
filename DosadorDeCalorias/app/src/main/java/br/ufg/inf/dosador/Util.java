@@ -20,7 +20,6 @@ public class Util {
 
     //TODO: Passar o formato da data como parametro.
     public static String obterDataAtualToString() {
-        // set the format to sql date time
         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -28,11 +27,42 @@ public class Util {
         return dateStr;
     }
 
-    //TODO: implementar essa função.
-    public static String obterMesAtual() {
-        return null;
+    public static Calendar obterMesAtual() {
+        Calendar data = Calendar.getInstance();
+        data.get(Calendar.MONTH);
+        //data.add(Calendar.MONTH, 0);
+        return data;
     }
 
+    /**
+     * Método responsável por obter o Mês em String
+     * @param formato
+     * M -> 9
+     * MM -> 09
+     * MMM -> Sep
+     * MMMM -> September
+     * @return
+     */
+    public static String obterMesAtualToString(String formato) {
+        Calendar data = obterMesAtual();
+        String dataSt = conveteDataFromCalendarToString(data, formato);
+        return dataSt;
+    }
+
+    /**
+     * Método responsável por obter a data do dia anterior ou do dia posterior.
+     * @param calendar
+     * @param anterior, se true decrementa a data, se false incrementa a data.
+     * @return
+     */
+    public static Calendar getMesAnteriorPosterior(Calendar calendar, boolean anterior) {
+        if (anterior) {
+            calendar.add(Calendar.MONTH, -1);
+        } else {
+            calendar.add(Calendar.MONTH, +1);
+        }
+        return calendar;
+    }
 
 
     public static Calendar obterDataAtual() {

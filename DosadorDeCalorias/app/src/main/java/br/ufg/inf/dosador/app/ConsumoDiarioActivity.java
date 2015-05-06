@@ -68,16 +68,12 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
 
         consumoDAO = new ConsumoDAO(this);
 
-        textCalendario = (TextView) findViewById(R.id.textCalendario);
+        textCalendario = (TextView) findViewById(R.id.txt_mes);
         listViewGrupos = (ExpandableListView) findViewById(R.id.expand_lista_almoco);
-        btnDecrementaData= (ImageButton) findViewById(R.id.btn_decrementa_data);
+        btnDecrementaData = (ImageButton) findViewById(R.id.btn_decrementa_data);
         btnIncrementaData = (ImageButton) findViewById(R.id.btn_incrementa_data);
         btnDecrementaData.setOnClickListener(btnDecrementaDataOnClickListener);
         btnIncrementaData.setOnClickListener(btnIncrementaDataOnClickListener);
-
-
-        //buscarPorData(Util.obterDataAtualToString());
-
 
         //http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
         //http://www.truiton.com/2014/05/android-simplecursortreeadapter-cursorloader-expandablelistview/
@@ -104,7 +100,7 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
         this.dataAtual = Util.obterDataAtual();
         this.dataAtualStr = Util.conveteDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
 
-        textCalendario.setText(this.dataAtualStr);
+        textCalendario.setText(Util.conveteDataFromCalendarToString(this.dataAtual, "dd/MM/yyyy"));
 
         carregarDados();
     }
@@ -150,7 +146,7 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
             this.dataAtual = Util.getDiaAnteriorPosterior(this.dataAtual, false);
             this.dataAtualStr = Util.conveteDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
         }
-        textCalendario.setText(this.dataAtualStr);
+        textCalendario.setText(Util.conveteDataFromCalendarToString(this.dataAtual, "dd/MM/yyyy"));
         carregarDados();
     }
 
@@ -271,7 +267,6 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
 
     @Override
     public void onLongClickListener(int position, Cursor cursor) {
-        //TODO: exibir uma caixa de dialogo para verifia se o usuario quer mesmo apagar o item da diata.
         Consumo consumo = ConsumoDAO.obterConsumoFromCursor(cursor);
         exibirAlertaParaConfirmarExclucao(consumo);
     }
@@ -297,5 +292,4 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
-
 }

@@ -17,7 +17,7 @@
         android:src="@drawable/ic_action_previous_item" />
 
     <TextView
-        android:id="@+id/textCalendario"
+        android:id="@+id/txt_mes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -32,24 +32,11 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_action_next_item" />
 
-    <!--<TextView-->
-    <!--android:id="@+id/textCalendario"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:text="Calendário"-->
-    <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-    <!--android:layout_below="@id/btn_decrementa_data"/>-->
-
-
     <ExpandableListView
         android:id="@+id/expand_lista_almoco"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/textCalendario"
+        android:layout_below="@id/txt_mes"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
         android:divider="#A4C739"
@@ -58,6 +45,4 @@
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft">
         </ExpandableListView>
 
-
-    <!--</ScrollView>-->
 </RelativeLayout>

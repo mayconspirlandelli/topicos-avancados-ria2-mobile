@@ -59,6 +59,7 @@
     <string name="action_save">Salvar</string>
     <string name="action_search">Pesquisar</string>
     <string name="search_hint">Pesquisar</string>
+    <string name="action_filter">Filtro</string>
 
     <!--Dialog Alert-->
     <string name="dialog_opcao_sim">Sim</string>
@@ -75,6 +76,14 @@
 
     <!--Action Bar-->
     <string name="actionbar_pesquisa">Pesquisar Alimento</string>
+
+
+
+    <!--Tela Relatorio-->
+    <string name="lable_btn_hoje">Hoje</string>
+    <string name="txt_lable_filtro">Filtro</string>
+    <string name="txt_label_data_inicial">De:</string>
+    <string name="txt_label_data_final">até:</string>
 
 
 

@@ -69,8 +69,11 @@ public class DosadorProvider extends ContentProvider {
     //Pesquisar consumo por mes.
     //select * from consumo where strftime('%m', data) = '01';
     private static final String sConsumoPorMes =
-            DosadorContract.ConsumoEntry.TABLE_NAME + "." +
                     "strftime('%m', " + DosadorContract.ConsumoEntry.COLUMN_DATA + " ) " + " = ? ";
+
+//    private static final String sConsumoPorMes =
+//            DosadorContract.ConsumoEntry.TABLE_NAME + "." +
+//                    "strftime('%m', " + DosadorContract.ConsumoEntry.COLUMN_DATA + " ) " + " = ? ";
 
 
     private static final String sConsumoPorDataAndTipoRefeicao =

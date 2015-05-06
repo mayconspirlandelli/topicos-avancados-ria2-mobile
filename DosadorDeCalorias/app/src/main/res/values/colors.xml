@@ -30,6 +30,14 @@
     <color name="holo_blue_bright">#ff00ddff</color>
     <!-- A really bright Holo shade of gray -->
     <color name="holo_gray_bright">#33CCCCCC</color>
+    <color name="holo_gray_brigth_claro">#33e9e9e9</color>
+    <color name="holo_gray_brigth_escuro">#54b4b4b4</color>
+    <color name="white">#ffffffff</color>
+    <color name="rosa">#DC56DB</color>  <!--Cor do aplicativo-->
+    <color name="rosa_pressed">#ffa94ea8</color>  <!--Cor do aplicativo-->
+    <color name="white_claro">#ffefefef</color>
+
+    <color name="preto">#ff151515</color>
 
     <!--Fonte: https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/colors.xml-->
 </resources>
