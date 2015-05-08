@@ -3,8 +3,8 @@
 
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <!--<item name="actionBarStyle">@style/ActionBar.Solid.V10.Dosador.NoTitle</item>-->
-        <item name="colorPrimary">@color/dosador_blue</item>
-        <item name="colorPrimaryDark">@color/dosador_blue</item>
+        <item name="colorPrimary">@color/rosa_pressed</item>
+        <item name="colorPrimaryDark">@color/rosa</item>
     </style>
 
     <!--&lt;!&ndash; Main activity theme. &ndash;&gt;-->

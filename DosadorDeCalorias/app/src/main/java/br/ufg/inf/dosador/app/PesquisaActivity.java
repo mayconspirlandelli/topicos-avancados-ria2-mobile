@@ -34,7 +34,7 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
 
     private void verificaInternet(){
         if(!Util.verificaConexaoDeRede(this)){
-            //exibirAlertaInternet(this);
+            exibirAlertaInternet(this);
         }
     }
 
@@ -67,7 +67,7 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pesquisa);
 
-        handleIntent(getIntent());
+        //handleIntent(getIntent());
 
         if (findViewById(R.id.detalhes_pesquisa) != null) {
             mTwoPane = true;
@@ -81,7 +81,8 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
             getSupportActionBar().setElevation(0f);
         }
 
-        PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.pesquisa_fragment_container);
+        //PesquisaFragment pesquisaFragment = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.pesquisa_fragment_container);
+        handleIntent(getIntent());
     }
 
     @Override
@@ -158,7 +159,6 @@ public class PesquisaActivity extends ActionBarActivity implements PesquisaFragm
                 //celular.
                 pf = (PesquisaFragment) getSupportFragmentManager().findFragmentById(R.id.activity_pesquisa);
             }
-            //TODO: corrigir: quando a tela rotaciona no tablet dá erro de NullPointerException.
             pf.pesquisarAlimento(query);
         }
     }

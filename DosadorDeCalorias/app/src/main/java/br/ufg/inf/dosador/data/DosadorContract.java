@@ -80,6 +80,7 @@ public class DosadorContract {
         public static final String COLUMN_TIPO_REFEICAO = "refeicao";
         public static final String COLUMN_DATA = "data";
         public static final String COLUMN_PORCAO = "porcao";
+        public static final String COLUMN_FOOD_ID = "food_id"; //Para exibir mais detalhes do alimento, temos que salvar o FOOD_ID que é a identificação do alimento na API.
 
 
         //content://br.ufg.inf.dosador.app/consumo/mes/dataInicial/dataFinal/data/refeicao/id

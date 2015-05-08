@@ -17,6 +17,7 @@ import java.util.HashMap;
 import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.app.ConsumoDiarioActivity;
 import br.ufg.inf.dosador.data.DosadorContract;
+import br.ufg.inf.dosador.entidades.TipoRefeicao;
 
 /**
  * Created by Maycon on 23/04/2015.
@@ -100,6 +101,29 @@ public class ConsumoCursorTreeAdapter extends CursorTreeAdapter {
     @Override
     protected View newGroupView(Context context, Cursor cursor, final boolean isExpanded, ViewGroup parent) {
         final View view = mInflater.inflate(R.layout.list_group_consumo, parent, false);
+//        final int groupPosition = cursor.getPosition();
+//        final String tipoRefeicao = cursor.getString(cursor.getColumnIndex(DosadorContract.TipoRefeicaoEntry.COLUMN_NOME));
+//
+//        ImageButton btnAdicionarAlimento = (ImageButton) view.findViewById(R.id.btn_adicionar_alimento);
+//        btnAdicionarAlimento.setFocusable(false);
+//        btnAdicionarAlimento.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (customListner != null) {
+//                    customListner.onButtonClickListner(groupPosition, tipoRefeicao);
+//                }
+//            }
+//        });
+        return view;
+    }
+
+
+    @Override
+    protected void bindGroupView(View view, Context context, final Cursor cursor, boolean isExpanded) {
+        TextView lblListHeader = (TextView) view.findViewById(R.id.lblListHeader);
+
+        //////////////////////////////////////////////////////////////////
+
         final int groupPosition = cursor.getPosition();
         final String tipoRefeicao = cursor.getString(cursor.getColumnIndex(DosadorContract.TipoRefeicaoEntry.COLUMN_NOME));
 
@@ -113,19 +137,25 @@ public class ConsumoCursorTreeAdapter extends CursorTreeAdapter {
                 }
             }
         });
-        return view;
-    }
 
-
-    @Override
-    protected void bindGroupView(View view, Context context, final Cursor cursor, boolean isExpanded) {
-        TextView lblListHeader = (TextView) view.findViewById(R.id.lblListHeader);
+        //////////////////////////////////////////////////////////////////
 
         if (lblListHeader != null) {
-            lblListHeader.setText(cursor.getString(cursor.getColumnIndex(DosadorContract.TipoRefeicaoEntry.COLUMN_NOME)));
+            String refeicao = "";
+            if(tipoRefeicao.equalsIgnoreCase(TipoRefeicao.CAFE_DA_MANHA.name())) {
+                refeicao = "Café da Manhã";
+            } else if(tipoRefeicao.equalsIgnoreCase(TipoRefeicao.ALMOCO.name())) {
+                refeicao = "Almoço";
+            } else if(tipoRefeicao.equalsIgnoreCase(TipoRefeicao.LANCHE.name())) {
+                refeicao = "Lanche";
+            } else if(tipoRefeicao.equalsIgnoreCase(TipoRefeicao.JANTAR.name())) {
+                refeicao = "Jantar";
+            }
+            //lblListHeader.setText(cursor.getString(cursor.getColumnIndex(DosadorContract.TipoRefeicaoEntry.COLUMN_NOME)));
+            lblListHeader.setText(refeicao);
         }
 
-        final int groupPosition = cursor.getPosition();
+        //final int groupPosition = cursor.getPosition();
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

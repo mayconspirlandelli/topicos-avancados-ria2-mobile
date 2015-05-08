@@ -34,7 +34,8 @@
     <color name="holo_gray_brigth_escuro">#54b4b4b4</color>
     <color name="white">#ffffffff</color>
     <color name="rosa">#DC56DB</color>  <!--Cor do aplicativo-->
-    <color name="rosa_pressed">#ffa94ea8</color>  <!--Cor do aplicativo-->
+    <color name="rosa_pressed">#FFBC43DC</color>  <!--Cor do aplicativo-->
+    <color name="rosa_grupo">#66bc43dc</color>  <!--Cor do aplicativo-->
     <color name="white_claro">#ffefefef</color>
 
     <color name="preto">#ff151515</color>

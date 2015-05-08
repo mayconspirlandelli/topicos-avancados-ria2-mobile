@@ -14,7 +14,7 @@ import br.ufg.inf.dosador.entidades.TipoRefeicao;
 /**
  * Created by Maycon on 16/04/2015.
  */
-//TODO: a tela que usarão essa classe: ConsumoDiarioActivity(consultar e excluir, editar chama a tela de DetalhesPesquisaFrament, mas não implementaremos o editar), DetalhesPesquisaActivity(salvar e editar) e RelatorioActivity (consultar).
+
 public class ConsumoDAO {
     private Context context;
 
@@ -34,6 +34,7 @@ public class ConsumoDAO {
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO, consumo.getTipoRefeicao());
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_DATA, consumo.getData().toString());
         contentValues.put(DosadorContract.ConsumoEntry.COLUMN_PORCAO, consumo.getServing_description());
+        contentValues.put(DosadorContract.ConsumoEntry.COLUMN_FOOD_ID, consumo.getFood_id());
         return contentValues;
     }
 
@@ -52,7 +53,7 @@ public class ConsumoDAO {
         int updatedRows = context.getContentResolver()
                 .update(uri, createContentValuesConsumo(consumo),
                         DosadorContract.ConsumoEntry._ID + " = ? ",
-                        new String[] {Long.toString(consumo.getId())});
+                        new String[]{Long.toString(consumo.getId())});
 
         return updatedRows;
     }
@@ -69,15 +70,10 @@ public class ConsumoDAO {
         Uri uri = DosadorContract.ConsumoEntry.CONTENT_URI;
         int deletedRows = context.getContentResolver()
                 .delete(uri, DosadorContract.ConsumoEntry._ID + " = ? ",
-                        new String[] {Long.toString(consumo.getId())});
+                        new String[]{Long.toString(consumo.getId())});
 
         return deletedRows;
     }
-
-    //TODO: falta implementar por ID.
-//    public CursorLoader buscarPorId(Context ctx, String s){
-//
-//    }
 
     public CursorLoader buscarPorData(Context ctx, String data) {
         return new CursorLoader(ctx,
@@ -95,9 +91,9 @@ public class ConsumoDAO {
             tipo = TipoRefeicao.CAFE_DA_MANHA.name();
         } else if (tipoRefeicao.equals(TipoRefeicao.ALMOCO.name())) {
             tipo = TipoRefeicao.ALMOCO.name();
-        }  else if (tipoRefeicao.equals(TipoRefeicao.LANCHE.name())) {
+        } else if (tipoRefeicao.equals(TipoRefeicao.LANCHE.name())) {
             tipo = TipoRefeicao.LANCHE.name();
-        }  else if (tipoRefeicao.equals(TipoRefeicao.JANTAR.name())) {
+        } else if (tipoRefeicao.equals(TipoRefeicao.JANTAR.name())) {
             tipo = TipoRefeicao.JANTAR.name();
         }
 
@@ -133,23 +129,23 @@ public class ConsumoDAO {
                 null,
                 null,
                 null,
-                null);
+                DosadorContract.ConsumoEntry.COLUMN_DATA + " DESC ");
     }
 
     public static Consumo obterConsumoFromCursor(Cursor cursor) {
         Consumo consumo = new Consumo();
         //try {
-            consumo.setId(cursor.getLong(cursor.getColumnIndex(DosadorContract.ConsumoEntry._ID)));
-            //consumo.setData(new Date(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_DATA))));
-            consumo.setQuantidade(cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD)));
-            //consumo.setTipoRefeicao();
-            consumo.setFood_id(cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry._ID)));
-            consumo.setFood_name(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_NOME)));
-            consumo.setCalories(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS)));
-            consumo.setFat(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_GORDURA)));
-            consumo.setCarbohydrate(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO)));
-            consumo.setProtein(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PROTEINA)));
-            consumo.setServing_description(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PORCAO)));
+        consumo.setId(cursor.getLong(cursor.getColumnIndex(DosadorContract.ConsumoEntry._ID)));
+        //consumo.setData(new Date(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_DATA))));
+        consumo.setQuantidade(cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD)));
+        consumo.setTipoRefeicao(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_TIPO_REFEICAO)));
+        consumo.setFood_id(cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_FOOD_ID)));
+        consumo.setFood_name(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_NOME)));
+        consumo.setCalories(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS)));
+        consumo.setFat(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_GORDURA)));
+        consumo.setCarbohydrate(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CARBOIDRATO)));
+        consumo.setProtein(cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PROTEINA)));
+        consumo.setServing_description(cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_PORCAO)));
 
         //}
         //finally {

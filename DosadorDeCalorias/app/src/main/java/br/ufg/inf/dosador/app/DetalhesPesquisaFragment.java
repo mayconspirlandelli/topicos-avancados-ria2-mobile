@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -78,7 +77,7 @@ public class DetalhesPesquisaFragment extends Fragment {
         btnMaisDetalhes = (Button) rootView.findViewById(R.id.btn_mais_detalhes);
         btnMaisDetalhes.setOnClickListener(btnMaisDetalhesOnClickListener);
 
-        txtTipoRefeicao= (TextView) rootView.findViewById(R.id.txt_tipo_refeicao);
+        txtTipoRefeicao = (TextView) rootView.findViewById(R.id.txt_tipo_refeicao);
 
         Alimento alimento = null;
         Consumo consumo = null;
@@ -96,7 +95,6 @@ public class DetalhesPesquisaFragment extends Fragment {
             } else if (consumo != null) {
                 preencheComponentesDeTelaConsumo(consumo);
             }
-            //TODO: se alimentou ou consumo for null, emitir uma mensagem para o usuario.
         }
         return rootView;
     }
@@ -110,7 +108,8 @@ public class DetalhesPesquisaFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(getActivity());
+                // NavUtils.navigateUpFromSameTask(getActivity());
+                fecharActivity();
                 return true;
             case R.id.action_settings:
                 return true;
@@ -138,12 +137,9 @@ public class DetalhesPesquisaFragment extends Fragment {
             txtProteinas.setText(alimento.getProtein().toString());
             editPorcao.setText(alimento.getServing_description().toString());
             txtFoodId.setText(String.valueOf(alimento.getFood_id()));
-
             txtTipoRefeicao.setText(obtemTipoRefeifeicaoSharedPref());
-
-            //TODO: setar o tipo de refeição com spinner, vindo do sharedpreferesence
         }
-        //TODO: se ali for null, emitir uma mensagem para o usuario.
+
     }
 
     private void preencheComponentesDeTelaConsumo(Consumo consumo) {
@@ -156,16 +152,12 @@ public class DetalhesPesquisaFragment extends Fragment {
             editQuantidade.setText(String.valueOf(consumo.getQuantidade()));
             editPorcao.setText(consumo.getServing_description().toString());
             txtConsumoId.setText(String.valueOf(consumo.getId()));
-
-
-            txtTipoRefeicao.setText(obtemTipoRefeifeicaoSharedPref());
-
-            //TODO: setar o tipo de refeição com spinner, vindo do sharedpreferesence
+            txtFoodId.setText(String.valueOf(consumo.getFood_id())); //Para exibir mais detalhes do alimento, temos que salvar o FOOD_ID que é a identificação do alimento na API.
+            txtTipoRefeicao.setText(consumo.getTipoRefeicao());
         }
-        //TODO: se ali for null, emitir uma mensagem para o usuario.
     }
 
-    private String obtemTipoRefeifeicaoSharedPref(){
+    private String obtemTipoRefeifeicaoSharedPref() {
         Context context = getActivity();
         SharedPreferences sharedPref = context.getSharedPreferences("teste", Context.MODE_PRIVATE);
         return sharedPref.getString("teste", null);
@@ -191,7 +183,7 @@ public class DetalhesPesquisaFragment extends Fragment {
 
         if (validarDados()) {
 
-            if(txtConsumoId.getText().toString().isEmpty()){
+            if (txtConsumoId.getText().toString().isEmpty()) {
                 consumo.setId(0);
             } else {
                 consumo.setId(Integer.valueOf(txtConsumoId.getText().toString()));
@@ -204,17 +196,8 @@ public class DetalhesPesquisaFragment extends Fragment {
             consumo.setQuantidade(Integer.valueOf(editQuantidade.getText().toString()));
             consumo.setData(data);
             consumo.setServing_description(editPorcao.getText().toString());
-
-            //consumo.setTipoRefeicao("lanche");
-            //consumo.setTipoRefeicao(TipoRefeicao.ALMOCO.name());
-            //consumo.setTipoRefeicao(TipoRefeicao.LANCHE.name());
-
+            consumo.setFood_id(Integer.valueOf(txtFoodId.getText().toString()));
             consumo.setTipoRefeicao(txtTipoRefeicao.getText().toString());
-
-            //TODO: faltou colocar tipo de refeição.
-            //TODO: usar enum para representar o tipo de refeição.
-            //TODO: usar enum para representar os 12 meses do ano.
-
             consumoDAO.salvar(consumo);
             Log.d(LOG_CAT, "Dados salvo com sucesso!");
 

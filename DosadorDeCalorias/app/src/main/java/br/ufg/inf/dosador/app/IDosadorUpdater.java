@@ -6,4 +6,5 @@ package br.ufg.inf.dosador.app;
 public interface IDosadorUpdater {
     public void hideProgress();
     public void showProgress();
+    public void exibeMensagem(String mensagem);
 }

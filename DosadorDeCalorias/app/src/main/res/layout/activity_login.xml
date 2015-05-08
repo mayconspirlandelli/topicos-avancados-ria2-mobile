@@ -14,13 +14,24 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/food"
+        android:src="@drawable/ic_dosador"
         android:id="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/txt_bem_vindo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Dosador de Calorias"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_below="@id/imageView"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
+        android:layout_below="@id/txt_bem_vindo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:text="Entrar"

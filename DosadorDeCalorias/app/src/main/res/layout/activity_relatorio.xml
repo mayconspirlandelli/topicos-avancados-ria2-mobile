@@ -6,8 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.ufg.inf.dosador.app.RelatorioActivity"
-    android:transitionGroup="false">
+    android:transitionGroup="false"
+    tools:context="br.ufg.inf.dosador.app.RelatorioActivity">
 
     <RelativeLayout
         android:id="@+id/rl_mes"
@@ -20,81 +20,101 @@
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="16dp"
+            android:padding="8dp"
             android:src="@drawable/ic_action_previous_item" />
-
-        <TextView
-            android:id="@+id/txt_mes"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/btn_decrementa_mes"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
             android:id="@+id/btn_incrementa_mes"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:padding="8dp"
             android:src="@drawable/ic_action_next_item" />
 
+        <TextView
+            android:id="@+id/txt_mes"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_toLeftOf="@id/btn_incrementa_mes"
+            android:layout_toRightOf="@id/btn_decrementa_mes"
+            android:gravity="center"
+            android:text="MAIO"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_filtro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_below="@id/rl_mes">
+        android:layout_below="@id/rl_mes"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/txt_label_filtro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txt_lable_filtro"
             android:layout_centerHorizontal="true"
+            android:text="@string/txt_lable_filtro"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <TextView
+            android:id="@+id/txt_label_data_inicial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_label_filtro"
+            android:layout_marginTop="8dp"
+            android:text="@string/txt_label_data_inicial"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!--Data inicial-->
         <EditText
             android:id="@+id/editDataInicial"
-            android:layout_width="160dp"
+            android:layout_width="112dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_label_filtro"
-            android:hint="@string/txt_label_data_inicial"
-            android:background="@drawable/edit_text_style"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/txt_label_data_inicial"
             android:ellipsize="start"
-            android:padding="5dp"
             android:ems="10"
-            android:inputType="date" />
+            android:focusable="false"
+            android:inputType="date"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/txt_label_data_final"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_label_data_inicial"
+            android:layout_marginTop="24dp"
+            android:text="@string/txt_label_data_final"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <!--Data final-->
         <EditText
             android:id="@+id/editDataFinal"
-            android:layout_width="160dp"
+            android:layout_width="112dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/editDataInicial"
-            android:layout_marginTop="16dp"
-            android:hint="@string/txt_label_data_final"
-            android:background="@drawable/edit_text_style"
             android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/txt_label_data_final"
             android:ellipsize="start"
-            android:padding="5dp"
             android:ems="10"
-            android:inputType="date" />
+            android:focusable="false"
+            android:inputType="date"
+            android:padding="5dp" />
 
         <!--Botão Aplicar Filtro -->
         <ImageButton
             android:id="@+id/btn_filtro"
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/btn_remover_filtro"
             android:layout_below="@id/txt_label_filtro"
+            android:layout_toLeftOf="@+id/btn_remover_filtro"
             android:hint="Aplicar Filtro"
-            android:src="@drawable/ic_action_accept"/>
+            android:src="@drawable/ic_action_accept" />
 
         <!--Botão Remover Filtro -->
         <ImageButton
@@ -104,7 +124,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/txt_label_filtro"
             android:hint="Aplicar Filtro"
-            android:src="@drawable/ic_action_cancel"/>
+            android:src="@drawable/ic_action_cancel" />
 
         <!--Botão Hoje, copia a data inicial para data final -->
         <Button
@@ -119,10 +139,31 @@
 
     </RelativeLayout>
 
+    <!--Titulo da Coluna Data-->
+    <TextView
+        android:id="@+id/txt_titulo_coluna_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_filtro"
+        android:text="@string/txt_titulo_coluna_data"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!--Titulo da Coluna Total de Calorias-->
+    <TextView
+        android:id="@+id/txt_titulo_coluna_total_calorias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/rl_filtro"
+        android:text="@string/txt_titulo_coluna_total_data"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/listaRelatorio"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_filtro" />
+        android:layout_below="@id/txt_titulo_coluna_data" />
+
 </RelativeLayout>

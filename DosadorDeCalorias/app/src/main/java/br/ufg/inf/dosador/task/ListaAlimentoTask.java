@@ -1,8 +1,6 @@
 package br.ufg.inf.dosador.task;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,11 +12,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
 import br.ufg.inf.dosador.api.FatSecret;
 import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.app.IDosadorUpdater;
-import br.ufg.inf.dosador.app.PesquisaActivity;
 import br.ufg.inf.dosador.entidades.Alimento;
 
 /**
@@ -138,6 +136,9 @@ public class ListaAlimentoTask extends AsyncTask<String, Void, ArrayList<Aliment
         this.dosadorUpdater.hideProgress();
         adapterListAlimento.setListaAlimentos(alimentos);
         adapterListAlimento.notifyDataSetChanged();
+        if(alimentos == null || alimentos.size() <= 0) {
+            this.dosadorUpdater.exibeMensagem(mContext.getString(R.string.msn_info_alimento));
+        }
     }
 
 }

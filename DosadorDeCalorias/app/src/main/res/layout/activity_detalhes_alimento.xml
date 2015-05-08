@@ -32,7 +32,8 @@
                 android:id="@+id/label_info_nutricional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_info_nutri" />
+                android:text="@string/label_info_nutri"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/grid_line_calorias"

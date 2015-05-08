@@ -2,13 +2,14 @@ package br.ufg.inf.dosador.app;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,28 +19,40 @@ import br.ufg.inf.dosador.data.DosadorContract;
 public class ResumoDiarioActivity extends ActionBarActivity {
     TextView caloriasConsumidas;
     TextView caloriasRestante;
+    private Double iCaloriasConsumidas = 0.00;
+    private Double iCaloriasRestante = 2000.00;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumo_diario);
-        Double iCaloriasConsumidas = 0.00;
-        Double iCaloriasRestante   = 2000.00;
-
-        iCaloriasConsumidas = caloriasDiariasConsumidas();
-        iCaloriasRestante = iCaloriasRestante - iCaloriasConsumidas;
-
-        //Formatando para duas casas decimais
-        // DecimalFormat fmt = new DecimalFormat("0.00");
-        //iCaloriasRestante = Double.valueOf(fmt.format(iCaloriasRestante));
-
         this.setTitle("Resumo Diário");
 
         caloriasConsumidas = (TextView) findViewById(R.id.textViewCaloriasConsumidas);
-        caloriasConsumidas.setText("Calorias Consumidas: " + Double.toString(iCaloriasConsumidas));
+        caloriasRestante = (TextView) findViewById(R.id.textViewCaloriasRestantes);
+    }
 
-        caloriasRestante   = (TextView) findViewById(R.id.textViewCaloriasRestantes);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        atualizaCaloriasConsumidas();
+    }
+
+    private void atualizaCaloriasConsumidas(){
+        iCaloriasConsumidas = caloriasDiariasConsumidas();
+        iCaloriasRestante = iCaloriasRestante - iCaloriasConsumidas;
+
+        if(iCaloriasRestante <= 0) {
+            iCaloriasRestante = 0.0;
+        }
+
+        //Formatando para duas casas decimais
+        DecimalFormat fmt = new DecimalFormat("0.00");
+        //iCaloriasRestante = Double.valueOf(fmt.format(iCaloriasRestante));
+
+        caloriasConsumidas.setText("Calorias Consumidas: " + Double.toString(iCaloriasConsumidas));
         caloriasRestante.setText("Calorias Restante: " + Double.toString(iCaloriasRestante));
 
     }
@@ -59,11 +72,10 @@ public class ResumoDiarioActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_usuario:
                 dadosUsuarioMenu();
                 return true;
@@ -73,23 +85,23 @@ public class ResumoDiarioActivity extends ActionBarActivity {
 
     }
 
-    private void dadosUsuarioMenu(){
+    private void dadosUsuarioMenu() {
         Intent intencao = new Intent(this, UsuarioActivity.class);
         startActivity(intencao);
     }
 
-    public void consumoDiario(View v){
+    public void consumoDiario(View v) {
         Intent intencao = new Intent(this, ConsumoDiarioActivity.class);
         startActivity(intencao);
     }
 
-    public void relatorio(View v){
+    public void relatorio(View v) {
         Intent intencao = new Intent(this, RelatorioActivity.class);
         startActivity(intencao);
     }
 
 
-    private Double caloriasDiariasConsumidas(){
+    private Double caloriasDiariasConsumidas() {
         Double calorias = 0.00;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String data = df.format(new Date());
@@ -103,9 +115,11 @@ public class ResumoDiarioActivity extends ActionBarActivity {
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    //TODO: arrumar valores.
-                    //calorias = calorias + ( cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS) * cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD))) );
-                    calorias = 0.0;
+                    calorias = calorias + ( cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS) * cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD))) );
+                    if(calorias <= 0) {
+                        calorias = 0.0;
+                    }
+
                 } while (cursor.moveToNext());
             }
         } finally {

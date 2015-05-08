@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,21 +37,22 @@ public class Util {
 
     /**
      * Método responsável por obter o Mês em String
-     * @param formato
-     * M -> 9
-     * MM -> 09
-     * MMM -> Sep
-     * MMMM -> September
+     *
+     * @param formato M -> 9
+     *                MM -> 09
+     *                MMM -> Sep
+     *                MMMM -> September
      * @return
      */
     public static String obterMesAtualToString(String formato) {
         Calendar data = obterMesAtual();
-        String dataSt = conveteDataFromCalendarToString(data, formato);
+        String dataSt = convertDataFromCalendarToString(data, formato);
         return dataSt;
     }
 
     /**
      * Método responsável por obter a data do dia anterior ou do dia posterior.
+     *
      * @param calendar
      * @param anterior, se true decrementa a data, se false incrementa a data.
      * @return
@@ -64,14 +66,14 @@ public class Util {
         return calendar;
     }
 
-
     public static Calendar obterDataAtual() {
         Calendar data = Calendar.getInstance();
-        return  data;
+        return data;
     }
 
     /**
      * Método responsável por obter a data do dia anterior ou do dia posterior.
+     *
      * @param calendar
      * @param anterior, se true decrementa a data, se false incrementa a data.
      * @return
@@ -88,12 +90,67 @@ public class Util {
     /**
      * Converte a data do tipo Calendar para o tipo String.
      */
-    public static String conveteDataFromCalendarToString(Calendar calendar, String formato){
+    public static String convertDataFromCalendarToString(Calendar calendar, String formato) {
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(formato);
         String dateStr = DATE_FORMAT.format(calendar.getTime());
         return dateStr;
     }
 
+    /**
+     * Converte a data do tipo String para o tipo Calendar.
+     *
+     * @param data    em String
+     * @param formato exemplo yyyy-MM-dd ou dd/MM/yyyy
+     * @return Calendar
+     */
+    public static Calendar convertDataFromStringToCalendar(String data, String formato) {
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(formato);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        calendar.set(Calendar.YEAR, 0);
+        try {
+            calendar.setTime(DATE_FORMAT.parse(data));
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Error: " + e.toString());
+        }
+
+        return calendar;
+    }
+
+    /**
+     * Converte a data de um formato para outro, exemplo: yyyy-MM-dd para dd/MM/yyyy.
+     *
+     * @param data
+     * @param formatoEntrada exemplo yyyy-MM-dd
+     * @param formatoSaida   exemplo dd/MM/yyyy
+     * @return Data formatad de acordo com o formatoSaida.
+     */
+    public static String convertDataFormatToFormatInString(String data, String formatoEntrada, String formatoSaida) {
+        Calendar calendar = Util.convertDataFromStringToCalendar(data, formatoEntrada);
+        String dataStr = Util.convertDataFromCalendarToString(calendar, formatoSaida);
+        return dataStr;
+    }
+
+
+    public static boolean compararDatas(String dataInicial, String dataFinal, String formato) {
+        Calendar calendarInicial = convertDataFromStringToCalendar(dataInicial, formato);
+        Calendar calendarFinal = convertDataFromStringToCalendar(dataFinal, formato);
+
+        if (calendarInicial.before(calendarFinal) || calendarInicial.equals(calendarFinal)) {
+            return true;
+        }
+//
+//        calendarInicial.set(Calendar.MONTH, 0);
+//        calendarInicial.set(Calendar.DAY_OF_MONTH, 0);
+//        calendarInicial.set(Calendar.YEAR, 0);
+//
+//        calendarFinal.set(Calendar.MONTH, 0);
+//        calendarFinal.set(Calendar.DAY_OF_MONTH, 0);
+//        calendarFinal.set(Calendar.YEAR, 0);
+
+        return false;
+    }
 
 
     /**
@@ -105,8 +162,10 @@ public class Util {
     public static Alimento obterDadosFromDescription(Alimento alimento) {
         String description = alimento.getFood_description();
         //Exemplo "Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g"
+        Log.d(LOG_TAG, "getFood_description: " + description);
+
         if (!description.isEmpty()) {
-            String[] temp = description.split("-");
+            String[] temp = description.split(" - ");
             String[] temp2 = temp[1].split("\\|");
 
             String calories = temp2[0].replaceAll("[^0-9.]", "");
@@ -121,6 +180,23 @@ public class Util {
             alimento.setProtein(Double.parseDouble(protein));
         }
         return alimento;
+    }
+
+    public static String[] obterDadosFromDescription(String description) {
+        String[] resultado = {"", ""};
+
+        //Exemplo "Per 100g - Calories: 89kcal | Fat: 0.33g | Carbs: 22.84g | Protein: 1.09g"
+        Log.d(LOG_TAG, "getFood_description: " + description);
+
+        if (!description.isEmpty()) {
+            String[] temp = description.split(" - ");
+            String[] temp2 = temp[1].split("\\|");
+
+            resultado[0] = temp[0];
+            resultado[1] = temp2[0].replaceAll("[^0-9.]", "");
+
+        }
+        return resultado;
     }
 
 
@@ -153,8 +229,6 @@ public class Util {
         }
         return conectado;
     }
-
-
 
 
 }

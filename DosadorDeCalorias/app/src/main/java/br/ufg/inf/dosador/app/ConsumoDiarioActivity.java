@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -37,26 +36,19 @@ import br.ufg.inf.dosador.entidades.TipoRefeicao;
 public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor>,
         customButtonListener, customOnItemListener, customOnItemChildListener, customOnLongListener {
 
+    private static final String LOG_TAG = ConsumoDiarioActivity.class.getSimpleName();
+
     // The callbacks through which we will interact with the LoaderManager.
     private LoaderManager.LoaderCallbacks<Cursor> mCallbacks;
-
-    private ConsumoCursorTreeAdapter mAdapterAlmocoTeste;
-
+    private ConsumoCursorTreeAdapter mAdapter;
     private ConsumoDAO consumoDAO;
-
     private ExpandableListView listViewGrupos;
-
-    private ScrollView scrollView;
-
     private String dataAtualStr; //Data atual do sistema, obtida da classe Utils.
     private Calendar dataAtual;
-
     private boolean isExpanded = true; //ExpandableListView está expandida.
-
     private ImageButton btnDecrementaData;
     private ImageButton btnIncrementaData;
     private TextView textCalendario;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +60,7 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
 
         consumoDAO = new ConsumoDAO(this);
 
-        textCalendario = (TextView) findViewById(R.id.txt_mes);
+        textCalendario = (TextView) findViewById(R.id.txt_dia);
         listViewGrupos = (ExpandableListView) findViewById(R.id.expand_lista_almoco);
         btnDecrementaData = (ImageButton) findViewById(R.id.btn_decrementa_data);
         btnIncrementaData = (ImageButton) findViewById(R.id.btn_incrementa_data);
@@ -87,20 +79,26 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
 
 
         //Cria o Adapter.
-        mAdapterAlmocoTeste = new ConsumoCursorTreeAdapter(this, null);
+        mAdapter = new ConsumoCursorTreeAdapter(this, null);
         //Define os eventos.
-        mAdapterAlmocoTeste.setCustomButtonListner(ConsumoDiarioActivity.this);
-        mAdapterAlmocoTeste.setCustomOnItemListener(ConsumoDiarioActivity.this);
-        mAdapterAlmocoTeste.setCustomOnItemChildListener(ConsumoDiarioActivity.this);
-        mAdapterAlmocoTeste.setCustomOnLongListener(ConsumoDiarioActivity.this);
+        mAdapter.setCustomButtonListner(ConsumoDiarioActivity.this);
+        mAdapter.setCustomOnItemListener(ConsumoDiarioActivity.this);
+        mAdapter.setCustomOnItemChildListener(ConsumoDiarioActivity.this);
+        mAdapter.setCustomOnLongListener(ConsumoDiarioActivity.this);
 
         //Define o Adapater.
-        listViewGrupos.setAdapter(mAdapterAlmocoTeste);
+        listViewGrupos.setAdapter(mAdapter);
 
-        this.dataAtual = Util.obterDataAtual();
-        this.dataAtualStr = Util.conveteDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
-
-        textCalendario.setText(Util.conveteDataFromCalendarToString(this.dataAtual, "dd/MM/yyyy"));
+        Intent intent = getIntent();
+        String dataRecibida = intent.getStringExtra(RelatorioActivity.EXTRA_MESSAGE);
+        if (dataRecibida != null && !dataRecibida.isEmpty()) {
+            Log.d(LOG_TAG, "data recebida: " + dataRecibida);
+            this.dataAtual = Util.convertDataFromStringToCalendar(dataRecibida, "yyyy-MM-dd");
+        } else {
+            this.dataAtual = Util.obterDataAtual();
+        }
+        this.dataAtualStr = Util.convertDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
+        textCalendario.setText(Util.convertDataFromCalendarToString(this.dataAtual, "dd/MM/yyyy"));
 
         carregarDados();
     }
@@ -114,17 +112,15 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void carregarDados() {
@@ -140,13 +136,13 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
     private void decrementaOUincrementaData(boolean decrementa) {
         if (decrementa) {
             this.dataAtual = Util.getDiaAnteriorPosterior(this.dataAtual, true);
-            this.dataAtualStr = Util.conveteDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
+            this.dataAtualStr = Util.convertDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
 
         } else {
             this.dataAtual = Util.getDiaAnteriorPosterior(this.dataAtual, false);
-            this.dataAtualStr = Util.conveteDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
+            this.dataAtualStr = Util.convertDataFromCalendarToString(this.dataAtual, "yyyy-MM-dd");
         }
-        textCalendario.setText(Util.conveteDataFromCalendarToString(this.dataAtual, "dd/MM/yyyy"));
+        textCalendario.setText(Util.convertDataFromCalendarToString(this.dataAtual, "dd/MM/yyyy"));
         carregarDados();
     }
 
@@ -167,7 +163,7 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        HashMap<Integer, Integer> groupMap = mAdapterAlmocoTeste.getGroupMap();
+        HashMap<Integer, Integer> groupMap = mAdapter.getGroupMap();
         if (id != -1) {
             int groupPos = groupMap.get(id);
 
@@ -192,16 +188,16 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
         int id = loader.getId();
         if (id != -1) {
             if (!cursor.isClosed()) {
-                HashMap<Integer, Integer> groupMap = mAdapterAlmocoTeste.getGroupMap();
+                HashMap<Integer, Integer> groupMap = mAdapter.getGroupMap();
                 try {
                     int groupPos = groupMap.get(loader.getId());
-                    mAdapterAlmocoTeste.setChildrenCursor(groupPos, cursor);
+                    mAdapter.setChildrenCursor(groupPos, cursor);
                 } catch (NullPointerException e) {
                     Log.e("Error", e.getMessage());
                 }
             }
         } else {
-            mAdapterAlmocoTeste.setGroupCursor(cursor);
+            mAdapter.setGroupCursor(cursor);
         }
     }
 
@@ -210,18 +206,19 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
         int id = loader.getId();
         if (id != -1) {
             try {
-                mAdapterAlmocoTeste.setChildrenCursor(id, null);
+                mAdapter.setChildrenCursor(id, null);
             } catch (NullPointerException e) {
                 Log.e("Error", e.getMessage());
             }
         } else {
-            mAdapterAlmocoTeste.setGroupCursor(null);
+            mAdapter.setGroupCursor(null);
         }
     }
 
     @Override
     public void onButtonClickListner(int position, String tipoRefeicao) {
 
+        //TODO: trocar "teste" por um R.id.string.
         SharedPreferences sharedPref = ConsumoDiarioActivity.this.getSharedPreferences("teste", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         // Limpar as configurações anteriores.
@@ -231,15 +228,9 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
         editor.putString("teste", tipoRefeicao);
         editor.commit();
 
-
         Intent intencao = new Intent(this, PesquisaActivity.class);
-        //intencao.putExtra("tipo", tipoRefeicao);
         startActivity(intencao);
-
-        //Expandir o grupo expand;
-        isExpanded = true;
-        onItemClickListener(position);
-
+        Log.d(LOG_TAG, "Posição do grupo no evento onButtonClickListner:" + position);
     }
 
     @Override
@@ -251,6 +242,7 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
             isExpanded = true;
             this.listViewGrupos.collapseGroup(position);
         }
+        Log.d(LOG_TAG, "Posição do grupo no evento onItemClickListener:" + position);
     }
 
     @Override
@@ -259,7 +251,6 @@ public class ConsumoDiarioActivity extends ActionBarActivity implements LoaderMa
         Bundle parametros = new Bundle();
         parametros.putSerializable(DetalhesPesquisaFragment.EXTRA_ALIMENTO, consumo);
 
-        //TODO: remover a tela DetalhesPesquisaActivity do noHistory.
         Intent intent = new Intent(this, DetalhesPesquisaActivity.class);
         intent.putExtra(DetalhesPesquisaFragment.EXTRA_ALIMENTO, consumo);
         startActivity(intent);

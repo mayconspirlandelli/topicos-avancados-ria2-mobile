@@ -59,8 +59,6 @@ public class Json {
     public final static String UNIDADE_MILIGRAMAS = "mg";
     public final static String UNIDADE_PORCENTAGEM = "%";
 
-    //TODO: fazer o tratamento de erro de acordo com Erros Codes da API FatSecret platform.fatsecret.com/api/Default.aspx?screen=rapiec
-
     public ArrayList<Alimento> obterListaAlimentoFromJson(String foodJsonStr) throws JSONException {
 
         ArrayList<Alimento> listaDeAlimentos = new ArrayList<Alimento>();
@@ -105,13 +103,23 @@ public class Json {
             alimento.setFood_name(food.getString(FOOD_NAME));
 
             JSONObject servings = food.getJSONObject(SERVINGS);
-            JSONArray servingArray = servings.getJSONArray(SERVING);
 
-            if (servingArray.length() <= 0) {
-                return null;
+            JSONObject serving = null;
+
+            Object object = servings.get(SERVING);
+            if(object instanceof JSONObject) {
+                Log.d(LOG_CAT, "object é JSONObject");
+                serving = servings.getJSONObject(SERVING);
+            } else if (object instanceof  JSONArray) {
+                Log.d(LOG_CAT, "object é JSONArray");
+                JSONArray servingArray = servings.getJSONArray(SERVING);
+                if (servingArray.length() <= 0) {
+                    return null;
+                }
+                serving = servingArray.getJSONObject(0);
+            } else {
+                return  null;
             }
-
-            JSONObject serving = servingArray.getJSONObject(0);
 
             if (serving.has(CALORIES) && !serving.isNull(CALORIES)) {
                 alimento.setCalories(serving.getDouble(CALORIES));

@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <!--<CheckBox-->
-        <!--android:id="@+id/checkbox"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="16dp">
 
     <!--Item do Alimento-->
-        <TextView
-            android:id="@+id/list_item_food_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="fsdfasfd"
-            android:maxLength="16"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/list_item_food_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <!--android:minHeight="?android:attr/listPreferredItemHeight"-->
-        <TextView
-            android:id="@+id/list_item_food_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="fgsadfas"
-            android:maxLength="16"
-            android:textSize="14sp" />
+    <!--Item Porção -->
+    <TextView
+        android:id="@+id/list_item_porcao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_item_food_name"
+        android:layout_alignParentLeft="true"
+        android:textSize="14sp" />
+
+    <!--Item Calorias -->
+    <TextView
+        android:id="@+id/list_item_calorias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/list_item_porcao"
+        android:layout_marginLeft="16dp"
+        android:layout_below="@id/list_item_food_name"
+        android:textSize="14sp" />
 
 
-
-</LinearLayout>
+</RelativeLayout>

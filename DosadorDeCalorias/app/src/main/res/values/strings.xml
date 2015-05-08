@@ -5,16 +5,16 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="title_activity_main_activity2">MainActivity2</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_cadastro">CadastroActivity</string>
-    <string name="title_activity_resumo_diario">ResumoDiarioActivity</string>
-    <string name="title_activity_relatorio">RelatorioActivity</string>
-    <string name="title_activity_consumo_diario">ConsumoDiarioActivity</string>
-    <string name="title_activity_pesquia">PesquiaActivity</string>
-    <string name="title_activity_detalhes_pesquisa">DetalhesPesquisaActivity</string>
-    <string name="title_activity_detalhes_alimento">DetalhesAlimentoActivity</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_cadastro">Cadastro</string>
+    <string name="title_activity_resumo_diario">Resumo Diário</string>
+    <string name="title_activity_relatorio">Relatório</string>
+    <string name="title_activity_consumo_diario">Consumo Diário</string>
+    <string name="title_activity_pesquia">Pesquisa</string>
+    <string name="title_activity_detalhes_pesquisa">Detalhes</string>
+    <string name="title_activity_detalhes_alimento">Detalhes do Alimento</string>
     <string name="title_activity_main_activity3">MainActivity3</string>
-    <string name="title_activity_ususuario">Usuario</string>
+    <string name="title_activity_ususuario">Usuário</string>
 
 
     <string name="label_quantidade">Quantidade</string>
@@ -23,6 +23,7 @@
     <string name="label_info_nutri">Info. Nutricional</string>
     <string name="label_calorias">Calorias:</string>
     <string name="label_descricao">Descrição</string>
+    <string name="label_tipo_refeicao">Refeição:</string>
     <string name="label_gorduras">Gorduras:</string>
     <string name="label_carboidratos">Carb.:</string>
     <string name="label_proteinas">Proteínas:</string>
@@ -38,9 +39,9 @@
     <string name="grid_line_gordura_saturada">Gordura Saturada</string>
     <string name="grid_line_gord_sat">Gord. Saturada</string>
     <string name="grid_line_gordura_monoinsaturada">Gordura Monoinsaturada</string>
-    <string name="grid_line_gord_mono">Gord. Mono.</string>
+    <string name="grid_line_gord_mono">Gordura Mono...</string>
     <string name="grid_line_gordura_poliinsaturada">Gordura Poliinsaturada</string>
-    <string name="grid_line_gord_poli">Gord. Poli.</string>
+    <string name="grid_line_gord_poli">Gordura Poli...</string>
     <string name="grid_line_gordura_trans">Gordura Trans</string>
     <string name="grid_line_colesterol">Colesterol</string>
     <string name="grid_line_sodio">Sódio</string>
@@ -84,8 +85,10 @@
     <string name="txt_lable_filtro">Filtro</string>
     <string name="txt_label_data_inicial">De:</string>
     <string name="txt_label_data_final">até:</string>
+    <string name="txt_titulo_coluna_data">Data</string>
+    <string name="txt_titulo_coluna_total_data">Total Calorias</string>
 
-
-
+    <!--Mensagens ao usuario-->
+    <string name="msn_info_alimento">Alimento não encontrado!</string>
 
 </resources>

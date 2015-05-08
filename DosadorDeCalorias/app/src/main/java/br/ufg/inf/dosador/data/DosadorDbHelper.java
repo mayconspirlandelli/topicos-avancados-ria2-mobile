@@ -15,7 +15,7 @@ import br.ufg.inf.dosador.data.DosadorContract.ConsumoEntry;
  */
 public class DosadorDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
 
     static final String DATABASE_NAME = "dosador.db";
 
@@ -37,7 +37,8 @@ public class DosadorDbHelper extends SQLiteOpenHelper {
                 ConsumoEntry.COLUMN_PROTEINA + " REAL NOT NULL, " +
                 ConsumoEntry.COLUMN_TIPO_REFEICAO + " TEXT NOT NULL, " +
                 ConsumoEntry.COLUMN_DATA + " DATE DEFAULT CURRENT_DATE NOT NULL, " +
-                ConsumoEntry.COLUMN_PORCAO + " TEXT NOT NULL " + " );";
+                ConsumoEntry.COLUMN_PORCAO + " TEXT NOT NULL, " +
+                ConsumoEntry.COLUMN_FOOD_ID + " INTEGER NOT NULL " + " );";
 
         sqLiteDatabase.execSQL(SQL_CREATE_CONSUMO_TABLE);
 

@@ -1,5 +1,6 @@
 package br.ufg.inf.dosador.app;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -10,12 +11,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -23,12 +26,11 @@ import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.Util;
 import br.ufg.inf.dosador.adapter.RelatorioCursorAdapter;
 import br.ufg.inf.dosador.dao.ConsumoDAO;
+import br.ufg.inf.dosador.data.DosadorContract;
 import br.ufg.inf.dosador.pickers.DatePickerFragment;
 
 /**
- * TODO: somente para teste, Maycom irá implementar essa tela.
  * Por padrão, a tela carrega os dados por mes.
- * Falta colocar o Date Picker http://developer.android.com/guide/topics/ui/controls/pickers.html
  */
 
 public class RelatorioActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -58,6 +60,8 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
     private Calendar dataMes;
     private boolean exibeFiltro = true;
 
+    public static final String EXTRA_MESSAGE = "extra_message";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +84,8 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
         btnHoje.setOnClickListener(btnHojeOnClickListener);
         btnDecrementaMes.setOnClickListener(btnDecrementaMesOnClickListener);
         btnIncrementaMes.setOnClickListener(btnIncrementaOnClickListener);
+        editDataInicial.setOnClickListener(editDataInicialOnClickListener);
+        editDataFinal.setOnClickListener(editDataFinalOnClickListener);
 
         consumoDAO = new ConsumoDAO(this);
 
@@ -89,8 +95,8 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
         mAdapter = new RelatorioCursorAdapter(this, null);
         //Define o Adapater.
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(clickListaItemAlimento);
 
-        ///getSupportLoaderManager().initLoader(0, null, this);
         buscarPorMes();
     }
 
@@ -122,7 +128,6 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
     final private View.OnClickListener btnAplicarFiltroOnClickListener = new View.OnClickListener() {
@@ -160,8 +165,24 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
         }
     };
 
-    private void exibirFiltro(){
-        if(exibeFiltro) {
+    final private View.OnClickListener editDataInicialOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            editDataInicial.setFocusable(true);
+            showDatePickerDialog();
+        }
+    };
+
+    final private View.OnClickListener editDataFinalOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            editDataFinal.setFocusable(true);
+            showDatePickerDialog();
+        }
+    };
+
+    private void exibirFiltro() {
+        if (exibeFiltro) {
             rlMes.setVisibility(View.GONE);
             rlFiltro.setVisibility(View.VISIBLE);
             exibeFiltro = false;
@@ -171,29 +192,29 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
             exibeFiltro = true;
         }
 
-        //TODO: somente para teste
-        //
-        // showDatePickerDialog();
+        if (rlMes.getVisibility() == View.VISIBLE) {
+            buscarPorMes();
+        }
     }
-
 
     public void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-
     private void removerFiltro() {
         editDataInicial.setText("");
+        editDataInicial.setHint("");
         editDataFinal.setText("");
+        editDataFinal.setHint("");
         buscarPorMes();
     }
 
     private void buscarPorMes() {
         FILTRO = FILTRO_MES;
         this.dataMes = Util.obterMesAtual();
-        this.dataMesStr = Util.conveteDataFromCalendarToString(this.dataMes, "MM");
-        txtMes.setText(Util.conveteDataFromCalendarToString(this.dataMes, "MMMM").toUpperCase());
+        this.dataMesStr = Util.convertDataFromCalendarToString(this.dataMes, "MM");
+        txtMes.setText(Util.convertDataFromCalendarToString(this.dataMes, "MMMM").toUpperCase());
         carregarDados();
     }
 
@@ -202,21 +223,33 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
         //Copia a data inicial para a data final
         this.dataInicial = Util.obterDataAtualToString();
         this.dataFinal = this.dataInicial;
-        editDataInicial.setText(this.dataInicial);
-        editDataFinal.setText(this.dataFinal);
+
+        editDataInicial.setHint(this.dataInicial);
+        editDataFinal.setHint(this.dataInicial);
+
+        editDataInicial.setText(Util.convertDataFormatToFormatInString(this.dataInicial, "yyyy-MM-dd", "dd/MM/yyyy"));
+        editDataFinal.setText(Util.convertDataFormatToFormatInString(this.dataFinal, "yyyy-MM-dd", "dd/MM/yyyy"));
+
         carregarDados();
     }
 
     private void aplicarFiltro() {
         FILTRO = FILTRO_PERIODO;
 
-        this.dataInicial = editDataInicial.getText().toString();
-        this.dataFinal = editDataFinal.getText().toString();
+        //A editDataInicial.getText().toString() é formatado em dd/MM/yyyy.
+        //A editDataInicial.getHint().toString() é formatado em yyyy-MM-dd e é usado para ser salvo no banco de dados.
+        if(editDataInicial.getHint() != null && editDataFinal.getHint() != null) {
+            this.dataInicial = editDataInicial.getHint().toString();
+            this.dataFinal = editDataFinal.getHint().toString();
 
-        if(this.dataInicial != null && !this.dataInicial.isEmpty() && this.dataFinal != null && !this.dataFinal.isEmpty()) {
-            carregarDados();
+            if (Util.compararDatas(this.dataInicial, this.dataFinal, "yyyy-MM-dd")){
+                carregarDados();
+            } else {
+                Toast.makeText(RelatorioActivity.this, "A data inicial deve ser menor ou igual a data final!", Toast.LENGTH_LONG).show();
+            }
+
         } else {
-            Util.exibeAlerta(this, "Informe o período!");
+            Toast.makeText(RelatorioActivity.this, "Informe o periodo!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -226,10 +259,22 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
         } else {
             this.dataMes = Util.getMesAnteriorPosterior(this.dataMes, false);
         }
-        this.dataMesStr = Util.conveteDataFromCalendarToString(this.dataMes, "MM");
-        txtMes.setText(Util.conveteDataFromCalendarToString(this.dataMes, "MMMM").toUpperCase());
+        this.dataMesStr = Util.convertDataFromCalendarToString(this.dataMes, "MM");
+        txtMes.setText(Util.convertDataFromCalendarToString(this.dataMes, "MMMM").toUpperCase());
         carregarDados();
     }
+
+
+    final private ListView.OnItemClickListener clickListaItemAlimento = new ListView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+            String data = cursor.getString(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_DATA));
+            Intent intent = new Intent(RelatorioActivity.this, ConsumoDiarioActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, data);
+            startActivity(intent);
+        }
+    };
 
 
     /**

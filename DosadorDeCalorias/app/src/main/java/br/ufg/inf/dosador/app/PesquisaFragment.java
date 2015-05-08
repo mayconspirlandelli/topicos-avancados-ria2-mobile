@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import br.ufg.inf.dosador.R;
 import br.ufg.inf.dosador.adapter.AlimentoListAdapter;
@@ -89,6 +90,11 @@ public class PesquisaFragment extends Fragment implements IDosadorUpdater {
         listView.setVisibility(View.INVISIBLE);
         ProgressBar progress = (ProgressBar) getActivity().findViewById(R.id.progress);
         progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void exibeMensagem(String mensagem) {
+        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
     }
 
     public void pesquisarAlimento(String expressao) {

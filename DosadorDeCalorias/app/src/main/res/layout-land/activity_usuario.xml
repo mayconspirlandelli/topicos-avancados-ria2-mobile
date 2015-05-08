@@ -17,14 +17,13 @@
         android:layout_alignParentStart="true" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="5"
         android:id="@+id/editUsuario"
         android:layout_alignBottom="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:layout_toRightOf="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,12 +44,15 @@
 
 
     <TextView
+        android:id="@+id/txt_idade"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Idade:"
-        android:layout_alignBottom="@+id/editIdade"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_above="@+id/editPeso"
+        android:layout_toRightOf="@+id/editSexo"
+        android:layout_toEndOf="@+id/editSexo"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -58,9 +60,11 @@
         android:id="@+id/editIdade"
         android:ems="5"
         android:inputType="number"
-        android:layout_below="@+id/editSexo"
-        android:layout_alignLeft="@+id/editSexo"
-        android:layout_alignStart="@+id/editSexo" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_alignBottom="@+id/txt_idade"
+        android:layout_toRightOf="@+id/txt_idade"
+        android:layout_toEndOf="@+id/txt_idade" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,18 +81,18 @@
         android:id="@+id/editPeso"
         android:ems="5"
         android:inputType="numberDecimal"
-        android:layout_below="@+id/editIdade"
-        android:layout_alignLeft="@+id/editIdade"
-        android:layout_alignStart="@+id/editIdade" />
+        android:layout_below="@+id/editSexo"
+        android:layout_alignLeft="@+id/editSexo"
+        android:layout_alignStart="@+id/editSexo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Altura:"
         android:id="@+id/textAltura"
-        android:layout_alignBottom="@+id/editAltura"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignBottom="@+id/editPeso"
+        android:layout_alignLeft="@+id/txt_idade"
+        android:layout_alignStart="@+id/txt_idade" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -96,9 +100,10 @@
         android:id="@+id/editAltura"
         android:ems="5"
         android:inputType="numberDecimal"
-        android:layout_below="@+id/editPeso"
-        android:layout_alignLeft="@+id/editPeso"
-        android:layout_alignStart="@+id/editPeso" />
+        android:layout_alignBaseline="@+id/editPeso"
+        android:layout_alignBottom="@+id/editPeso"
+        android:layout_alignLeft="@+id/editIdade"
+        android:layout_alignStart="@+id/editIdade" />
 
 
 </RelativeLayout>

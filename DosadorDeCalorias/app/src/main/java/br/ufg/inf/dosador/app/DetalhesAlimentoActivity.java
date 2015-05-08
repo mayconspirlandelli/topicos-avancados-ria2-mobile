@@ -2,8 +2,8 @@ package br.ufg.inf.dosador.app;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,17 +71,15 @@ public class DetalhesAlimentoActivity extends ActionBarActivity implements IDosa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void inicializaObjetosDeTela() {
@@ -131,12 +130,16 @@ public class DetalhesAlimentoActivity extends ActionBarActivity implements IDosa
         progress.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void exibeMensagem(String mensagem) {
+        Toast.makeText(DetalhesAlimentoActivity.this, mensagem, Toast.LENGTH_SHORT).show();
+    }
 
     /*
-     *  Primeiro callback é parametro do método doInBackground
-     *  Segundo callback é parametro do método onProgressUpdate.
-     *  Terceiro callback é parametro do método onPostExecute e retorno do método doInBackground.
-     */
+         *  Primeiro callback é parametro do método doInBackground
+         *  Segundo callback é parametro do método onProgressUpdate.
+         *  Terceiro callback é parametro do método onPostExecute e retorno do método doInBackground.
+         */
     private class AlimentoTask extends AsyncTask<String, Void, Alimento> {
 
         final private String LOG_CAT = AlimentoTask.class.getSimpleName();
@@ -241,8 +244,6 @@ public class DetalhesAlimentoActivity extends ActionBarActivity implements IDosa
             return alimento;
         }
 
-        //TODO: criar um layout land e outro large para exibir os detalhes do alimento.
-
         @Override
         protected void onPostExecute(Alimento alimento) {
             super.onPostExecute(alimento);
@@ -266,6 +267,8 @@ public class DetalhesAlimentoActivity extends ActionBarActivity implements IDosa
                 txtVitaminaC.setText(alimento.getVitamin_c().toString() + Json.UNIDADE_PORCENTAGEM);
                 txtCalcio.setText(alimento.getCalcium().toString() + Json.UNIDADE_PORCENTAGEM);
                 txtFerro.setText(alimento.getIron().toString() + Json.UNIDADE_PORCENTAGEM);
+            } else {
+                this.dosadorUpdater.exibeMensagem(mContext.getString(R.string.msn_info_alimento));
             }
         }
     }

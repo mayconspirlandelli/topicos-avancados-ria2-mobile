@@ -1,16 +1,18 @@
 package br.ufg.inf.dosador.adapter;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import br.ufg.inf.dosador.R;
+import br.ufg.inf.dosador.Util;
+import br.ufg.inf.dosador.api.Json;
 import br.ufg.inf.dosador.entidades.Alimento;
 
 /**
@@ -24,7 +26,8 @@ public class AlimentoListAdapter extends BaseAdapter {
 
     public TextView txtFoodName;
     public TextView txtFoodDescription;
-    public CheckBox chckFoodSelectioin;
+    public TextView txtCalorias;
+    public TextView txtPorcao;
 
     public AlimentoListAdapter(Context context) {
         this.mContext = context;
@@ -65,14 +68,25 @@ public class AlimentoListAdapter extends BaseAdapter {
         View view = mInflater.inflate(R.layout.list_item_alimento, parent, false);
 
         txtFoodName = (TextView) view.findViewById(R.id.list_item_food_name);
-        txtFoodDescription = (TextView) view.findViewById(R.id.list_item_food_description);
+
+        String foodName = itemAlimento.getFood_name();
+        String description = itemAlimento.getFood_description();
 
 
-        txtFoodName.setText(itemAlimento.getFood_name());
-        txtFoodDescription.setText(itemAlimento.getFood_description());
-
-        //TODO: exibir apenas nome, porção e calorias (kcal).
-
+        if(mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if(foodName.length() > 20) {
+                foodName = foodName.substring(0,20) + "...";
+            }
+            txtPorcao = (TextView) view.findViewById(R.id.list_item_porcao);
+            txtCalorias = (TextView) view.findViewById(R.id.list_item_calorias);
+            String[] temp = Util.obterDadosFromDescription(description);
+            txtPorcao.setText("Porção: " + temp[0]);
+            txtCalorias.setText("Cal.: " + temp[1] + Json.UNIDADE_QUILO_CALORIAS);
+        } else {
+            txtFoodDescription = (TextView) view.findViewById(R.id.list_item_food_description);
+            txtFoodDescription.setText(description);
+        }
+        txtFoodName.setText(foodName);
         return view;
     }
 

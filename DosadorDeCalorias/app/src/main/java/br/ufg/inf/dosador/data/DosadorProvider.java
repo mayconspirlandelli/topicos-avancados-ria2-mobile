@@ -69,7 +69,7 @@ public class DosadorProvider extends ContentProvider {
     //Pesquisar consumo por mes.
     //select * from consumo where strftime('%m', data) = '01';
     private static final String sConsumoPorMes =
-                    "strftime('%m', " + DosadorContract.ConsumoEntry.COLUMN_DATA + " ) " + " = ? ";
+            "strftime('%m', " + DosadorContract.ConsumoEntry.COLUMN_DATA + " ) " + " = ? ";
 
 //    private static final String sConsumoPorMes =
 //            DosadorContract.ConsumoEntry.TABLE_NAME + "." +
@@ -113,34 +113,44 @@ public class DosadorProvider extends ContentProvider {
         );
     }
 
-    //Pesquisar consumo por periodo específico.
+    /**
+     * Metodo responsavel por pesquisar consumo por periodo específico.
+     * Para usar a função SUM do SQL deve usar a projection, incluir a coluna _ID e usar o alias 'as'.
+     * Exemplo: select sum(calorias), data  from consumo group by data
+     */
     private Cursor getConsumoPorPeriodo(Uri uri, String[] projection, String sortOrder) {
         String dataInicial = DosadorContract.ConsumoEntry.getDataInicialFromUri(uri);
         String dataFinal = DosadorContract.ConsumoEntry.getDataFinalFromUri(uri);
 
         return sConsumoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
-                projection,
+                new String[]{DosadorContract.ConsumoEntry._ID,
+                        DosadorContract.ConsumoEntry.COLUMN_DATA,
+                        "sum(" + DosadorContract.ConsumoEntry.COLUMN_CALORIAS + ") as calorias"},
                 sConsumoPorPeriodo,
                 new String[]{dataInicial, dataFinal},
-                null,
+                DosadorContract.ConsumoEntry.COLUMN_DATA,
                 null,
                 sortOrder
         );
     }
 
+    /**
+     * Para usar a função SUM do SQL deve usar a projection, incluir a coluna _ID e usar o alias 'as'.
+     * Exemplo: select sum(calorias), data  from consumo group by data
+     */
     private Cursor getConsumoMensal(Uri uri, String[] projection, String sortOrder) {
         String mes = DosadorContract.ConsumoEntry.getMesFromUri(uri);
-
         return sConsumoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
-                projection,
+                new String[]{DosadorContract.ConsumoEntry._ID,
+                        DosadorContract.ConsumoEntry.COLUMN_DATA,
+                        "sum(" + DosadorContract.ConsumoEntry.COLUMN_CALORIAS + ") as calorias"},
                 sConsumoPorMes,
                 new String[]{mes},
-                null,
+                DosadorContract.ConsumoEntry.COLUMN_DATA,
                 null,
                 sortOrder
         );
     }
-
 
     private Cursor getConsumoPorDataAndTipoRefeicao(Uri uri, String[] projection, String sortOrder) {
         String data = DosadorContract.ConsumoEntry.getDataDiariaFromUri(uri);
@@ -154,7 +164,6 @@ public class DosadorProvider extends ContentProvider {
                 sortOrder
         );
     }
-
 
     private Cursor getConsumoPorId(Uri uri, String[] projection, String sortOrder) {
         String id = DosadorContract.ConsumoEntry.getIdFromUri(uri);
@@ -210,6 +219,7 @@ public class DosadorProvider extends ContentProvider {
         mOpenHelper = new DosadorDbHelper(getContext());
         return true;
     }
+
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {

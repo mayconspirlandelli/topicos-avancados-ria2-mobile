@@ -1,7 +1,6 @@
 package br.ufg.inf.dosador.api;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
@@ -49,6 +48,8 @@ public class FatSecret {
     final static private String SEARCH_EXPRESSION = "search_expression";
     final static private String PAGE_NUMBER = "page_number";
     final static private String MAX_RESULTS = "max_results";
+
+    final static public String ERROR = "error";
 
 
     private static Context mContext;

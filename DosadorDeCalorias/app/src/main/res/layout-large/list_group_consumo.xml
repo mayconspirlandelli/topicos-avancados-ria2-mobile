@@ -3,16 +3,17 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/holo_green_dark"
-    android:padding="4dp">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textColor="@color/white"
-        android:textSize="16dp" />
+        android:textSize="24dp" />
 
     <ImageButton
         android:id="@+id/btn_adicionar_alimento"
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:focusable="false"
-        android:padding="4dp"
-        android:background="@drawable/ic_action_new"
-        />
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/ic_action_new" />
 </RelativeLayout>
