@@ -2,11 +2,14 @@ package br.ufg.inf.dosador.app;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -22,7 +25,7 @@ public class ResumoDiarioActivity extends ActionBarActivity {
     private Double iCaloriasConsumidas = 0.00;
     private Double iCaloriasRestante = 2000.00;
 
-
+    private AnimationDrawable graficoAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,27 @@ public class ResumoDiarioActivity extends ActionBarActivity {
 
         caloriasConsumidas = (TextView) findViewById(R.id.textViewCaloriasConsumidas);
         caloriasRestante = (TextView) findViewById(R.id.textViewCaloriasRestantes);
+
+        ImageView imageView2 = (ImageView) findViewById(R.id.imageView2);
+        imageView2.setBackgroundResource(R.drawable.animation_list);
+        graficoAnimation = (AnimationDrawable) imageView2.getBackground();
+
+    }
+
+    //https://github.com/luciofm/nextlevel/blob/931c03c19a70605e6139c8347ad3665031840a2b/app/src/main/res/layout/fragment_touch_feedback_code.xml
+
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            if (graficoAnimation.isRunning()) {
+                graficoAnimation.stop();
+            } else {
+                graficoAnimation.start();
+            }
+
+            return true;
+        }
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -40,11 +64,11 @@ public class ResumoDiarioActivity extends ActionBarActivity {
         atualizaCaloriasConsumidas();
     }
 
-    private void atualizaCaloriasConsumidas(){
+    private void atualizaCaloriasConsumidas() {
         iCaloriasConsumidas = caloriasDiariasConsumidas();
         iCaloriasRestante = iCaloriasRestante - iCaloriasConsumidas;
 
-        if(iCaloriasRestante <= 0) {
+        if (iCaloriasRestante <= 0) {
             iCaloriasRestante = 0.0;
         }
 
@@ -115,8 +139,8 @@ public class ResumoDiarioActivity extends ActionBarActivity {
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    calorias = calorias + ( cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS) * cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD))) );
-                    if(calorias <= 0) {
+                    calorias = calorias + (cursor.getDouble(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_CALORIAS) * cursor.getInt(cursor.getColumnIndex(DosadorContract.ConsumoEntry.COLUMN_QTD))));
+                    if (calorias <= 0) {
                         calorias = 0.0;
                     }
 

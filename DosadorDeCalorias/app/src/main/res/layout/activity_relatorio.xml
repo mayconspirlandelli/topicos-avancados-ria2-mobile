@@ -7,7 +7,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:transitionGroup="false"
+    android:animateLayoutChanges="true"
     tools:context="br.ufg.inf.dosador.app.RelatorioActivity">
+
+    <!--O atributo android:animateLayoutChanges="true" só visualizada a partir da API 11.-->
 
     <RelativeLayout
         android:id="@+id/rl_mes"

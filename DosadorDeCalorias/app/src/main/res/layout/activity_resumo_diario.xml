@@ -33,8 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/textViewCaloriasRestantes"
-        android:src="@drawable/statistic" />
+        android:layout_below="@id/textViewCaloriasRestantes" />
 
     <Button
         android:id="@+id/buttonAddAlimentacao"
@@ -45,7 +44,9 @@
         android:layout_gravity="center_vertical"
         android:layout_marginTop="16dp"
         android:onClick="consumoDiario"
-        android:text="Adicionar alimentação" />
+        android:text="Adicionar alimentação"
+        android:background="@drawable/button_selector"
+        android:padding="8dp"/>
 
     <Button
         android:id="@+id/buttonRelatorio"
@@ -55,6 +56,9 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_vertical"
         android:onClick="relatorio"
-        android:text="Relatório" />
+        android:text="Relatório"
+        android:background="@drawable/button_selector_anim"
+        android:padding="8dp"
+        android:layout_marginTop="16dp"/>
 
 </RelativeLayout>

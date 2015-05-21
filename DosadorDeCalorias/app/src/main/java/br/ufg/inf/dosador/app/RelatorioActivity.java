@@ -219,7 +219,8 @@ public class RelatorioActivity extends ActionBarActivity implements LoaderManage
     }
 
     private void definirDataHoje() {
-        FILTRO = FILTRO_DATA;
+        FILTRO = FILTRO_PERIODO;
+
         //Copia a data inicial para a data final
         this.dataInicial = Util.obterDataAtualToString();
         this.dataFinal = this.dataInicial;
